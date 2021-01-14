@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://syuoni.github.io').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="3Blue1Brown 视频《线性代数的本质》（bilibili, YouTube）的笔记。用于构建线性代数的几何直觉。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《线性代数的本质》笔记">
+<meta property="og:url" content="https://syuoni.github.io/posts/Essence-of-Linear-Algebra-notes/index.html">
+<meta property="og:site_name" content="一颗鼠儿果的博客">
+<meta property="og:description" content="3Blue1Brown 视频《线性代数的本质》（bilibili, YouTube）的笔记。用于构建线性代数的几何直觉。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://syuoni.github.io/images/dot-product.png">
+<meta property="article:published_time" content="2020-03-14T06:11:06.000Z">
+<meta property="article:modified_time" content="2020-03-19T01:25:24.000Z">
+<meta property="article:author" content="syuoni">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="几何">
+<meta property="article:tag" content="3Blue1Brown">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://syuoni.github.io/images/dot-product.png">
+
+<link rel="canonical" href="https://syuoni.github.io/posts/Essence-of-Linear-Algebra-notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>《线性代数的本质》笔记 | 一颗鼠儿果的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="一颗鼠儿果的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一颗鼠儿果的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">鼠儿果，恢复少量神</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://syuoni.github.io/posts/Essence-of-Linear-Algebra-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/squirrel.jpg">
+      <meta itemprop="name" content="syuoni">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一颗鼠儿果的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《线性代数的本质》笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-14 14:11:06" itemprop="dateCreated datePublished" datetime="2020-03-14T14:11:06+08:00">2020-03-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 09:25:24" itemprop="dateModified" datetime="2020-03-19T09:25:24+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index">
+                    <span itemprop="name">数学</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/Essence-of-Linear-Algebra-notes/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/Essence-of-Linear-Algebra-notes/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>3Blue1Brown 视频《线性代数的本质》（<a href="https://www.bilibili.com/video/av6731067" target="_blank" rel="noopener">bilibili</a>, <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" rel="noopener">YouTube</a>）的笔记。用于构建线性代数的几何直觉。</p>
+<a id="more"></a>
+<h3 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h3><ul>
+<li><p>不同学科视角下的 <strong>向量</strong></p>
+<ul>
+<li>物理学视角：<strong>箭头</strong>（<strong>长度</strong> + <strong>方向</strong>）决定一个向量，向量平移不变</li>
+<li>计算机学视角：向量等同于有序的数字 <strong>列表</strong></li>
+<li>数学视角：向量是任意支持符合向量计算规则（加法和乘法）的对象</li>
+</ul>
+</li>
+<li><p>如果把向量的起点默认为原点，就能将 <strong>箭头</strong> 和 <strong>列表</strong> 两种视角相统一</p>
+<ul>
+<li>向量加法<ul>
+<li>箭头视角：把向量依次首尾相连</li>
+<li>列表视角：把向量各元素分别加总</li>
+</ul>
+</li>
+<li>向量乘以标量（Scalar）<ul>
+<li>箭头视角：缩放（Scaling）</li>
+<li>列表视角：把向量各元素分别乘以标量，分别缩放</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>定义基向量（Basis Vectors）</p>
+<script type="math/tex; mode=display">
+{\pmb i} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \;
+{\pmb j} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}</script><p>把向量看成是基向量的 <strong>缩放后相加</strong> 的结果，例如</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 3 \\ -2 \end{bmatrix} = 3 {\pmb i} -2 {\pmb j}</script><p>我们完全可以使用不同的基向量。因此，当我们使用数字列表表示向量时，实际的向量总是依赖于我们所采用的基向量。</p>
+<p>这种向量的 <strong>缩放后相加</strong> 实际上就是 <strong>线性组合</strong>（Linear Combination）。也就是说，<strong>向量可以理解成基向量的线性组合</strong>。</p>
+<p>一组基向量的线性组合所能到达的点的集合就是该组基向量张成的 <strong>空间</strong>（Span）。在二维情况下，只要基向量不共线，它们张成的空间就覆盖平面上所有的点；如果基向量共线，它们张成的空间就只有一条线；如果基向量都是零向量，它们张成的空间就只有一个点。</p>
+<p>如果能从基向量中移除一个向量，而不影响它们张成的空间，就说这组基向量是 <strong>线性相关</strong>（Linearly Dependent）；否则就是 <strong>线性无关</strong>（Linearly Independent）。</p>
+<h3 id="矩阵乘以向量"><a href="#矩阵乘以向量" class="headerlink" title="矩阵乘以向量"></a>矩阵乘以向量</h3><p><strong>线性变换</strong>（Linear Transformation）：<strong>变换</strong> 就是函数的另一种说法，线性变换就是向量到向量的映射；<strong>变换</strong> 一词暗示了是输入向量 <strong>移动</strong> 到输出向量的位置。</p>
+<p>在 <strong>线性变换</strong> 中，只要确定基向量的变换后位置，就能确定其他所有向量的变换后位置。如果</p>
+<script type="math/tex; mode=display">
+{\pmb v} = \begin{bmatrix} x \\ y \end{bmatrix} = x \left( {\pmb i} \right) + y \left( {\pmb j} \right)</script><p>那么，在变换后有</p>
+<script type="math/tex; mode=display">
+{\pmb v'} = x \left( {\pmb i'} \right) + y \left( {\pmb j'} \right)</script><p>举个例子，假设在变换后有</p>
+<script type="math/tex; mode=display">
+{\pmb i'} = \begin{bmatrix} 1 \\ -2 \end{bmatrix}, \;
+{\pmb j'} = \begin{bmatrix} 3 \\ 0 \end{bmatrix}</script><p>就有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+{\pmb v'} =& x \left( {\pmb i'} \right) + y \left( {\pmb j'} \right) \\
+=& x \begin{bmatrix} 1 \\ -2 \end{bmatrix} + y \begin{bmatrix} 3 \\ 0 \end{bmatrix} \\
+=& \begin{bmatrix} x+3y \\ -2x \end{bmatrix}
+\end{aligned}</script><p>把基向量变换后的向量作为列排成 2*2 的矩阵 $\begin{bmatrix} 1 &amp; 3 \\ -2 &amp; 0 \end{bmatrix}$，此时矩阵乘以向量 ${\pmb v} = \begin{bmatrix} x \\ y \end{bmatrix}$，就是</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 1 & 3 \\ -2 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x+3y \\ -2x \end{bmatrix} = {\pmb v'}</script><p>也就是在求变换后的 ${\pmb v}$。</p>
+<p>所以，<strong>矩阵中的各列依次代表线性变换中，各基向量在变换后的结果（位置）</strong>，也就是 <strong>列向量</strong>。如果说，<strong>向量是基向量的线性组合</strong>，那么，<strong>矩阵乘以向量的结果可以理解成，线性变换之后的基向量的线性组合</strong>。</p>
+<p>整体上，矩阵对应的线性变换将 <strong>原基向量张成的空间</strong> 映射到 <strong>变换后基向量张成的空间</strong>。如果矩阵的各列是线性相关的，说明在线性变换后，基向量是共线的。在二维的情况下，就是将平面压缩成一维直线。</p>
+<h3 id="矩阵乘以矩阵"><a href="#矩阵乘以矩阵" class="headerlink" title="矩阵乘以矩阵"></a>矩阵乘以矩阵</h3><p>依次两个线性变换称为 <strong>复合变换</strong>（Composition of Transformations）。<br>一个向量依次经历两个矩阵的线性变换得到的结果，等价于其经过一个复合变换的结果，例如</p>
+<script type="math/tex; mode=display">
+\underbrace{\begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}}_{\text{Shear}}  \left( \underbrace{\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Rotation}} \begin{bmatrix} x \\ y \end{bmatrix} \right) = \underbrace{\begin{bmatrix} 1 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Composition}} \begin{bmatrix} x \\ y \end{bmatrix}</script><p>那么，可以定义矩阵的乘法</p>
+<script type="math/tex; mode=display">
+\underbrace{\begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}}_{\text{Shear}}  \underbrace{\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Rotation}} = \underbrace{\begin{bmatrix} 1 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Composition}}</script><p>注意，如果将矩阵的乘法看成是两个相继的线性变换，则需要 <strong>从右往左</strong> 阅读，即被作用的向量是先经历靠右矩阵的变换，然后经历靠左矩阵的变换。这类似函数的嵌套，即 $f \left( g(x) \right)$。</p>
+<p>我们来追踪一下基向量的变换过程，以 ${\pmb i}$ 为例。经历第一个矩阵的变换后，该基向量变成 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$ （即右侧矩阵的第一列）。经历第二个矩阵的变换后，该基向量进一步变成 $\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$，正好是复合矩阵的第一列。</p>
+<h3 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h3><p><strong>行列式</strong>（Determinant）是线性变换后相比变换前空间中体积（二维情况下的面积）的缩放比例（Scaling Factor）。<br>如果变换改变了空间的定向（Orientation），那么行列式就是 <strong>负值</strong>。对二维平面而言，改变定向类似“翻转平面”；对三维空间而言，改变定向意味着是否符合“右手定则”。</p>
+<p>行列式的计算：</p>
+<script type="math/tex; mode=display">
+\det \left( \begin{bmatrix} a & b \\ c & d \end{bmatrix} \right) = ad - bc</script><p>如果矩阵的行列式等于 <strong>零</strong>，则意味着原空间经过该线性变换后，被压缩到一个低维空间里，使得“体积”变为零。同时，这也意味着变换后的基向量是 <strong>线性相关</strong> 的。</p>
+<h3 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h3><p><strong>线性方程组</strong>（Linear System of Equations）</p>
+<script type="math/tex; mode=display">
+\overbrace{\begin{bmatrix} 2 & 5 & 3 \\ 4 & 0 & 8 \\ 1 & 3 & 0 \end{bmatrix}}^{\pmb A} \overbrace{\begin{bmatrix} x \\ y \\ z \end{bmatrix}}^{\pmb x} = \overbrace{\begin{bmatrix} -3 \\ 0 \\ 2 \end{bmatrix}}^{\pmb v}</script><p>这相当于在问：什么向量 ${\pmb x}$ 经过变换 ${\pmb A}$ 后，能得到向量 ${\pmb v}$？<br>从几何直观出发，如果 ${\pmb A}$ 的行列式不为零，则有一个 <strong>逆变换</strong>（Inverse Transformation） ${\pmb A}^{-1}$，有</p>
+<script type="math/tex; mode=display">
+{\pmb x} = {\pmb A}^{-1} {\pmb v}</script><p>如果 ${\pmb A}$ 的行列式为零，该矩阵将原空间压缩到一个低维空间里，则不存在逆变换，因为不存在一个“函数”，可以将一个值映射到多个值。<br>如果 ${\pmb A}$ 的行列式为零，只有当 ${\pmb v}$ 恰好处在那个被压缩后的低维空间里，原方程组才有解（且有无穷多个解），否则没有解。</p>
+<p><strong>秩</strong>（Rank）是矩阵对应的 <strong>线性变换的输出空间的维度</strong>。这里，输出空间其实就是矩阵的每一列作为向量所张成的空间，被称为 <strong>列空间</strong>（Column Space）。一个矩阵的秩的最大可能取值就是其列数，只有取到该最大值时，行列式才不为零，此时被称为 <strong>满秩</strong>（Full Rank）；当秩小于列数时，行列式为零。</p>
+<p>当矩阵满秩时，只有零向量会被映射为零向量。当矩阵不满秩时，意味着有些非零向量被映射成零向量，这些原空间中的非零向量张成的空间被称为 <strong>零空间</strong>（Null Space）或者 <strong>核</strong>（Kernel）。当 ${\pmb v}$ 正好是零向量时，零空间中的所有向量构成原方程组的解集。</p>
+<h3 id="非方阵"><a href="#非方阵" class="headerlink" title="非方阵"></a>非方阵</h3><p><strong>非方阵</strong>（Non-Square Matrix）是不同维度的空间之间的线性变换，从 <strong>列数维度</strong> 的空间映射到 <strong>行数维度</strong> 的空间（但不一定能够“充满”、“张成”该空间），矩阵中的各 <strong>列向量</strong> 依然代表线性变换后的基向量，张成 <strong>列空间</strong>。</p>
+<p>一个3*2（3行2列）的矩阵，就是从一个2维空间映射到3维空间，但显然不能张成该3维空间；通常只能张成一个平面，也可能压缩成直线或原点。</p>
+<p>一个2*3（2行3列）的矩阵，就是从一个3维空间映射到2维空间，通常能够张成该2维空间，也可能压缩成直线或原点。</p>
+<h3 id="点积"><a href="#点积" class="headerlink" title="点积"></a>点积</h3><p>${\pmb v}$ 和 ${\pmb w}$ 的点积，在几何上等价于先将 ${\pmb w}$ <strong>投影</strong>（Project）到 ${\pmb v}$ 的方向上，然后投影得到的长度乘以 ${\pmb v}$ 的长度。<br><img src="/images/dot-product.png" alt="向量点积"></p>
+<script type="math/tex; mode=display">
+{\pmb v} \cdot {\pmb w} = \Vert {\pmb v} \Vert \Vert {\pmb w} \Vert \cos \theta</script><p>代数的计算方法：</p>
+<script type="math/tex; mode=display">
+{\pmb v} \cdot {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \cdot \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} = v_1 w_1 + v_2 w_2 = \begin{bmatrix} v_1 & v_2 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}</script><p>可以把向量 ${\pmb v}$ 看成一个1*2的矩阵，该矩阵代表了一个线性变换，该线性变换将一个2维空间映射为1维空间，那么 $[v_1]$ 代表第一个基向量映射后的位置，$[v_2]$ 代表第二个基向量映射后的位置，向量 ${\pmb w} = \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}$ 映射后的位置就是 $w_1 [v_1] + w_2 [v_2]$，即 $w_1 v_1 + w_2 v_2$。</p>
+<p>在以上过程中，2维空间映射为1维空间其实就是 <strong>投影</strong> 的过程。</p>
+<p>所以，向量也可以理解成一个1行多列的矩阵，对应一个线性变换。任意一个其他向量经过该线性变换得到的结果，就是两个向量的点积。</p>
+<h3 id="叉积"><a href="#叉积" class="headerlink" title="叉积"></a>叉积</h3><p>${\pmb v}$ 和 ${\pmb w}$ 的叉积，在几何上是向量张成的平行四边形的面积（并考虑定向问题决定正负号/方向）。</p>
+<p>对于二维空间，叉积的结果是一个数（不严格定义）：</p>
+<script type="math/tex; mode=display">
+{\pmb v} \times {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \times \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} = \det \left( \begin{bmatrix} v_1 & w_1 \\ v_2 & w_2 \end{bmatrix} \right) = v_1 w_2 - v_2 w_1</script><p>对于三维空间，叉积的结果是一个向量：</p>
+<script type="math/tex; mode=display">
+{\pmb v} \times {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix} \times \begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} = \det \left( \begin{bmatrix} {\pmb i} & v_1 & w_1 \\ {\pmb j} & v_2 & w_2 \\ {\pmb k} & v_3 & w_3 \end{bmatrix} \right)</script><p>该向量垂直于 ${\pmb v}$ 和 ${\pmb w}$ 张成的平面，方向根据右手定则确定，长度等于 ${\pmb v}$ 和 ${\pmb w}$ 张成的面积。</p>
+<p>在几何上，叉积的含义是：如果一个向量  ${\pmb p} = \begin{bmatrix} p_1 \\ p_2 \\ p_3 \end{bmatrix}$ 与任意向量 ${\pmb x} = \begin{bmatrix} x \\ y \\ z \end{bmatrix}$ 的点积等于由 ${\pmb x}$、${\pmb v}$ 和 ${\pmb w}$ 排成的矩阵的行列式，那么这个向量 ${\pmb p}$ 是多少？即</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} p_1 \\ p_2 \\ p_3 \end{bmatrix} \cdot \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \det \left( \begin{bmatrix} x & v_1 & w_1 \\ y & v_2 & w_2 \\ z & v_3 & w_3 \end{bmatrix} \right)</script><p>向量 ${\pmb p}$ 就是 ${\pmb v}$ 和 ${\pmb w}$ 的叉积。</p>
+<p>实际上，由 ${\pmb x}$、${\pmb v}$ 和 ${\pmb w}$ 排成的矩阵的行列式是一个将 ${\pmb x}$ 从3维空间映射到1维空间的线性变换；既然是线性变换，就一定存在一个向量 ${\pmb p}$ 与之对应。</p>
+<h3 id="基变换"><a href="#基变换" class="headerlink" title="基变换"></a>基变换</h3><p>当我们采用 ${\pmb i}$ 和 ${\pmb j}$ 作为基向量，意味着在对应的 <strong>坐标系</strong>（Coordinate System）下定义它们的 <strong>坐标</strong>（Coordinates）依次为 $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$。</p>
+<p>如果我们换一组向量作为基向量呢？比如，我们把向量 $2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 分别作为新的基向量，由此定义了一个 <strong>新坐标系</strong>，在这一 <strong>新坐标系</strong> 下，$2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 的坐标也依次定义为 $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$。但显然，这两个向量在 <strong>原坐标系</strong> 中的坐标为 $\begin{bmatrix} 2 \\ 1 \end{bmatrix}$ 和 $\begin{bmatrix} -1 \\ 1 \end{bmatrix}$。</p>
+<p>不同的基向量意味着不同的坐标系，不同的坐标系下，我们描述同一个 <strong>向量</strong>（Vector）所采用的 <strong>坐标</strong>（Coordinates）是不同的。事实上，空间本身并没有内蕴的（Intrinsic）坐标系，并不存在绝对的基向量选择；一开始的 ${\pmb i}$ 和 ${\pmb j}$ 其实也是任意选取的。</p>
+<p>如何在不同坐标系下进行变换（Translate）？例如，在新坐标系下的坐标 $\begin{bmatrix} x \\ y \end{bmatrix}$ 对应的向量，在原坐标系下的坐标是多少？</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} 2 \\ 1 \end{bmatrix} + y \begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 2x-y \\ x+y \end{bmatrix}</script><p>矩阵 $\begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}$ 是用 <strong>原坐标系的基向量</strong> 下的坐标来描述 <strong>新坐标系的基向量</strong>，却可以用来将 <strong>新坐标系下的坐标</strong> 转换为 <strong>原坐标系下的坐标</strong>。类似地，逆矩阵的定义和作用完全相反。</p>
+<h3 id="基变换与线性变换"><a href="#基变换与线性变换" class="headerlink" title="基变换与线性变换"></a>基变换与线性变换</h3><p>此时，再回头看矩阵所代表的线性变换，之前的描述是 <strong>矩阵的各列依次代表变换后的各基向量</strong>。但更为精确的描述可以是，<strong>矩阵的各列依次代表变换后的各基向量的坐标</strong>。</p>
+<ul>
+<li>区分线性变换和基变换<ul>
+<li>线性变换中，基向量（坐标系）只有一组，变化的是向量。</li>
+<li>基变换中，向量不变，但需要在不同的基向量（坐标系）下描述该向量的坐标。</li>
+</ul>
+</li>
+</ul>
+<p>如果在 <strong>原坐标系</strong> 下发生了线性变换 $\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}$，那么这个变换在 <strong>新坐标系</strong> 下该如何描述？<br>首先，对于 <strong>新坐标系</strong> 下的任意向量 ${\pmb v}$，先“翻译”到 <strong>原坐标系</strong>，即</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>然后，经过 <strong>原坐标系</strong> 下发生的线性变换，即</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>最后，将结果“翻译”回 <strong>新坐标系</strong>，即</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>所以，<strong>新坐标系</strong> 下描述该线性变换的矩阵就是 $\begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix} \begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}$。</p>
+<p>在看到类似 ${\pmb A}^{-1} {\pmb M} {\pmb A}$ 的矩阵结构时，通常中间的矩阵 ${\pmb M}$ 代表一种变换，而两侧的矩阵 ${\pmb A}$ 代表一种转移作用。其结果是，变换仍然是 ${\pmb M}$ 所代表的变换，只是切换了一种视角来看待这种变换。</p>
+<h3 id="特征向量与特征值"><a href="#特征向量与特征值" class="headerlink" title="特征向量与特征值"></a>特征向量与特征值</h3><p>要理解 <strong>特征向量</strong>（Eigenvectors）和 <strong>特征值</strong>（Eigenvalues），需要建立在理解众多预备知识的基础上，包括线性变换、行列式、线性方程组和基变换。</p>
+<p>在线性变换中，绝大部分向量都偏离了原来的方向，只有少部分向量仍然保留在原来的方向。对这部分向量而言，线性变换的效果相当于缩放（乘以一个标量）。这样的向量被称为 <strong>特征向量</strong>，缩放的比例就是 <strong>特征值</strong>。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+{\pmb A} {\pmb v} =& \lambda {\pmb v} \\
+{\pmb A} {\pmb v} =& \lambda I {\pmb v} \\
+\left( {\pmb A} - \lambda I \right) {\pmb v} =& 0
+\end{aligned}</script><p>由于我们希望 ${\pmb v}$ 是非零解，就意味着矩阵 $\left( {\pmb A} - \lambda I \right)$ 是不满秩的（行列式为零），即</p>
+<script type="math/tex; mode=display">
+\det \left( {\pmb A} - \lambda I \right) = 0</script><p>如果我们采用特征向量作为基向量，会怎么样？这种情况下，线性变换的效果是，每个基向量仍然保留在原来的方向上进行缩放。所以，对应的矩阵就是一个 <strong>对角矩阵</strong>（Diagnal Matrix），其对角元素就是特征值。</p>
+<p>所以，在给定基向量（和对应的坐标系）的情况下，可以先“翻译”到特征向量作为基向量的坐标系中，进行线性变换（此时退化为每个基向量方向上的缩放变换），然后再“翻译”回原坐标系下。</p>
+<p>假设原线性变换的矩阵是 ${\pmb M}$，存在特征向量 ${\pmb v_1}$、${\pmb v_2}$、……、${\pmb v_n}$，作为列向量排成矩阵 ${\pmb V} = \begin{bmatrix} {\pmb v_1} &amp; {\pmb v_2} &amp; \cdots &amp; {\pmb v_n} \end{bmatrix}$；对应特征根  $\lambda_1$、$\lambda_2$、……、$\lambda_n$，排成对角阵 ${\pmb \Lambda} = \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; \lambda_2 &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; \cdots &amp; \lambda_n \end{bmatrix}$。由上一节结论可知，从 特征向量作为基向量的坐标系 中看这个线性变换，对应的矩阵是 ${\pmb V}^{-1} {\pmb M} {\pmb V}$，该矩阵必然等于 ${\pmb \Lambda}$，即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+{\pmb V}^{-1} {\pmb M} {\pmb V} =& {\pmb \Lambda}  \\
+{\pmb M} =& {\pmb V} {\pmb \Lambda} {\pmb V}^{-1}
+\end{aligned}</script><h3 id="抽象向量空间"><a href="#抽象向量空间" class="headerlink" title="抽象向量空间"></a>抽象向量空间</h3><p>线性代数中最为本质的概念，行列式和特征向量等，与所选取的坐标系（基向量）是无关的。</p>
+<p>对某种对象，如果存在某种运算，该运算满足 <strong>可加性</strong>（Additivity）和 <strong>成比例</strong>（Scaling）这两个特性，都可以被看做向量。<br>可加性：$L\left( {\pmb v} + {\pmb w} \right) = L\left( {\pmb v} \right) + L\left( {\pmb w} \right)$<br>成比例：$L\left( c {\pmb v} \right) = c L\left( {\pmb v} \right)$</p>
+<p>对 <strong>向量</strong> 而言，<strong>线性变换</strong> 这一运算就满足可加性和成比例两个特性。<br>特别地，<strong>函数</strong> 也可以被看成是 <strong>向量</strong>，<strong>求导</strong> 运算对函数就满足可加性和成比例两个特性。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">线性代数中的概念</th>
+<th style="text-align:center">应用于函数时的别名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">线性变换</td>
+<td style="text-align:center">线性算子</td>
+</tr>
+<tr>
+<td style="text-align:center">点积</td>
+<td style="text-align:center">内积</td>
+</tr>
+<tr>
+<td style="text-align:center">特征向量</td>
+<td style="text-align:center">特征函数</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" rel="tag"># 线性代数</a>
+              <a href="/tags/%E5%87%A0%E4%BD%95/" rel="tag"># 几何</a>
+              <a href="/tags/3Blue1Brown/" rel="tag"># 3Blue1Brown</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/Lost-Tools-of-Learning-notes/" rel="prev" title="《失落的学艺》笔记">
+      <i class="fa fa-chevron-left"></i> 《失落的学艺》笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/Medical-Statistics-Notes/" rel="next" title="《医学统计学》笔记">
+      《医学统计学》笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#向量"><span class="nav-number">1.</span> <span class="nav-text">向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵乘以向量"><span class="nav-number">2.</span> <span class="nav-text">矩阵乘以向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵乘以矩阵"><span class="nav-number">3.</span> <span class="nav-text">矩阵乘以矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行列式"><span class="nav-number">4.</span> <span class="nav-text">行列式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性方程组"><span class="nav-number">5.</span> <span class="nav-text">线性方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非方阵"><span class="nav-number">6.</span> <span class="nav-text">非方阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点积"><span class="nav-number">7.</span> <span class="nav-text">点积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#叉积"><span class="nav-number">8.</span> <span class="nav-text">叉积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基变换"><span class="nav-number">9.</span> <span class="nav-text">基变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基变换与线性变换"><span class="nav-number">10.</span> <span class="nav-text">基变换与线性变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征向量与特征值"><span class="nav-number">11.</span> <span class="nav-text">特征向量与特征值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象向量空间"><span class="nav-number">12.</span> <span class="nav-text">抽象向量空间</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="syuoni"
+      src="/images/squirrel.jpg">
+  <p class="site-author-name" itemprop="name">syuoni</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/syuoni" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;syuoni" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:enwei.zhu@outlook.com" title="E-Mail → mailto:enwei.zhu@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      My Friends
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sttomato.github.io/" title="https:&#x2F;&#x2F;sttomato.github.io&#x2F;" rel="noopener" target="_blank">St.Tomato</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">syuoni</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'mnOIFtbooHzVRYYGb8nY6mmw-gzGzoHsz',
+      appKey: 'rV7zD23PcpoMT61KNJCmKvkt',
+      placeholder: "You require my assistance?",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

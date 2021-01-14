@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://syuoni.github.io').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="This blog briefly reviews the attention mechanisms in NLP.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention in NLP">
+<meta property="og:url" content="https://syuoni.github.io/posts/Attention-in-NLP/index.html">
+<meta property="og:site_name" content="一颗鼠儿果的博客">
+<meta property="og:description" content="This blog briefly reviews the attention mechanisms in NLP.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://syuoni.github.io/images/Encoder-Decoder.jpg">
+<meta property="og:image" content="https://syuoni.github.io/images/Scaled-Dot-Product-and-Multi-Head-Attention.jpg">
+<meta property="og:image" content="https://syuoni.github.io/images/Self-Attention-Visual.jpg">
+<meta property="article:published_time" content="2020-06-02T08:25:43.000Z">
+<meta property="article:modified_time" content="2020-06-09T11:58:58.000Z">
+<meta property="article:author" content="syuoni">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://syuoni.github.io/images/Encoder-Decoder.jpg">
+
+<link rel="canonical" href="https://syuoni.github.io/posts/Attention-in-NLP/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Attention in NLP | 一颗鼠儿果的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="一颗鼠儿果的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一颗鼠儿果的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">鼠儿果，恢复少量神</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://syuoni.github.io/posts/Attention-in-NLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/squirrel.jpg">
+      <meta itemprop="name" content="syuoni">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一颗鼠儿果的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Attention in NLP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-02 16:25:43" itemprop="dateCreated datePublished" datetime="2020-06-02T16:25:43+08:00">2020-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-09 19:58:58" itemprop="dateModified" datetime="2020-06-09T19:58:58+08:00">2020-06-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/Attention-in-NLP/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/Attention-in-NLP/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This blog briefly reviews the attention mechanisms in NLP.<br><a id="more"></a></p>
+<h2 id="The-Encoder-Decoder-Framework"><a href="#The-Encoder-Decoder-Framework" class="headerlink" title="The Encoder-Decoder Framework"></a>The Encoder-Decoder Framework</h2><p><img src="/images/Encoder-Decoder.jpg" alt="Encoder-Decoder Framework"></p>
+<p>In the Encoder-Decoder framework, an encoder reads the source sentence, a sequence of vectors $x=\left( x<em>1, \cdots, x</em>{T_x} \right)$, into a fixed-length <em>context vector</em> $c$. </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\bar{h}_s &= f \left( x_s, \bar{h}_{s-1} \right) \\
+c &= q \left( \bar{h}_1, \cdots, \bar{h}_{T_x} \right)
+\end{aligned}</script><p>where $\bar{h}_s$ is the encoder’s hidden state at time $s$. $f$ and $q$ are some nonlinear functions. For example, one may use:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f &= \mathrm{LSTM} \\ 
+q \left( \bar{h}_1, \cdots, \bar{h}_{T_x} \right) &= \bar{h}_{T_x}
+\end{aligned}</script><p>The decoder is often trained to predict the next word $y<em>t$ given the context vector $c$ and all the previous predicted words $\left{ y_1, \cdots, y</em>{t-1} \right}$. In other words, the decoder defines a probability over the translation $y=\left( y<em>1, \cdots, y</em>{T_y} \right)$ by decomposing the joint probability into the ordered conditional probabilities. </p>
+<script type="math/tex; mode=display">
+p(y) = \prod_{t=1}^{T_y} p\left( y_t | y_1, \cdots, y_{t-1}, c \right)</script><p>With an RNN, each conditional probability is modeled as</p>
+<script type="math/tex; mode=display">
+p\left( y_t | y_1, \cdots, y_{t-1}, c \right) = g\left( y_{t-1}, h_t, c \right)</script><p>where $g$ is a nonlinear function. $h_t$ is the decoder’s hidden state at time $t$. </p>
+<h2 id="Learning-to-Align-and-Translate"><a href="#Learning-to-Align-and-Translate" class="headerlink" title="Learning to Align and Translate"></a>Learning to Align and Translate</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bahdanau, D., Cho, K. and Bengio, Y., 2014. Neural machine translation by jointly learning to align and translate. arXiv preprint arXiv:1409.0473.</span><br></pre></td></tr></table></figure>
+<p>Define each conditional probability as </p>
+<script type="math/tex; mode=display">
+p\left( y_t | y_1, \cdots, y_{t-1}, x \right) = g\left( y_{t-1}, h_t, c_t \right)</script><p>where $h_t$ is the decoder’s hidden state at time $t$, computed by</p>
+<script type="math/tex; mode=display">
+h_t = f\left( h_{t-1}, y_{t-1}, c_t \right)</script><p>Note that here the probability is conditioned on a <em>distinct context vector</em> $c<em>t$ for each target word $y_t$.<br>The context vector $c_t$ depends on a sequence of <em>annotations</em> $\left( \bar{h}_1, \cdots, \bar{h}</em>{T_x} \right)$ to which the encoder maps the source sentence. Each annotation $\bar{h}_s$ contains information about the whole source sequence with a strong focus on the parts surrounding the $s$-th word. For example, the annotations can be hidden states from a <em>bidirectional RNN</em>.<br>The context vector $c_t$ is computed as a weighted sum of these annotations: </p>
+<script type="math/tex; mode=display">
+c_t = \sum_{s=1}^{T_x} \alpha_{st} \bar{h}_s</script><p>The weight $\alpha_{st}$ of each annotation $\bar{h}_s$ is computed by:</p>
+<script type="math/tex; mode=display">
+\alpha_{st} = \frac{\exp(e_{st})}{\sum_{s'=1}^{T_x} \exp(e_{s't})}</script><p>where</p>
+<script type="math/tex; mode=display">
+e_{st} = \mathrm{score} \left( \bar{h}_s, h_{t-1} \right)</script><p>is an <em>alignment model</em> which scores how well the source words around position $s$ and the target word at position $t$ match. The score is based on the decoder’s hidden state $h<em>{t-1}$ and the encoder’s annotation $\bar{h}_s$.<br>The probability $\alpha</em>{st}$, or its associated <em>energy</em> $e<em>{st}$, reflects the importance of the annotation $\bar{h}_s$ with respect to the previous hidden state $h</em>{t-1}$ in deciding the next state $h_t$ and generating $y_t$. Intuitively, this implements an <em>attention mechanism</em> in the decoder.<br>The implement of the alignment model is</p>
+<script type="math/tex; mode=display">
+\mathrm{score} \left( \bar{h}_s, h_{t-1} \right) = v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_{t-1} \right] \right)</script><p>where $W_a$ and $v_a$ are trainable weights. </p>
+<h2 id="Global-and-Local-Attetions"><a href="#Global-and-Local-Attetions" class="headerlink" title="Global and Local Attetions"></a>Global and Local Attetions</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Luong, M.T., Pham, H. and Manning, C.D., 2015. Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025.</span><br></pre></td></tr></table></figure>
+<h3 id="Global-Attention"><a href="#Global-Attention" class="headerlink" title="Global Attention"></a>Global Attention</h3><p>Very similar to Bahdanau et al. (2015).<br>The idea of global attention is to consider all the encoder’s hidden states when deriving the context vector $c_t$. The <em>alignment vector</em> $\alpha_t$, whose size equals the length on the source side, is: </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\alpha_{st} &= \mathrm{align} \left( \bar{h}_s, h_t \right) \\
+&= \frac{\exp \left( \mathrm{score} \left( \bar{h}_s, h_t \right) \right)}{\sum_{s'=1}^{T_x} \exp \left( \mathrm{score} \left( \bar{h}_{s'}, h_t \right) \right)}
+\end{aligned}</script><p>where $\mathrm{score}$ is the <em>alignment function</em>, which may have four alternatives: </p>
+<script type="math/tex; mode=display">
+\mathrm{score} \left( \bar{h}_s, h_t \right) = 
+\begin{cases}
+\bar{h}_s^\top h_t, &\text{Dot product} \\
+\bar{h}_s^\top W_a h_t, &\text{General product} \\
+v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_t \right] \right), &\text{Concat} \\
+\text{The } s\text{-th element of } W_a h_t, &\text{Location based}
+\end{cases}</script><p>where the location-based attention is computed sorely from the target hidden states, so it is fixed-length. Practically, For short sentences, only use the top part of $\alpha_t$; while for long sentences, ignore words near the end. </p>
+<h3 id="Local-Attention"><a href="#Local-Attention" class="headerlink" title="Local Attention"></a>Local Attention</h3><p>Local attention choose to focus on only a small subset of the source positions, for each target word. The model first generates an <em>alignment position</em> $p_t$ for target word at time $t$. The context vector $c_t$, thus, is derived as a weighted average over the source hidden states within the window $\left[p_t-D, p_t+D \right]$. Hence, the alignment vector $\alpha_t$ is fixed-length now. </p>
+<script type="math/tex; mode=display">
+p_t = 
+\begin{cases}
+t, &\text{Monotonic alignment} \\
+S \cdot \mathrm{sigmoid} \left( v_p^\top \tanh \left( W_p h_t \right) \right), &\text{Predictive alignment} 
+\end{cases}</script><p>where $W_p$ and $v_p$ are trainable parameters, and $S$ is the source length.<br>To favor alignment points near $p_t$, place a Gaussian distribution centered around $p_t$. Then, the alignment weights are:</p>
+<script type="math/tex; mode=display">
+a_{st} = \mathrm{align} \left( \bar{h}_s, h_t \right) \cdot \exp \left( -\frac{(s-p_t)^2}{2\sigma^2} \right)</script><p>The standard deviation is empirically set as $\sigma = \frac{D}{2}$.</p>
+<h2 id="Neural-Turing-Machines"><a href="#Neural-Turing-Machines" class="headerlink" title="Neural Turing Machines"></a>Neural Turing Machines</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Graves, A., Wayne, G., &amp; Danihelka, I. 2014. Neural Turing machines. arXiv preprint arXiv:1410.5401.</span><br></pre></td></tr></table></figure>
+<p>An alternative of alignment function named content-based addressing: </p>
+<script type="math/tex; mode=display">
+\mathrm{score} \left( \bar{h}_s, h_t \right) = \mathrm{cosine} \left( \bar{h}_s, h_t \right)</script><h2 id="An-Survey-on-Attention-in-NLP"><a href="#An-Survey-on-Attention-in-NLP" class="headerlink" title="An Survey on Attention in NLP"></a>An Survey on Attention in NLP</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hu, D. 2019. An introductory survey on attention mechanisms in NLP problems. In Proceedings of SAI Intelligent Systems Conference (pp. 432-448). Springer, Cham.</span><br></pre></td></tr></table></figure>
+<p>An alternative of alignment function based on MLP: </p>
+<script type="math/tex; mode=display">
+\mathrm{score} \left( \bar{h}_s, h_t \right) = \sigma \left( v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_t \right] + b_{a1} \right) + b_{a2} \right)</script><h3 id="Memory-Based-Attention"><a href="#Memory-Based-Attention" class="headerlink" title="Memory-Based Attention"></a>Memory-Based Attention</h3><h4 id="What-are-Qurey-and-Key-Value-Pairs"><a href="#What-are-Qurey-and-Key-Value-Pairs" class="headerlink" title="What are Qurey and Key-Value Pairs?"></a>What are Qurey and Key-Value Pairs?</h4><p>Given a list of key-value vector pairs $\left{ \left( k_i, v_i \right) \right}$ stored in <em>memory</em> and a query vector $q$, the attention computation follows three steps:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+e_i &= \mathrm{score} (q, k_i), &\text{Address Memory} \\
+\alpha_i &= \frac{\exp(e_i)}{\sum_k \exp(e_k)}, &\text{Normalize} \\
+c &= \sum_i \alpha_i v_i, &\text{Read Contents}
+\end{aligned}</script><p>Typically, <em>memory</em> is simply a synonym for the source sequence. In other words, each key-value pair is aligned to a step in the source sequence. Further, the key and value are typically equal within each pair (e.g., both are the encoder’s hidden state), and this reduces to the basic attention mechanism.<br>The query vector is distinct in different NLP tasks. For example, in language translation, the query is the decoder’s last hidden state; in question-answering system, the query is the embedding of question. </p>
+<h2 id="Attention-is-All-You-Need"><a href="#Attention-is-All-You-Need" class="headerlink" title="Attention is All You Need"></a>Attention is All You Need</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vaswani, A., Shazeer, N., Parmar, N., et al. 2017. Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Scaled-Dot-Product-and-Multi-Head-Attention.jpg" alt="Scaled Dot-Product and Multi-Head Attention"></p>
+<h3 id="Scaled-Dot-Product-Attention"><a href="#Scaled-Dot-Product-Attention" class="headerlink" title="Scaled Dot-Product Attention"></a>Scaled Dot-Product Attention</h3><p>An <em>attention function</em> can be described as mapping a query and a set of key-value pairs to an output (i.e., context vector). The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a <em>compatibility function</em> (i.e., normalized alighment function) of the query with the corresponding key. </p>
+<p>Assume the <em>queries</em> and <em>keys</em> are of dimension $d_k$, and <em>values</em> are of dimension $d_v$, the alighment function is:</p>
+<script type="math/tex; mode=display">
+\mathrm{score} (q, k) = \frac{q^\top k}{\sqrt{d_k}}</script><p>where $q$ and $k$ are query and key vectors. It is idential to the dot-product attention, expect for the scaling factor $\frac{1}{\sqrt{d_k}}$.<br>In practice, pack the queries, keys and values into matrices: </p>
+<ul>
+<li>Quries: A matrix $Q \in \Bbb{R}^{N_q \times d_k}$;</li>
+<li>Keys: A matrix $K \in \Bbb{R}^{N_k \times d_k}$;</li>
+<li>Values: A matrix $V \in \Bbb{R}^{N_k \times d_v}$.  </li>
+</ul>
+<p>And the full <em>attentioned values</em> (context vectors) are computed by:</p>
+<script type="math/tex; mode=display">
+\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left( \frac{QK^\top}{\sqrt{d_k}} \right) V</script><h3 id="Multi-Head-Attention"><a href="#Multi-Head-Attention" class="headerlink" title="Multi-Head Attention"></a>Multi-Head Attention</h3><p>In the single-head scenario, the attention function is performed with $d<em>{model}$-dimensional queries, keys and values. (e.g., the queries, keys and values are all $d</em>{model}$-dimensional embeddings).<br>In the multi-head scenario:</p>
+<ul>
+<li>Project the $d_{model}$-dimensional queries, keys and values to $d_k$, $d_k$ and $d_v$ dimensions, for $h$ times, resulting in $h$ versions of projected queries, keys and values. </li>
+<li>For each version, perform attention function on the projected queries, keys and values, yielding $h$ versions of $d_v$-dimensional attentioned values. </li>
+<li>Concatenate the $h$ versions of attentioned values and then futher project the concatenated attentioned values to $d_{model}$ dimension. </li>
+</ul>
+<p>Formerly, </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathrm{MultiHead}(Q, K, V) &= \mathrm{Concat}(head_1, \dots, head_h) W^O \\
+\text{where } head_i &= \mathrm{Attention} \left( Q W_i^Q, K W_i^K, V W_i^V \right)
+\end{aligned}</script><p>where $W<em>i^Q \in \Bbb{R}^{d</em>{model} \times d<em>k}$, $W_i^K \in \Bbb{R}^{d</em>{model} \times d<em>k}$, $W_i^V \in \Bbb{R}^{d</em>{model} \times d<em>v}$ and $W^O \in \Bbb{R}^{hd_v \times d</em>{model}}$ are trainable parameter matrices. </p>
+<p>Multi-head attention allows the model to jointly attend to information from different <em>representation subspaces</em> at different positions. While with a single attention head, averaging inhibits this.</p>
+<h3 id="Application-of-Attention-in-Transformer"><a href="#Application-of-Attention-in-Transformer" class="headerlink" title="Application of Attention in Transformer"></a>Application of Attention in Transformer</h3><p>The Transformer uses multi-head attention in three different ways:</p>
+<ul>
+<li>Encoder-Decoder Attention layers<ul>
+<li>Queries come from the output of the previous decoder layer</li>
+<li>Memory keys and values come from the output of the encoder</li>
+<li>This mimics the typical Encoder-Decoder attention mechanisms in Seq2Seq models </li>
+</ul>
+</li>
+<li>Self-Attention layers in the encoder<ul>
+<li>All the queries, keys and values come from the output of the previous encoder layer</li>
+<li>Each position can attend to <em>all positions</em> in the previous layer</li>
+</ul>
+</li>
+<li>Self-Attention layers in the decoder<ul>
+<li>All the queries, keys and values come from the output of the previous decoder layer</li>
+<li>Each position attends to positions <em>up to and including that position</em> in the previous layer (The target sequence is right shifted by one position)</li>
+<li>Mask out (setting to $-\infty$) all values in the input of the softmax which correspond to illegal connections</li>
+</ul>
+</li>
+</ul>
+<h3 id="Self-Attention"><a href="#Self-Attention" class="headerlink" title="Self-Attention"></a>Self-Attention</h3><p>Self-attention is a new scheme, other than RNN and CNN, used for mapping a variable-length sequence of representations $\left(x_1, x_2, \dots, x_n\right)$ to another sequence of equal length $\left(z_1, z_2, \dots, z_n\right)$, with $x_i, z_i \in \Bbb{R}^d$. </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Layer Type</th>
+<th style="text-align:center">Complexity per Layer</th>
+<th style="text-align:center">Sequential Operations</th>
+<th style="text-align:center">Max Path Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Self-Attention</td>
+<td style="text-align:center">$O(n^2 \cdot d)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(1)$</td>
+</tr>
+<tr>
+<td style="text-align:center">RNN</td>
+<td style="text-align:center">$O(n \cdot d^2)$</td>
+<td style="text-align:center">$O(n)$</td>
+<td style="text-align:center">$O(n)$</td>
+</tr>
+<tr>
+<td style="text-align:center">CNN</td>
+<td style="text-align:center">$O(k \cdot n \cdot d^2)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(\log_k(n))$</td>
+</tr>
+<tr>
+<td style="text-align:center">Self-Attention (Restricted)</td>
+<td style="text-align:center">$O(r \cdot n \cdot d)$</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(n/r)$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="/images/Self-Attention-Visual.jpg" alt="Self-Attention Visualizations"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/reinstall-python-packages/" rel="prev" title="重装 Python 包">
+      <i class="fa fa-chevron-left"></i> 重装 Python 包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/Attention-is-All-You-Need/" rel="next" title="Attention is All You Need">
+      Attention is All You Need <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Encoder-Decoder-Framework"><span class="nav-number">1.</span> <span class="nav-text">The Encoder-Decoder Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-Align-and-Translate"><span class="nav-number">2.</span> <span class="nav-text">Learning to Align and Translate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-and-Local-Attetions"><span class="nav-number">3.</span> <span class="nav-text">Global and Local Attetions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Global-Attention"><span class="nav-number">3.1.</span> <span class="nav-text">Global Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-Attention"><span class="nav-number">3.2.</span> <span class="nav-text">Local Attention</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Turing-Machines"><span class="nav-number">4.</span> <span class="nav-text">Neural Turing Machines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#An-Survey-on-Attention-in-NLP"><span class="nav-number">5.</span> <span class="nav-text">An Survey on Attention in NLP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Based-Attention"><span class="nav-number">5.1.</span> <span class="nav-text">Memory-Based Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-are-Qurey-and-Key-Value-Pairs"><span class="nav-number">5.1.1.</span> <span class="nav-text">What are Qurey and Key-Value Pairs?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention-is-All-You-Need"><span class="nav-number">6.</span> <span class="nav-text">Attention is All You Need</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scaled-Dot-Product-Attention"><span class="nav-number">6.1.</span> <span class="nav-text">Scaled Dot-Product Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Head-Attention"><span class="nav-number">6.2.</span> <span class="nav-text">Multi-Head Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-of-Attention-in-Transformer"><span class="nav-number">6.3.</span> <span class="nav-text">Application of Attention in Transformer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Self-Attention"><span class="nav-number">6.4.</span> <span class="nav-text">Self-Attention</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="syuoni"
+      src="/images/squirrel.jpg">
+  <p class="site-author-name" itemprop="name">syuoni</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/syuoni" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;syuoni" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:enwei.zhu@outlook.com" title="E-Mail → mailto:enwei.zhu@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      My Friends
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sttomato.github.io/" title="https:&#x2F;&#x2F;sttomato.github.io&#x2F;" rel="noopener" target="_blank">St.Tomato</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">syuoni</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'mnOIFtbooHzVRYYGb8nY6mmw-gzGzoHsz',
+      appKey: 'rV7zD23PcpoMT61KNJCmKvkt',
+      placeholder: "You require my assistance?",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

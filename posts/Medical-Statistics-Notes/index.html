@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://syuoni.github.io').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="《医学统计学》（第二版，颜虹主编，人民卫生出版社）读书笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《医学统计学》笔记">
+<meta property="og:url" content="https://syuoni.github.io/posts/Medical-Statistics-Notes/index.html">
+<meta property="og:site_name" content="一颗鼠儿果的博客">
+<meta property="og:description" content="《医学统计学》（第二版，颜虹主编，人民卫生出版社）读书笔记。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-20T11:43:56.000Z">
+<meta property="article:modified_time" content="2020-04-26T11:37:50.000Z">
+<meta property="article:author" content="syuoni">
+<meta property="article:tag" content="医学">
+<meta property="article:tag" content="统计">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://syuoni.github.io/posts/Medical-Statistics-Notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>《医学统计学》笔记 | 一颗鼠儿果的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="一颗鼠儿果的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一颗鼠儿果的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">鼠儿果，恢复少量神</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://syuoni.github.io/posts/Medical-Statistics-Notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/squirrel.jpg">
+      <meta itemprop="name" content="syuoni">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一颗鼠儿果的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《医学统计学》笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-20 19:43:56" itemprop="dateCreated datePublished" datetime="2020-04-20T19:43:56+08:00">2020-04-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-26 19:37:50" itemprop="dateModified" datetime="2020-04-26T19:37:50+08:00">2020-04-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8C%BB%E5%AD%A6%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">医学统计</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/Medical-Statistics-Notes/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/Medical-Statistics-Notes/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>《医学统计学》（第二版，颜虹主编，人民卫生出版社）读书笔记。<br><a id="more"></a></p>
+<h2 id="第3章：统计描述"><a href="#第3章：统计描述" class="headerlink" title="第3章：统计描述"></a>第3章：统计描述</h2><h3 id="3-1-频数分布"><a href="#3-1-频数分布" class="headerlink" title="3.1 频数分布"></a>3.1 频数分布</h3><p>直方图（Histogram）</p>
+<h3 id="3-2-计量资料的统计描述"><a href="#3-2-计量资料的统计描述" class="headerlink" title="3.2 计量资料的统计描述"></a>3.2 计量资料的统计描述</h3><h4 id="集中趋势"><a href="#集中趋势" class="headerlink" title="集中趋势"></a>集中趋势</h4><ol>
+<li>算术均值（Arithmetic Mean）</li>
+<li>几何均值（Geometric Mean）</li>
+<li>中位数（Median）</li>
+</ol>
+<h4 id="离散趋势"><a href="#离散趋势" class="headerlink" title="离散趋势"></a>离散趋势</h4><ol>
+<li>全距（Range）</li>
+<li>分位数（Quantile）</li>
+<li>方差（Variance）</li>
+<li>标准差（Standard Deviation）</li>
+</ol>
+<h3 id="3-3-分类资料的统计描述"><a href="#3-3-分类资料的统计描述" class="headerlink" title="3.3 分类资料的统计描述"></a>3.3 分类资料的统计描述</h3><h4 id="常用相对数指标"><a href="#常用相对数指标" class="headerlink" title="常用相对数指标"></a>常用相对数指标</h4><ol>
+<li>比（Ratio）：一个指标是另一个指标的几倍或百分之几</li>
+<li>比例（Proportion）：一个集合的内部各组成部分的占比</li>
+<li><p>率（Rate）：某个 <strong>时间段</strong> 内事件发生的频率或强度</p>
+<ul>
+<li>生存率、发病率、死亡率、复发率<script type="math/tex; mode=display">
+率 = \frac{某时期内发生事件的观察单位数}{该时期开始时暴露的观察单位数}</script><script type="math/tex; mode=display">
+率 = \frac{发生事件的观察单位数}{\Sigma 观察单位 \times 观察时间}</script></li>
+</ul>
+</li>
+<li><p>相对危险度（Relative Risk, RR）：同一事件在两种不同情况下的 <strong>发生率</strong> 之比</p>
+<script type="math/tex; mode=display">
+RR = \frac{P_1}{P_2}</script><ul>
+<li>暴露和未暴露于危险因素两种情况下的患病率之比（Prevalence Risk Ratio, PRR）</li>
+</ul>
+</li>
+<li><p>比数比（Odds Ratio, OR）</p>
+<ul>
+<li>设 $P$ 为某事件的发生率，则 <strong>比数</strong> $Odds = P / (1 - P)$</li>
+<li>比数比就是两个比数之比<script type="math/tex; mode=display">
+OR = \frac{Odds_1}{Odds_2} = \frac{P_1 / (1 - P_1)}{P_2 / (1 - P_2)}</script></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>两种随机抽样方式<ul>
+<li>按因素的暴露和未暴露进行抽样，分别得到暴露样本和未暴露样本的发病 Odds</li>
+<li>按是否发病进行抽样，分别得到发病样本和不发病样本的暴露 Odds</li>
+</ul>
+</li>
+</ul>
+<h4 id="动态数列"><a href="#动态数列" class="headerlink" title="动态数列"></a>动态数列</h4><ol>
+<li>增长量</li>
+<li>发展速度 和 增长速度</li>
+<li>平均发展速度 和 平均增长速度</li>
+</ol>
+<h4 id="率的标准化"><a href="#率的标准化" class="headerlink" title="率的标准化"></a>率的标准化</h4><h3 id="3-4-统计图表"><a href="#3-4-统计图表" class="headerlink" title="3.4 统计图表"></a>3.4 统计图表</h3><h2 id="第4章：常见的概率分布"><a href="#第4章：常见的概率分布" class="headerlink" title="第4章：常见的概率分布"></a>第4章：常见的概率分布</h2><h3 id="4-1-随机事件与概率"><a href="#4-1-随机事件与概率" class="headerlink" title="4.1 随机事件与概率"></a>4.1 随机事件与概率</h3><h3 id="4-2-二项分布"><a href="#4-2-二项分布" class="headerlink" title="4.2 二项分布"></a>4.2 二项分布</h3><p>Bernoulli 实验每次成功的概率为 $\pi$，那么 $n$ 次独立重复的成功次数 $X$ 服从二项分布。</p>
+<script type="math/tex; mode=display">
+P(X=k) = C_n^k \cdot \pi^k (1-\pi)^{(n-k)}</script><p>成功次数 $X$ 的</p>
+<ul>
+<li>总体均值：$n \pi$</li>
+<li>总体方差：$n \pi (1 - \pi)$</li>
+<li>总体标准差：$\sqrt{n \pi (1 - \pi)}$</li>
+</ul>
+<p>成功率 $X / n$ 的</p>
+<ul>
+<li>总体均值：$\pi$</li>
+<li>总体方差：$\pi (1 - \pi) / n$</li>
+<li>总体标准差：$\sqrt{\pi (1 - \pi) / n}$</li>
+</ul>
+<h3 id="4-3-Poisson-分布"><a href="#4-3-Poisson-分布" class="headerlink" title="4.3 Poisson 分布"></a>4.3 Poisson 分布</h3><p>单位时间内发生某事件的次数 $X$，服从 Poisson 分布。</p>
+<script type="math/tex; mode=display">
+P(X=k) = \frac{\lambda^k}{k!} e^{-\lambda}</script><h3 id="4-3-正态分布"><a href="#4-3-正态分布" class="headerlink" title="4.3 正态分布"></a>4.3 正态分布</h3><script type="math/tex; mode=display">
+f(X) = \frac{1}{\sqrt{2\pi} \sigma} e^{\frac{-(x-\mu)^2}{2 \sigma^2}}</script><h2 id="第5章：参数估计"><a href="#第5章：参数估计" class="headerlink" title="第5章：参数估计"></a>第5章：参数估计</h2><h3 id="5-1-抽样分布与抽样误差"><a href="#5-1-抽样分布与抽样误差" class="headerlink" title="5.1 抽样分布与抽样误差"></a>5.1 抽样分布与抽样误差</h3><h4 id="样本均值"><a href="#样本均值" class="headerlink" title="样本均值"></a>样本均值</h4><p>从一个均值为 $\mu$、标准差为 $\sigma$ 的总体分布中随机抽取样本量为 $n$ 的样本，其样本均值 $\bar{X}$ 的期望为</p>
+<script type="math/tex; mode=display">
+\mu_{\bar{X}} = \mu</script><p>其标准误为</p>
+<script type="math/tex; mode=display">
+\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}</script><p>在实际中，由于总体标准差 $\sigma$ 常常是未知的，用样本标准差 $S$ 来估计，因此样本均值 $\bar{X}$ 标准误的估计值为</p>
+<script type="math/tex; mode=display">
+S_{\bar{X}} = \frac{S}{\sqrt{n}}</script><p>中心极限定理：</p>
+<ul>
+<li>从正态分布 $N(\mu, \sigma^2)$ 的总体中随机抽取样本量为 $n$ 的样本，其样本均值 $\bar{X}$ 服从正态分布 $N(\mu, \sigma^2 / n)$。</li>
+<li>从非正态分布中抽样，当样本量较大（$n \ge 30$），样本均值的分布接近正态分布。</li>
+</ul>
+<h4 id="样本率"><a href="#样本率" class="headerlink" title="样本率"></a>样本率</h4><p>从一个总体分布（成功率为 $\pi$ 的 Bernoulli 分布）中随机抽取样本量为 $n$ 的样本，其成功率为 $p$，则其期望为</p>
+<script type="math/tex; mode=display">
+\mu_{p} = \pi</script><p>样本率的标准误为</p>
+<script type="math/tex; mode=display">
+\sigma_p = \sqrt{\frac{\pi (1 - \pi)}{n}}</script><p>在实际中，由于总体率 $\pi$ 常常是未知的，用样本率 $p$ 来估计，因此样本率 $p$ 标准误的估计值为</p>
+<script type="math/tex; mode=display">
+S_p = \sqrt{\frac{p (1 - p)}{n}}</script><h3 id="5-2-总体均值的估计"><a href="#5-2-总体均值的估计" class="headerlink" title="5.2 总体均值的估计"></a>5.2 总体均值的估计</h3><h4 id="t-分布"><a href="#t-分布" class="headerlink" title="t 分布"></a>t 分布</h4><p>标准正态分布 $N(0, 1)$ 也被称为 z 分布，对样本均值 $\bar{X}$ 进行 z 变换得到 $\frac{\bar{X} - \mu}{\sigma<em>{\bar{X}}}$，服从 z 分布。但是，实际中 $\sigma</em>{\bar{X}}$ 常常未知，用 $S<em>{\bar{X}}$ 代替，得到的 $\frac{\bar{X} - \mu}{S</em>{\bar{X}}}$ 服从 t 分布。</p>
+<h4 id="点估计和区间估计"><a href="#点估计和区间估计" class="headerlink" title="点估计和区间估计"></a>点估计和区间估计</h4><h4 id="两总体均数之差的区间估计"><a href="#两总体均数之差的区间估计" class="headerlink" title="两总体均数之差的区间估计"></a>两总体均数之差的区间估计</h4><h3 id="5-3-总体率的估计"><a href="#5-3-总体率的估计" class="headerlink" title="5.3 总体率的估计"></a>5.3 总体率的估计</h3><h4 id="点估计和区间估计-1"><a href="#点估计和区间估计-1" class="headerlink" title="点估计和区间估计"></a>点估计和区间估计</h4><p>区间估计</p>
+<ul>
+<li>查表法：二项分布的计算结果。</li>
+<li>正态近似法：当 $n$ 较大，且 $np$ 和 $n(1-p)$ 均大于 5 时，样本率 $p$ 的分布近似正态分布。</li>
+</ul>
+<h4 id="两总体率之差的区间估计"><a href="#两总体率之差的区间估计" class="headerlink" title="两总体率之差的区间估计"></a>两总体率之差的区间估计</h4><ul>
+<li>正态近似法</li>
+</ul>
+<h3 id="5-4-Poisson-分布总体均数的区间估计"><a href="#5-4-Poisson-分布总体均数的区间估计" class="headerlink" title="5.4 Poisson 分布总体均数的区间估计"></a>5.4 Poisson 分布总体均数的区间估计</h3><ul>
+<li>查表法</li>
+<li>正太近似法</li>
+</ul>
+<h3 id="5-5-RR-值和-OR-值的估计"><a href="#5-5-RR-值和-OR-值的估计" class="headerlink" title="5.5 RR 值和 OR 值的估计"></a>5.5 RR 值和 OR 值的估计</h3><p>相对危险度 RR 是暴露组的发病率与非暴露组的发病率之比。</p>
+<ul>
+<li>当 RR 大于 1 时，该因素为危险因素</li>
+<li>当 RR 小于 1 时，该因素为保护因素</li>
+</ul>
+<h4 id="队列研究（Cohort-Study）"><a href="#队列研究（Cohort-Study）" class="headerlink" title="队列研究（Cohort Study）"></a>队列研究（Cohort Study）</h4><ul>
+<li>又称前瞻性研究（Prospective Study）、随访研究（Follow-Up Study）</li>
+<li>对不同暴露水平的对象跟踪调查其疾病发生情况</li>
+<li>可以计算不同暴露水平组的发病率，可以直接估计相对危险度</li>
+</ul>
+<p>情况1：随访期间研究对象因为失访、死亡等原因而变化，以“观察人-时”为分母计算发病率，又称为 <strong>发病密度</strong>。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">发病人数</th>
+<th style="text-align:center">观察人时数</th>
+<th style="text-align:center">发病密度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">暴露组</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$L_1$</td>
+<td style="text-align:center">$a / L_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">非暴露组</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$L_0$</td>
+<td style="text-align:center">$b / L_0$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$m$</td>
+<td style="text-align:center">$L$</td>
+<td style="text-align:center">$m / L$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script type="math/tex; mode=display">
+\hat{RR} = \frac{a / L_1}{b / L_0}</script><p>区间估计为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \hat{RR}^{\left( 1 \pm z_{\alpha/2} / \sqrt{\chi^2} \right)} \\
+& \chi^2 = \frac{(aL-mL_1)^2}{mL_1L_0}
+\end{aligned}</script><p>情况2：随访期间研究对象没有变化，以观察人数为分母计算发病率，又称为 <strong>累计发病率</strong>。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">发病人数</th>
+<th style="text-align:center">未发病人数</th>
+<th style="text-align:center">合计</th>
+<th style="text-align:center">累计发病率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">暴露组</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$n_1$</td>
+<td style="text-align:center">$a / n_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">非暴露组</td>
+<td style="text-align:center">$c$</td>
+<td style="text-align:center">$d$</td>
+<td style="text-align:center">$n_0$</td>
+<td style="text-align:center">$c / n_0$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$m_1$</td>
+<td style="text-align:center">$m_0$</td>
+<td style="text-align:center">$n$</td>
+<td style="text-align:center">$m_1 / n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script type="math/tex; mode=display">
+\hat{RR} = \frac{a / n_1}{b / n_0}</script><p>区间估计为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \hat{RR}^{\left( 1 \pm z_{\alpha/2} / \sqrt{\chi^2} \right)} \\
+& \chi^2 = \frac{(n-1)(ad-bc)^2}{n_1n_0m_1m_0}
+\end{aligned}</script><h4 id="病例-对照研究"><a href="#病例-对照研究" class="headerlink" title="病例-对照研究"></a>病例-对照研究</h4><ul>
+<li>根据研究对象的目前发病状态划分到病例组或对照组，然后回顾性地询问过去的危险因素暴露情况，比较病例组和对照组的暴露水平差异</li>
+<li>不能计算不同暴露水平组的发病率，通常使用优势比或比数比来近似估计相对危险度</li>
+</ul>
+<p>设计1：<strong>成组设计</strong> 的病例对照研究</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">暴露</th>
+<th style="text-align:center">未暴露</th>
+<th style="text-align:center">合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">病例组</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$n_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">对照组</td>
+<td style="text-align:center">$c$</td>
+<td style="text-align:center">$d$</td>
+<td style="text-align:center">$n_0$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$m_1$</td>
+<td style="text-align:center">$m_0$</td>
+<td style="text-align:center">$n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在病例组，暴露事件的 Odds 为</p>
+<script type="math/tex; mode=display">
+Odds_1 = \frac{a/n_1}{b/n_1} = \frac{a}{b}</script><p>在对照组，暴露事件的 Odds 为</p>
+<script type="math/tex; mode=display">
+Odds_0 = \frac{c/n_0}{d/n_0} = \frac{c}{d}</script><p>所以，病例组相比对照组，暴露事件的优势比为</p>
+<script type="math/tex; mode=display">
+\hat{OR} = \frac{Odds_1}{Odds_0} = \frac{a / b}{c / d} = \frac{ad}{bc}</script><p>当发病率很低（如小于 1% 时），OR 近似等于 RR。</p>
+<p>Miettinen 法区间估计为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \hat{OR}^{\left( 1 \pm z_{\alpha/2} / \sqrt{\chi^2} \right)} \\
+& \chi^2 = \frac{(n-1)(ad-bc)^2}{n_1n_0m_1m_0}
+\end{aligned}</script><p>设计2：<strong>配对设计</strong> 的病例对照研究</p>
+<p>在 1:1 配对设计病例对照研究中，每一个病例都有对应的一个对照。一对病例与对照的暴露情况可能有四种：</p>
+<ul>
+<li>病例与对照都暴露（a）</li>
+<li>病例暴露，对照未暴露（b）</li>
+<li>病例未暴露，对照暴露（c）</li>
+<li>病例与对照都未暴露（d）</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">对照暴露</th>
+<th style="text-align:center">对照未暴露</th>
+<th style="text-align:center">合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">病例暴露</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$a+b$</td>
+</tr>
+<tr>
+<td style="text-align:center">病例未暴露</td>
+<td style="text-align:center">$c$</td>
+<td style="text-align:center">$d$</td>
+<td style="text-align:center">$c+d$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$a+c$</td>
+<td style="text-align:center">$b+d$</td>
+<td style="text-align:center">$n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注：上表中 $a$、$b$、$c$、$d$ 每个数字都代表 <strong>双份</strong> 的样本，一份是病例，一份是对照。</p>
+<p>如果整理成 <strong>成组设计</strong> 的表格</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">暴露</th>
+<th style="text-align:center">未暴露</th>
+<th style="text-align:center">合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">病例组</td>
+<td style="text-align:center">$a+b$</td>
+<td style="text-align:center">$c+d$</td>
+<td style="text-align:center">$a+b+c+d$</td>
+</tr>
+<tr>
+<td style="text-align:center">对照组</td>
+<td style="text-align:center">$a+c$</td>
+<td style="text-align:center">$b+d$</td>
+<td style="text-align:center">$a+b+c+d$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$2a+b+c$</td>
+<td style="text-align:center">$b+c+2d$</td>
+<td style="text-align:center">$2(a+b+c+d)$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可以发现，病例和对照暴露水平一致的情况（$a$ 和 $d$）没有提供暴露和发病之间的相关信息，因此估计优势比 $OR$ 只需要使用 $b$ 和 $c$。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \hat{OR} = \frac{b}{c} \\
+& \chi^2 = \frac{(\vert b-c \vert -1)^2}{b + c}
+\end{aligned}</script><h2 id="第6章：假设检验"><a href="#第6章：假设检验" class="headerlink" title="第6章：假设检验"></a>第6章：假设检验</h2><h3 id="6-3-z-检验"><a href="#6-3-z-检验" class="headerlink" title="6.3 z 检验"></a>6.3 z 检验</h3><h3 id="6-7-检验效能"><a href="#6-7-检验效能" class="headerlink" title="6.7 检验效能"></a>6.7 检验效能</h3><h2 id="第7章：两样本均数比较的假设检验"><a href="#第7章：两样本均数比较的假设检验" class="headerlink" title="第7章：两样本均数比较的假设检验"></a>第7章：两样本均数比较的假设检验</h2><h3 id="7-1-单样本均数的-t-检验"><a href="#7-1-单样本均数的-t-检验" class="headerlink" title="7.1 单样本均数的 t 检验"></a>7.1 单样本均数的 t 检验</h3><h3 id="7-2-配对样本均数的-t-检验"><a href="#7-2-配对样本均数的-t-检验" class="headerlink" title="7.2 配对样本均数的 t 检验"></a>7.2 配对样本均数的 t 检验</h3><h3 id="7-3-两独立样本均数的-t-检验"><a href="#7-3-两独立样本均数的-t-检验" class="headerlink" title="7.3 两独立样本均数的 t 检验"></a>7.3 两独立样本均数的 t 检验</h3><h3 id="7-4-正态性检验"><a href="#7-4-正态性检验" class="headerlink" title="7.4 正态性检验"></a>7.4 正态性检验</h3><h3 id="7-5-两样本的方差的齐性检验"><a href="#7-5-两样本的方差的齐性检验" class="headerlink" title="7.5 两样本的方差的齐性检验"></a>7.5 两样本的方差的齐性检验</h3><h3 id="7-6-两总体方差不等时均数比较的-t’-检验"><a href="#7-6-两总体方差不等时均数比较的-t’-检验" class="headerlink" title="7.6 两总体方差不等时均数比较的 t’ 检验"></a>7.6 两总体方差不等时均数比较的 t’ 检验</h3><h2 id="第8章：多个样本均数比较的假设检验"><a href="#第8章：多个样本均数比较的假设检验" class="headerlink" title="第8章：多个样本均数比较的假设检验"></a>第8章：多个样本均数比较的假设检验</h2><h3 id="8-1-方差分析的基本思想与应用条件"><a href="#8-1-方差分析的基本思想与应用条件" class="headerlink" title="8.1 方差分析的基本思想与应用条件"></a>8.1 方差分析的基本思想与应用条件</h3><p>判断多个处理组之间，处理效应是否有差异。</p>
+<h2 id="第9章：行列表资料的假设检验"><a href="#第9章：行列表资料的假设检验" class="headerlink" title="第9章：行列表资料的假设检验"></a>第9章：行列表资料的假设检验</h2><h3 id="9-1-四格表资料的-chi-2-检验"><a href="#9-1-四格表资料的-chi-2-检验" class="headerlink" title="9.1 四格表资料的 $\chi^2$ 检验"></a>9.1 四格表资料的 $\chi^2$ 检验</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">有疗效</th>
+<th style="text-align:center">无疗效</th>
+<th style="text-align:center">合计</th>
+<th style="text-align:center">有效率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A 药物</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$a+b$</td>
+<td style="text-align:center">$a/(a+b)$</td>
+</tr>
+<tr>
+<td style="text-align:center">B 药物</td>
+<td style="text-align:center">$c$</td>
+<td style="text-align:center">$d$</td>
+<td style="text-align:center">$c+d$</td>
+<td style="text-align:center">$c/(c+d)$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$a+c$</td>
+<td style="text-align:center">$b+d$</td>
+<td style="text-align:center">$n$</td>
+<td style="text-align:center">$(a+c)/n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="chi-2-检验的基本思想"><a href="#chi-2-检验的基本思想" class="headerlink" title="$\chi^2$ 检验的基本思想"></a>$\chi^2$ 检验的基本思想</h4><p>如果零假设成立，则各格子的实际观察频数（Observed Frequency, O）与相应的理论期望频数（Expected Frequency, E）相差不会太大，即</p>
+<script type="math/tex; mode=display">
+\chi^2 = \sum \frac{(O-E)^2}{E}</script><p>的值不会太大。</p>
+<h4 id="四格表的-chi-2-检验"><a href="#四格表的-chi-2-检验" class="headerlink" title="四格表的 $\chi^2$ 检验"></a>四格表的 $\chi^2$ 检验</h4><p>组别 A、B 和总体的有效率分别是 $\pi_1$、$\pi_2$、$\pi$，其估计值分别是</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{\pi_1} & = \frac{a}{a+b} \\ 
+\hat{\pi_2} & = \frac{c}{c+d} \\
+\hat{\pi} & = \frac{a+c}{a+b+c+d} \\
+\end{aligned}</script><p>$\chi^2$ 检验的基本步骤是：</p>
+<ol>
+<li>建立假设<ul>
+<li>H0：$\pi_1 = \pi_2 = \pi$</li>
+<li>H1：$\pi_1 \neq \pi_2$</li>
+</ul>
+</li>
+<li>计算期望频数和检验统计量<ul>
+<li>以 <strong>总体有效率</strong> 和 <strong>周边合计</strong> 计算各格子的期望频数<script type="math/tex; mode=display">
+\begin{aligned}
+E[a] & = (a+b) \cdot \frac{a+c}{a+b+c+d} \\
+E[b] & = (a+b) \cdot \frac{b+d}{a+b+c+d} \\
+E[c] & = (c+d) \cdot \frac{a+c}{a+b+c+d} \\
+E[d] & = (c+d) \cdot \frac{b+d}{a+b+c+d} \\
+\end{aligned}</script></li>
+<li>计算 $\chi^2$ 统计量<script type="math/tex; mode=display">
+\chi^2 = \frac{(a-E[a])^2}{E[a]} + \frac{(b-E[b])^2}{E[b]} + \frac{(c-E[c])^2}{E[c]} + \frac{(d-E[d])^2}{E[d]}</script></li>
+</ul>
+</li>
+</ol>
+<h4 id="交叉分类-2×2-表关联性分析"><a href="#交叉分类-2×2-表关联性分析" class="headerlink" title="交叉分类 2×2 表关联性分析"></a>交叉分类 2×2 表关联性分析</h4><p>两变量相关分析</p>
+<ul>
+<li>通过 $\chi^2$ 检验判断两 <strong>定性变量</strong> 之间是否相关。</li>
+<li>通过 Pearson 相关系数或 Spearman 秩相关系数来描述两 <strong>定量变量</strong> 之间的相关关系。</li>
+</ul>
+<h3 id="9-2-配对四格表资料的-chi-2-检验"><a href="#9-2-配对四格表资料的-chi-2-检验" class="headerlink" title="9.2 配对四格表资料的 $\chi^2$ 检验"></a>9.2 配对四格表资料的 $\chi^2$ 检验</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">乙法治疗有效</th>
+<th style="text-align:center">乙法治疗无效</th>
+<th style="text-align:center">合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">甲法治疗有效</td>
+<td style="text-align:center">$a$</td>
+<td style="text-align:center">$b$</td>
+<td style="text-align:center">$a+b$</td>
+</tr>
+<tr>
+<td style="text-align:center">甲法治疗无效</td>
+<td style="text-align:center">$c$</td>
+<td style="text-align:center">$d$</td>
+<td style="text-align:center">$c+d$</td>
+</tr>
+<tr>
+<td style="text-align:center">合计</td>
+<td style="text-align:center">$a+c$</td>
+<td style="text-align:center">$b+d$</td>
+<td style="text-align:center">$n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注：上表中 $a$、$b$、$c$、$d$ 每个数字都代表 <strong>双份</strong> 的样本，一份进行甲法治疗，一份进行乙法治疗。</p>
+<p>显然，$a$ 和 $d$ 的治疗结果一致，不影响两种治疗方法效果的差异；所以只需要比较 $b$ 和 $c$ 是否相同即可。$b$ 和 $c$ 的期望频数为 $(b+c)/2$，所以</p>
+<script type="math/tex; mode=display">
+\chi^2 = \frac{\left( b-\frac{b+c}{2} \right)^2}{\frac{b+c}{2}} + \frac{\left( c-\frac{b+c}{2} \right)^2}{\frac{b+c}{2}} = \frac{(b-c)^2}{b+c}</script><h3 id="9-3-行×列表资料的-chi-2-检验"><a href="#9-3-行×列表资料的-chi-2-检验" class="headerlink" title="9.3 行×列表资料的 $\chi^2$ 检验"></a>9.3 行×列表资料的 $\chi^2$ 检验</h3><p>对 R 行 C 列表资料，第 i 行第 j 列的频数记作 $a_{ij}$，代表第 i 种情况（如治疗方法、暴露情况）下第 j 中结果（如疗效、发病）的频数。<br>那么，先计算期望频数：</p>
+<script type="math/tex; mode=display">
+E[a_{ij}] = \left( \sum_l a_{il} \right) \cdot \frac{\sum_k a_{kj}}{\sum_{k, l} a_{kl}}</script><p>然后，再计算 $\chi^2$ 统计量</p>
+<script type="math/tex; mode=display">
+\chi^2 = \sum \frac{(O-E)^2}{E} = \sum_{ij} \frac{\left( a_{ij} - E[a_{ij}] \right)^2}{E[a_{ij}]}</script><h3 id="9-4-多个样本率的多重比较"><a href="#9-4-多个样本率的多重比较" class="headerlink" title="9.4 多个样本率的多重比较"></a>9.4 多个样本率的多重比较</h3><p>对多个样本率进行比较时，如果拒绝零假设，则说明至少有某两个率之间存在显著差异，则需要进行多个率之间的两两比较。<br>Bonferroni 法：</p>
+<ol>
+<li>对行×列表资料进行分割，变成多个四格表</li>
+<li>对每个四格表进行 $\chi^2$ 检验</li>
+<li>采用 $\alpha’ = \alpha / 比较次数$ 调整显著性水平</li>
+<li>以 $\alpha’$ 作为检验水准，下有无统计学意义的结论</li>
+</ol>
+<h3 id="9-5-行×列表资料的-chi-2-检验的注意事项"><a href="#9-5-行×列表资料的-chi-2-检验的注意事项" class="headerlink" title="9.5 行×列表资料的 $\chi^2$ 检验的注意事项"></a>9.5 行×列表资料的 $\chi^2$ 检验的注意事项</h3><ol>
+<li>样本含量应足够大<ul>
+<li>80% 以上格子的期望频数大于 5，且不存在期望频数小于 1 的格子。</li>
+<li>否则，补充样本、合并行或列、删除行或列、采用 Fisher 确切概率检验。</li>
+</ul>
+</li>
+<li>行×列表资料经 $\chi^2$ 检验后，如果假设检验结果拒绝 H0，意味着各组总体率或构成比之间整体上存在显著差异，并不一定两两之间均有显著差异。</li>
+<li>当结果变量为等级资料时，不采用 $\chi^2$ 检验。<ul>
+<li>组别和结果变量双向无序：采用 $\chi^2$ 检验</li>
+<li>组别变量有序、结果变量无序：采用 $\chi^2$ 检验</li>
+<li>组别变量无序、结果变量有序：采用秩和检验</li>
+<li>组别和结果变量均有序、且属性相同：采用一致性检验（如 Kappa 检验）<ul>
+<li>例如用两种检测方法检测样品的等级，检验两种检测方法的一致性</li>
+</ul>
+</li>
+<li>组别和结果变量均有序、但属性不同<ul>
+<li>研究不同组别的结果是否存在差异：采用秩和检验</li>
+<li>研究两个有序变量是否相关：采用 Spearman 秩相关分析</li>
+<li>研究两个有序变量是否存在线性变化趋势：采用线性趋势检验</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>各分类间彼此互斥</li>
+</ol>
+<h3 id="9-6-频数分布拟合优度的-chi-2-检验"><a href="#9-6-频数分布拟合优度的-chi-2-检验" class="headerlink" title="9.6 频数分布拟合优度的 $\chi^2$ 检验"></a>9.6 频数分布拟合优度的 $\chi^2$ 检验</h3><h3 id="9-7-确切概率法"><a href="#9-7-确切概率法" class="headerlink" title="9.7 确切概率法"></a>9.7 确切概率法</h3><p>当样本量较少（如四格表资料总例数小于 40），采用 Fisher 确切概率检验。<br>在表格周围合计数不变的条件下，表格中各格子的频数有多种可能组合，其概率分布是超几何分布。那么，可以求出所有组合的概率，再将所有小于等于原组合（观察到的实际组合）概率的所有概率相加，作为双侧检验的 p 值。</p>
+<h3 id="9-8-OR-值的-chi-2-检验"><a href="#9-8-OR-值的-chi-2-检验" class="headerlink" title="9.8 OR 值的 $\chi^2$ 检验"></a>9.8 OR 值的 $\chi^2$ 检验</h3><p>参考 5.5 内容。</p>
+<h2 id="第10章：基于秩次的假设检验方法"><a href="#第10章：基于秩次的假设检验方法" class="headerlink" title="第10章：基于秩次的假设检验方法"></a>第10章：基于秩次的假设检验方法</h2><p>秩和检验的应用场景</p>
+<ul>
+<li>当计量资料不服从正态分布，或者所比较的样本间方差不齐是，不适宜采用 t 检验和方差分析</li>
+<li>对于结果变量为等级资料（有序分类资料），不适宜采用 $\chi^2$ 检验</li>
+</ul>
+<h3 id="10-1-配对设计资料的符号秩和检验"><a href="#10-1-配对设计资料的符号秩和检验" class="headerlink" title="10.1 配对设计资料的符号秩和检验"></a>10.1 配对设计资料的符号秩和检验</h3><p>对于计量配对资料，有观察值 $(x_i, y_i)$，有差值 $d_i = x_i - y_i$。<br>如果 $d$ 服从正态分布，则采用配对 t 检验即可。<br>如果 $d$ 不服从正态分布，则采用 Wilcoxon 符号秩和检验（Wilcoxon Signed Rank Test）。</p>
+<p>Wilcoxon 符号秩和检验步骤</p>
+<ol>
+<li>求差值</li>
+<li>建立假设<ul>
+<li>H0：$M_d = 0$，即差值的总体中位数等于零</li>
+<li>H1：$M_d \neq 0$，即差值的总体中位数不等于零</li>
+</ul>
+</li>
+<li>编秩：按差值的绝对值有小到大编秩，并按照差值的正负号给秩次加上正负号<ul>
+<li>差值为零，舍去不计</li>
+<li>多个差值绝对值相等，取平均秩次</li>
+</ul>
+</li>
+<li>求秩和：分别求出正负秩次之和，将其绝对值记作 $T<em>+$ 和 $T</em>-$</li>
+<li>计算统计量 T，有 $T = \min(T<em>+, T</em>-)$；有效的秩次数记作 $n$</li>
+<li>计算 p 值，做出推断<ul>
+<li>若 $5 &lt; n \leq 50$，查表</li>
+<li>若 $n &gt; 50$，正态近似法<script type="math/tex; mode=display">
+\begin{aligned}
+T & \sim N \left(\mu_T, \sigma_T^2 \right) \\
+\mu_T & = \frac{n(n+4)}{4} \\
+\sigma_T & = \sqrt{\frac{n(n+1)(2n+1)}{24}}
+\end{aligned}</script></li>
+</ul>
+</li>
+</ol>
+<h3 id="10-2-单样本资料的符号秩和检验"><a href="#10-2-单样本资料的符号秩和检验" class="headerlink" title="10.2 单样本资料的符号秩和检验"></a>10.2 单样本资料的符号秩和检验</h3><p>将每个样本取值与已知总体值（理论值、标准值或大量样本观察值）比较。</p>
+<h3 id="10-3-完全随机设计两独立样本的秩和检验"><a href="#10-3-完全随机设计两独立样本的秩和检验" class="headerlink" title="10.3 完全随机设计两独立样本的秩和检验"></a>10.3 完全随机设计两独立样本的秩和检验</h3><h4 id="两组计量资料的秩和检验"><a href="#两组计量资料的秩和检验" class="headerlink" title="两组计量资料的秩和检验"></a>两组计量资料的秩和检验</h4><p>两独立样本的 Wilcoxon 秩和检验步骤</p>
+<ol>
+<li>建立假设<ul>
+<li>H0：两总体分布相同</li>
+<li>H1：两总体分布不同</li>
+</ul>
+</li>
+<li>编秩：将两组数据混合、有小到大统一编秩<ul>
+<li>相同数据取平均秩次</li>
+</ul>
+</li>
+<li>求秩和：将两组样本的秩次分别相加</li>
+<li>计算统计量 T<ul>
+<li>若两组样本数相等，任取一组秩和作为统计量 T</li>
+<li>若两组样本数不等，以样本数较小的那组对应的秩和作为统计量 T</li>
+</ul>
+</li>
+<li>计算 p 值，做出推断<ul>
+<li>查表法</li>
+<li>正态近似法</li>
+</ul>
+</li>
+</ol>
+<h4 id="两组等级资料的秩和检验"><a href="#两组等级资料的秩和检验" class="headerlink" title="两组等级资料的秩和检验"></a>两组等级资料的秩和检验</h4><p>同一等级的数据取平均秩次</p>
+<h3 id="10-4-完全随机设计多独立样本的秩和检验"><a href="#10-4-完全随机设计多独立样本的秩和检验" class="headerlink" title="10.4 完全随机设计多独立样本的秩和检验"></a>10.4 完全随机设计多独立样本的秩和检验</h3><h4 id="多组计量资料的秩和检验"><a href="#多组计量资料的秩和检验" class="headerlink" title="多组计量资料的秩和检验"></a>多组计量资料的秩和检验</h4><p>Kruskal-Wallis 秩和检验步骤</p>
+<ol>
+<li>建立假设<ul>
+<li>H0：多个总体分布相同</li>
+<li>H1：多个总体分布不同</li>
+</ul>
+</li>
+<li>编秩</li>
+<li>求秩和：第 $i$ 组的秩和记作 $R_i$</li>
+<li>计算统计量 H<script type="math/tex; mode=display">
+H = \frac{12}{N(N+1)} \sum \frac{R_i^2}{n_i} - 3(N+1)</script></li>
+<li>计算 p 值，做出推断<ul>
+<li>当组数 $k = 3$，每组样本数 $n_i \leq 5$，查表</li>
+<li>当组数 $k &gt; 3$，或每组样本数 $n_i &gt; 5$，H 近似服从 $\chi^2$ 分布</li>
+</ul>
+</li>
+</ol>
+<h4 id="多组等级资料的秩和检验"><a href="#多组等级资料的秩和检验" class="headerlink" title="多组等级资料的秩和检验"></a>多组等级资料的秩和检验</h4><p>同一等级的数据取平均秩次</p>
+<h4 id="多重比较"><a href="#多重比较" class="headerlink" title="多重比较"></a>多重比较</h4><p>Bonferroni 法校正检验水平 $\alpha’$</p>
+<h3 id="10-5-随机化区组设计资料的秩和检验"><a href="#10-5-随机化区组设计资料的秩和检验" class="headerlink" title="10.5 随机化区组设计资料的秩和检验"></a>10.5 随机化区组设计资料的秩和检验</h3><h2 id="第11章：简单线性回归"><a href="#第11章：简单线性回归" class="headerlink" title="第11章：简单线性回归"></a>第11章：简单线性回归</h2><h3 id="11-1-简单线性回归"><a href="#11-1-简单线性回归" class="headerlink" title="11.1 简单线性回归"></a>11.1 简单线性回归</h3><h3 id="11-2-线性回归的应用"><a href="#11-2-线性回归的应用" class="headerlink" title="11.2 线性回归的应用"></a>11.2 线性回归的应用</h3><h3 id="11-3-残差分析"><a href="#11-3-残差分析" class="headerlink" title="11.3 残差分析"></a>11.3 残差分析</h3><p>线性回归模型成立的四个条件</p>
+<ul>
+<li>线性（Linear）</li>
+<li>独立（Independence）</li>
+<li>正态（Normal）</li>
+<li>等方差（Equal Variance）<br>首字母相连为 LINE。</li>
+</ul>
+<h2 id="第12章：线性相关"><a href="#第12章：线性相关" class="headerlink" title="第12章：线性相关"></a>第12章：线性相关</h2><h3 id="12-1-直线相关"><a href="#12-1-直线相关" class="headerlink" title="12.1 直线相关"></a>12.1 直线相关</h3><p>Pearson 相关系数</p>
+<script type="math/tex; mode=display">
+r = \frac{\sum \left( x_i-\bar{x} \right) \left( y_i-\bar{y} \right)}{\sqrt{\sum \left( x_i-\bar{x} \right)^2} \sqrt{\sum \left( y_i-\bar{y} \right)^2}}</script><h3 id="12-2-Spearman-相关"><a href="#12-2-Spearman-相关" class="headerlink" title="12.2 Spearman 相关"></a>12.2 Spearman 相关</h3><p>Spearman 相关系数<br>先对变量 $x$ 与 $y$ 各自编秩，得到 $R_x$ 和 $R_y$，再代入 Pearson 相关系数的计算公式</p>
+<script type="math/tex; mode=display">
+r_s = \frac{\sum \left( R_{xi}-\bar{R_x} \right) \left( R_{yi}-\bar{R_y} \right)}{\sqrt{\sum \left( R_{xi}-\bar{R_x} \right)^2} \sqrt{\sum \left( R_{yi}-\bar{R_y} \right)^2}}</script><h2 id="第13章：多因素线性回归"><a href="#第13章：多因素线性回归" class="headerlink" title="第13章：多因素线性回归"></a>第13章：多因素线性回归</h2><h3 id="13-1-多因素线性回归"><a href="#13-1-多因素线性回归" class="headerlink" title="13.1 多因素线性回归"></a>13.1 多因素线性回归</h3><h3 id="13-2-回归分析中的自变量选择"><a href="#13-2-回归分析中的自变量选择" class="headerlink" title="13.2 回归分析中的自变量选择"></a>13.2 回归分析中的自变量选择</h3><h3 id="13-3-注意事项"><a href="#13-3-注意事项" class="headerlink" title="13.3 注意事项"></a>13.3 注意事项</h3><p>一般情况，应当校正基线、年龄、性别等常规的可能混杂因素。<br>对实验性研究的统计分析，一般不应采用逐步回归。<br>将名义变量、等级变量进行数量化（转换为哑元）；连续变量也可以先离散化再哑元化。</p>
+<h2 id="第21章：Logistic回归分析"><a href="#第21章：Logistic回归分析" class="headerlink" title="第21章：Logistic回归分析"></a>第21章：Logistic回归分析</h2><h3 id="21-1-回归"><a href="#21-1-回归" class="headerlink" title="21.1 回归"></a>21.1 回归</h3><script type="math/tex; mode=display">
+\rm{logit}(P) = \ln \left( \frac{P}{1-P} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n</script><h4 id="参数的流行病学意义"><a href="#参数的流行病学意义" class="headerlink" title="参数的流行病学意义"></a>参数的流行病学意义</h4><p>$\beta_0$ 的意义：当所有 $\beta_i = 0$，有</p>
+<script type="math/tex; mode=display">
+\ln \left( \frac{P}{1-P} \right) = \beta_0</script><p>所以，$\beta_0$ 代表所有因素均不起作用时，发病与不发病的概率之比（Odds）的对数。</p>
+<p>$\beta_i$ 的意义：如果 $x_i$ 取 0 和 1，有</p>
+<script type="math/tex; mode=display">
+\ln OR_i = \ln \left[ \frac{P_1/(1-P_1)}{P_0/(1-P_0)} \right] = \beta_i</script><p>因此，</p>
+<script type="math/tex; mode=display">
+OR_i = \exp(\beta_i)</script><p>所以，$\beta_i$ 代表 $x_i$ 增加一个单位前后发病的比数比（Odds Ratio）。</p>
+<h3 id="21-2-条件-Logitstic-回归"><a href="#21-2-条件-Logitstic-回归" class="headerlink" title="21.2 条件 Logitstic 回归"></a>21.2 条件 Logitstic 回归</h3><p>按照 1:M 的比例匹配了病例和对照。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BB%E5%AD%A6/" rel="tag"># 医学</a>
+              <a href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag"># 统计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/Essence-of-Linear-Algebra-notes/" rel="prev" title="《线性代数的本质》笔记">
+      <i class="fa fa-chevron-left"></i> 《线性代数的本质》笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/reinstall-python-packages/" rel="next" title="重装 Python 包">
+      重装 Python 包 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第3章：统计描述"><span class="nav-number">1.</span> <span class="nav-text">第3章：统计描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-频数分布"><span class="nav-number">1.1.</span> <span class="nav-text">3.1 频数分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-计量资料的统计描述"><span class="nav-number">1.2.</span> <span class="nav-text">3.2 计量资料的统计描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集中趋势"><span class="nav-number">1.2.1.</span> <span class="nav-text">集中趋势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#离散趋势"><span class="nav-number">1.2.2.</span> <span class="nav-text">离散趋势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-分类资料的统计描述"><span class="nav-number">1.3.</span> <span class="nav-text">3.3 分类资料的统计描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用相对数指标"><span class="nav-number">1.3.1.</span> <span class="nav-text">常用相对数指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态数列"><span class="nav-number">1.3.2.</span> <span class="nav-text">动态数列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#率的标准化"><span class="nav-number">1.3.3.</span> <span class="nav-text">率的标准化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-统计图表"><span class="nav-number">1.4.</span> <span class="nav-text">3.4 统计图表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第4章：常见的概率分布"><span class="nav-number">2.</span> <span class="nav-text">第4章：常见的概率分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-随机事件与概率"><span class="nav-number">2.1.</span> <span class="nav-text">4.1 随机事件与概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-二项分布"><span class="nav-number">2.2.</span> <span class="nav-text">4.2 二项分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Poisson-分布"><span class="nav-number">2.3.</span> <span class="nav-text">4.3 Poisson 分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-正态分布"><span class="nav-number">2.4.</span> <span class="nav-text">4.3 正态分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第5章：参数估计"><span class="nav-number">3.</span> <span class="nav-text">第5章：参数估计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-抽样分布与抽样误差"><span class="nav-number">3.1.</span> <span class="nav-text">5.1 抽样分布与抽样误差</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#样本均值"><span class="nav-number">3.1.1.</span> <span class="nav-text">样本均值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样本率"><span class="nav-number">3.1.2.</span> <span class="nav-text">样本率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-总体均值的估计"><span class="nav-number">3.2.</span> <span class="nav-text">5.2 总体均值的估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#t-分布"><span class="nav-number">3.2.1.</span> <span class="nav-text">t 分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点估计和区间估计"><span class="nav-number">3.2.2.</span> <span class="nav-text">点估计和区间估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两总体均数之差的区间估计"><span class="nav-number">3.2.3.</span> <span class="nav-text">两总体均数之差的区间估计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-总体率的估计"><span class="nav-number">3.3.</span> <span class="nav-text">5.3 总体率的估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点估计和区间估计-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">点估计和区间估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两总体率之差的区间估计"><span class="nav-number">3.3.2.</span> <span class="nav-text">两总体率之差的区间估计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-Poisson-分布总体均数的区间估计"><span class="nav-number">3.4.</span> <span class="nav-text">5.4 Poisson 分布总体均数的区间估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-RR-值和-OR-值的估计"><span class="nav-number">3.5.</span> <span class="nav-text">5.5 RR 值和 OR 值的估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#队列研究（Cohort-Study）"><span class="nav-number">3.5.1.</span> <span class="nav-text">队列研究（Cohort Study）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#病例-对照研究"><span class="nav-number">3.5.2.</span> <span class="nav-text">病例-对照研究</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第6章：假设检验"><span class="nav-number">4.</span> <span class="nav-text">第6章：假设检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-z-检验"><span class="nav-number">4.1.</span> <span class="nav-text">6.3 z 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-7-检验效能"><span class="nav-number">4.2.</span> <span class="nav-text">6.7 检验效能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第7章：两样本均数比较的假设检验"><span class="nav-number">5.</span> <span class="nav-text">第7章：两样本均数比较的假设检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-单样本均数的-t-检验"><span class="nav-number">5.1.</span> <span class="nav-text">7.1 单样本均数的 t 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-配对样本均数的-t-检验"><span class="nav-number">5.2.</span> <span class="nav-text">7.2 配对样本均数的 t 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-两独立样本均数的-t-检验"><span class="nav-number">5.3.</span> <span class="nav-text">7.3 两独立样本均数的 t 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-正态性检验"><span class="nav-number">5.4.</span> <span class="nav-text">7.4 正态性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-两样本的方差的齐性检验"><span class="nav-number">5.5.</span> <span class="nav-text">7.5 两样本的方差的齐性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-6-两总体方差不等时均数比较的-t’-检验"><span class="nav-number">5.6.</span> <span class="nav-text">7.6 两总体方差不等时均数比较的 t’ 检验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第8章：多个样本均数比较的假设检验"><span class="nav-number">6.</span> <span class="nav-text">第8章：多个样本均数比较的假设检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-方差分析的基本思想与应用条件"><span class="nav-number">6.1.</span> <span class="nav-text">8.1 方差分析的基本思想与应用条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第9章：行列表资料的假设检验"><span class="nav-number">7.</span> <span class="nav-text">第9章：行列表资料的假设检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-四格表资料的-chi-2-检验"><span class="nav-number">7.1.</span> <span class="nav-text">9.1 四格表资料的 $\chi^2$ 检验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#chi-2-检验的基本思想"><span class="nav-number">7.1.1.</span> <span class="nav-text">$\chi^2$ 检验的基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四格表的-chi-2-检验"><span class="nav-number">7.1.2.</span> <span class="nav-text">四格表的 $\chi^2$ 检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉分类-2×2-表关联性分析"><span class="nav-number">7.1.3.</span> <span class="nav-text">交叉分类 2×2 表关联性分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-配对四格表资料的-chi-2-检验"><span class="nav-number">7.2.</span> <span class="nav-text">9.2 配对四格表资料的 $\chi^2$ 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-行×列表资料的-chi-2-检验"><span class="nav-number">7.3.</span> <span class="nav-text">9.3 行×列表资料的 $\chi^2$ 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4-多个样本率的多重比较"><span class="nav-number">7.4.</span> <span class="nav-text">9.4 多个样本率的多重比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-5-行×列表资料的-chi-2-检验的注意事项"><span class="nav-number">7.5.</span> <span class="nav-text">9.5 行×列表资料的 $\chi^2$ 检验的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-6-频数分布拟合优度的-chi-2-检验"><span class="nav-number">7.6.</span> <span class="nav-text">9.6 频数分布拟合优度的 $\chi^2$ 检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-7-确切概率法"><span class="nav-number">7.7.</span> <span class="nav-text">9.7 确切概率法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-8-OR-值的-chi-2-检验"><span class="nav-number">7.8.</span> <span class="nav-text">9.8 OR 值的 $\chi^2$ 检验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第10章：基于秩次的假设检验方法"><span class="nav-number">8.</span> <span class="nav-text">第10章：基于秩次的假设检验方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-配对设计资料的符号秩和检验"><span class="nav-number">8.1.</span> <span class="nav-text">10.1 配对设计资料的符号秩和检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-单样本资料的符号秩和检验"><span class="nav-number">8.2.</span> <span class="nav-text">10.2 单样本资料的符号秩和检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-完全随机设计两独立样本的秩和检验"><span class="nav-number">8.3.</span> <span class="nav-text">10.3 完全随机设计两独立样本的秩和检验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#两组计量资料的秩和检验"><span class="nav-number">8.3.1.</span> <span class="nav-text">两组计量资料的秩和检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两组等级资料的秩和检验"><span class="nav-number">8.3.2.</span> <span class="nav-text">两组等级资料的秩和检验</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4-完全随机设计多独立样本的秩和检验"><span class="nav-number">8.4.</span> <span class="nav-text">10.4 完全随机设计多独立样本的秩和检验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多组计量资料的秩和检验"><span class="nav-number">8.4.1.</span> <span class="nav-text">多组计量资料的秩和检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多组等级资料的秩和检验"><span class="nav-number">8.4.2.</span> <span class="nav-text">多组等级资料的秩和检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多重比较"><span class="nav-number">8.4.3.</span> <span class="nav-text">多重比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5-随机化区组设计资料的秩和检验"><span class="nav-number">8.5.</span> <span class="nav-text">10.5 随机化区组设计资料的秩和检验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第11章：简单线性回归"><span class="nav-number">9.</span> <span class="nav-text">第11章：简单线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1-简单线性回归"><span class="nav-number">9.1.</span> <span class="nav-text">11.1 简单线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-线性回归的应用"><span class="nav-number">9.2.</span> <span class="nav-text">11.2 线性回归的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-3-残差分析"><span class="nav-number">9.3.</span> <span class="nav-text">11.3 残差分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第12章：线性相关"><span class="nav-number">10.</span> <span class="nav-text">第12章：线性相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-1-直线相关"><span class="nav-number">10.1.</span> <span class="nav-text">12.1 直线相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-2-Spearman-相关"><span class="nav-number">10.2.</span> <span class="nav-text">12.2 Spearman 相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第13章：多因素线性回归"><span class="nav-number">11.</span> <span class="nav-text">第13章：多因素线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-1-多因素线性回归"><span class="nav-number">11.1.</span> <span class="nav-text">13.1 多因素线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-2-回归分析中的自变量选择"><span class="nav-number">11.2.</span> <span class="nav-text">13.2 回归分析中的自变量选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-3-注意事项"><span class="nav-number">11.3.</span> <span class="nav-text">13.3 注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第21章：Logistic回归分析"><span class="nav-number">12.</span> <span class="nav-text">第21章：Logistic回归分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#21-1-回归"><span class="nav-number">12.1.</span> <span class="nav-text">21.1 回归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数的流行病学意义"><span class="nav-number">12.1.1.</span> <span class="nav-text">参数的流行病学意义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-2-条件-Logitstic-回归"><span class="nav-number">12.2.</span> <span class="nav-text">21.2 条件 Logitstic 回归</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="syuoni"
+      src="/images/squirrel.jpg">
+  <p class="site-author-name" itemprop="name">syuoni</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/syuoni" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;syuoni" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:enwei.zhu@outlook.com" title="E-Mail → mailto:enwei.zhu@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      My Friends
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sttomato.github.io/" title="https:&#x2F;&#x2F;sttomato.github.io&#x2F;" rel="noopener" target="_blank">St.Tomato</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">syuoni</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'mnOIFtbooHzVRYYGb8nY6mmw-gzGzoHsz',
+      appKey: 'rV7zD23PcpoMT61KNJCmKvkt',
+      placeholder: "You require my assistance?",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
