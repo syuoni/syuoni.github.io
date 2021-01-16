@@ -334,7 +334,7 @@
 {\pmb v'} =& x \left( {\pmb i'} \right) + y \left( {\pmb j'} \right) \\
 =& x \begin{bmatrix} 1 \\ -2 \end{bmatrix} + y \begin{bmatrix} 3 \\ 0 \end{bmatrix} \\
 =& \begin{bmatrix} x+3y \\ -2x \end{bmatrix}
-\end{aligned}</script><p>把基向量变换后的向量作为列排成 2*2 的矩阵 $\begin{bmatrix} 1 &amp; 3 \\ -2 &amp; 0 \end{bmatrix}$，此时矩阵乘以向量 ${\pmb v} = \begin{bmatrix} x \\ y \end{bmatrix}$，就是</p>
+\end{aligned}</script><p>把基向量变换后的向量作为列排成 2*2 的矩阵 $\begin{bmatrix} 1 &amp; 3 \\\\ -2 &amp; 0 \end{bmatrix}$，此时矩阵乘以向量 ${\pmb v} = \begin{bmatrix} x \\\\ y \end{bmatrix}$，就是</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix} 1 & 3 \\ -2 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x+3y \\ -2x \end{bmatrix} = {\pmb v'}</script><p>也就是在求变换后的 ${\pmb v}$。</p>
 <p>所以，<strong>矩阵中的各列依次代表线性变换中，各基向量在变换后的结果（位置）</strong>，也就是 <strong>列向量</strong>。如果说，<strong>向量是基向量的线性组合</strong>，那么，<strong>矩阵乘以向量的结果可以理解成，线性变换之后的基向量的线性组合</strong>。</p>
@@ -344,7 +344,7 @@
 \underbrace{\begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}}_{\text{Shear}}  \left( \underbrace{\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Rotation}} \begin{bmatrix} x \\ y \end{bmatrix} \right) = \underbrace{\begin{bmatrix} 1 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Composition}} \begin{bmatrix} x \\ y \end{bmatrix}</script><p>那么，可以定义矩阵的乘法</p>
 <script type="math/tex; mode=display">
 \underbrace{\begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}}_{\text{Shear}}  \underbrace{\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Rotation}} = \underbrace{\begin{bmatrix} 1 & -1 \\ 1 & 0 \end{bmatrix}}_{\text{Composition}}</script><p>注意，如果将矩阵的乘法看成是两个相继的线性变换，则需要 <strong>从右往左</strong> 阅读，即被作用的向量是先经历靠右矩阵的变换，然后经历靠左矩阵的变换。这类似函数的嵌套，即 $f \left( g(x) \right)$。</p>
-<p>我们来追踪一下基向量的变换过程，以 ${\pmb i}$ 为例。经历第一个矩阵的变换后，该基向量变成 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$ （即右侧矩阵的第一列）。经历第二个矩阵的变换后，该基向量进一步变成 $\begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$，正好是复合矩阵的第一列。</p>
+<p>我们来追踪一下基向量的变换过程，以 ${\pmb i}$ 为例。经历第一个矩阵的变换后，该基向量变成 $\begin{bmatrix} 0 \\\\ 1 \end{bmatrix}$ （即右侧矩阵的第一列）。经历第二个矩阵的变换后，该基向量进一步变成 $\begin{bmatrix} 1 &amp; 1 \\\\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} 0 \\\\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\\\ 1 \end{bmatrix}$，正好是复合矩阵的第一列。</p>
 <h3 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h3><p><strong>行列式</strong>（Determinant）是线性变换后相比变换前空间中体积（二维情况下的面积）的缩放比例（Scaling Factor）。<br>如果变换改变了空间的定向（Orientation），那么行列式就是 <strong>负值</strong>。对二维平面而言，改变定向类似“翻转平面”；对三维空间而言，改变定向意味着是否符合“右手定则”。</p>
 <p>行列式的计算：</p>
 <script type="math/tex; mode=display">
@@ -363,7 +363,7 @@
 <script type="math/tex; mode=display">
 {\pmb v} \cdot {\pmb w} = \Vert {\pmb v} \Vert \Vert {\pmb w} \Vert \cos \theta</script><p>代数的计算方法：</p>
 <script type="math/tex; mode=display">
-{\pmb v} \cdot {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \cdot \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} = v_1 w_1 + v_2 w_2 = \begin{bmatrix} v_1 & v_2 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}</script><p>可以把向量 ${\pmb v}$ 看成一个1*2的矩阵，该矩阵代表了一个线性变换，该线性变换将一个2维空间映射为1维空间，那么 $[v_1]$ 代表第一个基向量映射后的位置，$[v_2]$ 代表第二个基向量映射后的位置，向量 ${\pmb w} = \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}$ 映射后的位置就是 $w_1 [v_1] + w_2 [v_2]$，即 $w_1 v_1 + w_2 v_2$。</p>
+{\pmb v} \cdot {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \cdot \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} = v_1 w_1 + v_2 w_2 = \begin{bmatrix} v_1 & v_2 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}</script><p>可以把向量 ${\pmb v}$ 看成一个1*2的矩阵，该矩阵代表了一个线性变换，该线性变换将一个2维空间映射为1维空间，那么 $[v_1]$ 代表第一个基向量映射后的位置，$[v_2]$ 代表第二个基向量映射后的位置，向量 ${\pmb w} = \begin{bmatrix} w_1 \\\\ w_2 \end{bmatrix}$ 映射后的位置就是 $w_1 [v_1] + w_2 [v_2]$，即 $w_1 v_1 + w_2 v_2$。</p>
 <p>在以上过程中，2维空间映射为1维空间其实就是 <strong>投影</strong> 的过程。</p>
 <p>所以，向量也可以理解成一个1行多列的矩阵，对应一个线性变换。任意一个其他向量经过该线性变换得到的结果，就是两个向量的点积。</p>
 <h3 id="叉积"><a href="#叉积" class="headerlink" title="叉积"></a>叉积</h3><p>${\pmb v}$ 和 ${\pmb w}$ 的叉积，在几何上是向量张成的平行四边形的面积（并考虑定向问题决定正负号/方向）。</p>
@@ -372,16 +372,16 @@
 {\pmb v} \times {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \times \begin{bmatrix} w_1 \\ w_2 \end{bmatrix} = \det \left( \begin{bmatrix} v_1 & w_1 \\ v_2 & w_2 \end{bmatrix} \right) = v_1 w_2 - v_2 w_1</script><p>对于三维空间，叉积的结果是一个向量：</p>
 <script type="math/tex; mode=display">
 {\pmb v} \times {\pmb w} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix} \times \begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} = \det \left( \begin{bmatrix} {\pmb i} & v_1 & w_1 \\ {\pmb j} & v_2 & w_2 \\ {\pmb k} & v_3 & w_3 \end{bmatrix} \right)</script><p>该向量垂直于 ${\pmb v}$ 和 ${\pmb w}$ 张成的平面，方向根据右手定则确定，长度等于 ${\pmb v}$ 和 ${\pmb w}$ 张成的面积。</p>
-<p>在几何上，叉积的含义是：如果一个向量  ${\pmb p} = \begin{bmatrix} p_1 \\ p_2 \\ p_3 \end{bmatrix}$ 与任意向量 ${\pmb x} = \begin{bmatrix} x \\ y \\ z \end{bmatrix}$ 的点积等于由 ${\pmb x}$、${\pmb v}$ 和 ${\pmb w}$ 排成的矩阵的行列式，那么这个向量 ${\pmb p}$ 是多少？即</p>
+<p>在几何上，叉积的含义是：如果一个向量  ${\pmb p} = \begin{bmatrix} p_1 \\\\ p_2 \\\\ p_3 \end{bmatrix}$ 与任意向量 ${\pmb x} = \begin{bmatrix} x \\\\ y \\\\ z \end{bmatrix}$ 的点积等于由 ${\pmb x}$、${\pmb v}$ 和 ${\pmb w}$ 排成的矩阵的行列式，那么这个向量 ${\pmb p}$ 是多少？即</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix} p_1 \\ p_2 \\ p_3 \end{bmatrix} \cdot \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \det \left( \begin{bmatrix} x & v_1 & w_1 \\ y & v_2 & w_2 \\ z & v_3 & w_3 \end{bmatrix} \right)</script><p>向量 ${\pmb p}$ 就是 ${\pmb v}$ 和 ${\pmb w}$ 的叉积。</p>
 <p>实际上，由 ${\pmb x}$、${\pmb v}$ 和 ${\pmb w}$ 排成的矩阵的行列式是一个将 ${\pmb x}$ 从3维空间映射到1维空间的线性变换；既然是线性变换，就一定存在一个向量 ${\pmb p}$ 与之对应。</p>
-<h3 id="基变换"><a href="#基变换" class="headerlink" title="基变换"></a>基变换</h3><p>当我们采用 ${\pmb i}$ 和 ${\pmb j}$ 作为基向量，意味着在对应的 <strong>坐标系</strong>（Coordinate System）下定义它们的 <strong>坐标</strong>（Coordinates）依次为 $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$。</p>
-<p>如果我们换一组向量作为基向量呢？比如，我们把向量 $2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 分别作为新的基向量，由此定义了一个 <strong>新坐标系</strong>，在这一 <strong>新坐标系</strong> 下，$2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 的坐标也依次定义为 $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$。但显然，这两个向量在 <strong>原坐标系</strong> 中的坐标为 $\begin{bmatrix} 2 \\ 1 \end{bmatrix}$ 和 $\begin{bmatrix} -1 \\ 1 \end{bmatrix}$。</p>
+<h3 id="基变换"><a href="#基变换" class="headerlink" title="基变换"></a>基变换</h3><p>当我们采用 ${\pmb i}$ 和 ${\pmb j}$ 作为基向量，意味着在对应的 <strong>坐标系</strong>（Coordinate System）下定义它们的 <strong>坐标</strong>（Coordinates）依次为 $\begin{bmatrix} 1 \\\\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\\\ 1 \end{bmatrix}$。</p>
+<p>如果我们换一组向量作为基向量呢？比如，我们把向量 $2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 分别作为新的基向量，由此定义了一个 <strong>新坐标系</strong>，在这一 <strong>新坐标系</strong> 下，$2{\pmb i}+{\pmb j}$ 和 $-{\pmb i}+{\pmb j}$ 的坐标也依次定义为 $\begin{bmatrix} 1 \\\\ 0 \end{bmatrix}$ 和 $\begin{bmatrix} 0 \\\\ 1 \end{bmatrix}$。但显然，这两个向量在 <strong>原坐标系</strong> 中的坐标为 $\begin{bmatrix} 2 \\\\ 1 \end{bmatrix}$ 和 $\begin{bmatrix} -1 \\\\ 1 \end{bmatrix}$。</p>
 <p>不同的基向量意味着不同的坐标系，不同的坐标系下，我们描述同一个 <strong>向量</strong>（Vector）所采用的 <strong>坐标</strong>（Coordinates）是不同的。事实上，空间本身并没有内蕴的（Intrinsic）坐标系，并不存在绝对的基向量选择；一开始的 ${\pmb i}$ 和 ${\pmb j}$ 其实也是任意选取的。</p>
-<p>如何在不同坐标系下进行变换（Translate）？例如，在新坐标系下的坐标 $\begin{bmatrix} x \\ y \end{bmatrix}$ 对应的向量，在原坐标系下的坐标是多少？</p>
+<p>如何在不同坐标系下进行变换（Translate）？例如，在新坐标系下的坐标 $\begin{bmatrix} x \\\\ y \end{bmatrix}$ 对应的向量，在原坐标系下的坐标是多少？</p>
 <script type="math/tex; mode=display">
-\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} 2 \\ 1 \end{bmatrix} + y \begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 2x-y \\ x+y \end{bmatrix}</script><p>矩阵 $\begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}$ 是用 <strong>原坐标系的基向量</strong> 下的坐标来描述 <strong>新坐标系的基向量</strong>，却可以用来将 <strong>新坐标系下的坐标</strong> 转换为 <strong>原坐标系下的坐标</strong>。类似地，逆矩阵的定义和作用完全相反。</p>
+\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} 2 \\ 1 \end{bmatrix} + y \begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 2x-y \\ x+y \end{bmatrix}</script><p>矩阵 $\begin{bmatrix} 2 &amp; -1 \\\\ 1 &amp; 1 \end{bmatrix}$ 是用 <strong>原坐标系的基向量</strong> 下的坐标来描述 <strong>新坐标系的基向量</strong>，却可以用来将 <strong>新坐标系下的坐标</strong> 转换为 <strong>原坐标系下的坐标</strong>。类似地，逆矩阵的定义和作用完全相反。</p>
 <h3 id="基变换与线性变换"><a href="#基变换与线性变换" class="headerlink" title="基变换与线性变换"></a>基变换与线性变换</h3><p>此时，再回头看矩阵所代表的线性变换，之前的描述是 <strong>矩阵的各列依次代表变换后的各基向量</strong>。但更为精确的描述可以是，<strong>矩阵的各列依次代表变换后的各基向量的坐标</strong>。</p>
 <ul>
 <li>区分线性变换和基变换<ul>
@@ -390,13 +390,13 @@
 </ul>
 </li>
 </ul>
-<p>如果在 <strong>原坐标系</strong> 下发生了线性变换 $\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}$，那么这个变换在 <strong>新坐标系</strong> 下该如何描述？<br>首先，对于 <strong>新坐标系</strong> 下的任意向量 ${\pmb v}$，先“翻译”到 <strong>原坐标系</strong>，即</p>
+<p>如果在 <strong>原坐标系</strong> 下发生了线性变换 $\begin{bmatrix} 0 &amp; -1 \\\\ 1 &amp; 0 \end{bmatrix}$，那么这个变换在 <strong>新坐标系</strong> 下该如何描述？<br>首先，对于 <strong>新坐标系</strong> 下的任意向量 ${\pmb v}$，先“翻译”到 <strong>原坐标系</strong>，即</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>然后，经过 <strong>原坐标系</strong> 下发生的线性变换，即</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>最后，将结果“翻译”回 <strong>新坐标系</strong>，即</p>
 <script type="math/tex; mode=display">
-\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>所以，<strong>新坐标系</strong> 下描述该线性变换的矩阵就是 $\begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix} \begin{bmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{bmatrix}$。</p>
+\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix} {\pmb v}</script><p>所以，<strong>新坐标系</strong> 下描述该线性变换的矩阵就是 $\begin{bmatrix} 2 &amp; -1 \\\\ 1 &amp; 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 &amp; -1 \\\\ 1 &amp; 0 \end{bmatrix} \begin{bmatrix} 2 &amp; -1 \\\\ 1 &amp; 1 \end{bmatrix}$。</p>
 <p>在看到类似 ${\pmb A}^{-1} {\pmb M} {\pmb A}$ 的矩阵结构时，通常中间的矩阵 ${\pmb M}$ 代表一种变换，而两侧的矩阵 ${\pmb A}$ 代表一种转移作用。其结果是，变换仍然是 ${\pmb M}$ 所代表的变换，只是切换了一种视角来看待这种变换。</p>
 <h3 id="特征向量与特征值"><a href="#特征向量与特征值" class="headerlink" title="特征向量与特征值"></a>特征向量与特征值</h3><p>要理解 <strong>特征向量</strong>（Eigenvectors）和 <strong>特征值</strong>（Eigenvalues），需要建立在理解众多预备知识的基础上，包括线性变换、行列式、线性方程组和基变换。</p>
 <p>在线性变换中，绝大部分向量都偏离了原来的方向，只有少部分向量仍然保留在原来的方向。对这部分向量而言，线性变换的效果相当于缩放（乘以一个标量）。这样的向量被称为 <strong>特征向量</strong>，缩放的比例就是 <strong>特征值</strong>。</p>
@@ -409,7 +409,7 @@
 <script type="math/tex; mode=display">
 \det \left( {\pmb A} - \lambda I \right) = 0</script><p>如果我们采用特征向量作为基向量，会怎么样？这种情况下，线性变换的效果是，每个基向量仍然保留在原来的方向上进行缩放。所以，对应的矩阵就是一个 <strong>对角矩阵</strong>（Diagnal Matrix），其对角元素就是特征值。</p>
 <p>所以，在给定基向量（和对应的坐标系）的情况下，可以先“翻译”到特征向量作为基向量的坐标系中，进行线性变换（此时退化为每个基向量方向上的缩放变换），然后再“翻译”回原坐标系下。</p>
-<p>假设原线性变换的矩阵是 ${\pmb M}$，存在特征向量 ${\pmb v_1}$、${\pmb v_2}$、……、${\pmb v_n}$，作为列向量排成矩阵 ${\pmb V} = \begin{bmatrix} {\pmb v_1} &amp; {\pmb v_2} &amp; \cdots &amp; {\pmb v_n} \end{bmatrix}$；对应特征根  $\lambda_1$、$\lambda_2$、……、$\lambda_n$，排成对角阵 ${\pmb \Lambda} = \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; \lambda_2 &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; \cdots &amp; \lambda_n \end{bmatrix}$。由上一节结论可知，从 特征向量作为基向量的坐标系 中看这个线性变换，对应的矩阵是 ${\pmb V}^{-1} {\pmb M} {\pmb V}$，该矩阵必然等于 ${\pmb \Lambda}$，即</p>
+<p>假设原线性变换的矩阵是 ${\pmb M}$，存在特征向量 ${\pmb v_1}$、${\pmb v_2}$、……、${\pmb v_n}$，作为列向量排成矩阵 ${\pmb V} = \begin{bmatrix} {\pmb v_1} &amp; {\pmb v_2} &amp; \cdots &amp; {\pmb v_n} \end{bmatrix}$；对应特征根  $\lambda_1$、$\lambda_2$、……、$\lambda_n$，排成对角阵 ${\pmb \Lambda} = \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\\\ 0 &amp; \lambda_2 &amp; \cdots &amp; 0 \\\\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\\ 0 &amp; 0 &amp; \cdots &amp; \lambda_n \end{bmatrix}$。由上一节结论可知，从 特征向量作为基向量的坐标系 中看这个线性变换，对应的矩阵是 ${\pmb V}^{-1} {\pmb M} {\pmb V}$，该矩阵必然等于 ${\pmb \Lambda}$，即</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 {\pmb V}^{-1} {\pmb M} {\pmb V} =& {\pmb \Lambda}  \\
@@ -545,7 +545,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -558,7 +558,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -304,14 +304,14 @@
 <h2 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h2><p>Scaled dot-product attention, multi-head attention, self-attention.<br>See <a href="../Attention-in-NLP">Attention in NLP</a>.</p>
 <h2 id="Position-Wise-Fully-Connected-Feed-Forward-Network"><a href="#Position-Wise-Fully-Connected-Feed-Forward-Network" class="headerlink" title="Position-Wise Fully-Connected Feed-Forward Network"></a>Position-Wise Fully-Connected Feed-Forward Network</h2><p>Apply a FC-FFN to each position separately and identically: </p>
 <script type="math/tex; mode=display">
-\mathrm{FFN}(x) = \mathrm{ReLU}\left( x W_1 + b_1 \right) W_2 + b_2</script><p>where $x \in \Bbb{R}^{d<em>{model}}$ is the vector on a certain position, $W_1 \in \Bbb{R}^{d</em>{model} \times d<em>{ff}}$ and $W_2 \in \Bbb{R}^{d</em>{ff} \times d_{model}}$ are trainable parameter matrices. </p>
+\mathrm{FFN}(x) = \mathrm{ReLU}\left( x W_1 + b_1 \right) W_2 + b_2</script><p>where $x \in \Bbb{R}^{d_{model}}$ is the vector on a certain position, $W_1 \in \Bbb{R}^{d_{model} \times d_{ff}}$ and $W_2 \in \Bbb{R}^{d_{ff} \times d_{model}}$ are trainable parameter matrices. </p>
 <h2 id="Embeddings-and-Softmax"><a href="#Embeddings-and-Softmax" class="headerlink" title="Embeddings and Softmax"></a>Embeddings and Softmax</h2><p>Use learned embeddings to convert the source tokens and target tokens to vectors of dimension $d_{model}$.<br>Use learned transformation and softmax function to convert the decoder output to predicted next-token probabilities. </p>
 <h2 id="Positional-Encodings"><a href="#Positional-Encodings" class="headerlink" title="Positional Encodings"></a>Positional Encodings</h2><p>To make use of the order of sequence, add <em>positional encodings</em> to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimensions $d_{model}$ as the embeddings, so that they can be summed. </p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 \mathrm{PE}(pos, 2i) &= \sin \left( \frac{pos}{10000^{2i/d_{model}}} \right) \\
 \mathrm{PE}(pos, 2i+1) &= \cos \left( \frac{pos}{10000^{2i/d_{model}}} \right)
-\end{aligned}</script><p>where $pos$ is the position and $i$ is the dimension. That is, each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$.<br>This positional encoding would allow the model to learn to attend by <em>relative positions</em>, since for any fixed offset $k$, $\mathrm{PE}<em>{pos+k}$ can be represented as a linear function of $\mathrm{PE}</em>{pos}$. </p>
+\end{aligned}</script><p>where $pos$ is the position and $i$ is the dimension. That is, each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$.<br>This positional encoding would allow the model to learn to attend by <em>relative positions</em>, since for any fixed offset $k$, $\mathrm{PE}_{pos+k}$ can be represented as a linear function of $\mathrm{PE}_{pos}$. </p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 \mathrm{PE}(pos+k, 2i) &= \sin \left( \frac{pos+k}{10000^{2i/d_{model}}} \right) \\
@@ -419,7 +419,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -432,7 +432,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

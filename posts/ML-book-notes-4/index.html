@@ -296,7 +296,7 @@
 </ul>
 <h2 id="划分选择"><a href="#划分选择" class="headerlink" title="划分选择"></a>划分选择</h2><h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k$ （$k=1,2,…,\vert y \vert$），则 $D$ 的 <strong>信息熵</strong> 为</p>
 <script type="math/tex; mode=display">
-Ent(D) = -\sum_{k=1}^{\vert y \vert} p_k \log_2 p_k</script><p>假设属性 $a$ 有 $V$ 个可能的取值 ${a^1, a^2,…, a^V}$，则给定属性 $a$ 后的 <strong>条件熵</strong> 为</p>
+Ent(D) = -\sum_{k=1}^{\vert y \vert} p_k \log_2 p_k</script><p>假设属性 $a$ 有 $V$ 个可能的取值 $\{a^1, a^2,…, a^V\}$，则给定属性 $a$ 后的 <strong>条件熵</strong> 为</p>
 <script type="math/tex; mode=display">
 Ent(D \mid a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Ent(D^v)</script><p>则，使用属性 $a$ 对样本集 $D$ 进行划分得到的 <strong>信息增益</strong> 为</p>
 <script type="math/tex; mode=display">
@@ -314,7 +314,7 @@ GiniIndex(D, a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Gini(D^v)
 <li>预剪枝：展开每个结点时，评估泛化性能是否提升；若不提升则停止展开。因此，模型存在欠拟合风险。</li>
 <li>后剪枝：将树完全展开后，依次评估每个结点剪枝后泛化性能是否提升；若提升则进行剪枝。训练时间一般较长。</li>
 </ul>
-<h2 id="连续值处理：二分法"><a href="#连续值处理：二分法" class="headerlink" title="连续值处理：二分法"></a>连续值处理：二分法</h2><p>假设连续属性 $a$ 在数据集 $D$ 上出现的取值从小到大排序为 ${a^1, a^2,…, a^n}$，则存在 $n-1$ 个潜在划分点 $t_i = \frac{a^i+a^{i+1}}{2}, \, 1 \leq i \leq n-1$。<br>此时，可以将 $a$ 作为 $n-1$ 个离散属性 $(a, t_i)$ 考虑并计算信息增益 $Gain(D, a, t_i)$ ，则 $a$ 的信息增益为</p>
+<h2 id="连续值处理：二分法"><a href="#连续值处理：二分法" class="headerlink" title="连续值处理：二分法"></a>连续值处理：二分法</h2><p>假设连续属性 $a$ 在数据集 $D$ 上出现的取值从小到大排序为 $\{a^1, a^2,…, a^n\}$，则存在 $n-1$ 个潜在划分点 $t_i = \frac{a^i+a^{i+1}}{2}, \, 1 \leq i \leq n-1$。<br>此时，可以将 $a$ 作为 $n-1$ 个离散属性 $(a, t_i)$ 考虑并计算信息增益 $Gain(D, a, t_i)$ ，则 $a$ 的信息增益为</p>
 <script type="math/tex; mode=display">
 Gain(D,a) = \max_{t_i} Gain(D, a, t_i)</script><p>即选出信息增益最大的那个划分点。</p>
 <h2 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h2><h3 id="如何选择最优属性？"><a href="#如何选择最优属性？" class="headerlink" title="如何选择最优属性？"></a>如何选择最优属性？</h3><p>假设在当前结点中样本 $x$ 的权重为 $w_x$。令 $\tilde{D}$ 代表 $D$ 中属性 $a$ 没有缺失的样本，则</p>
@@ -431,7 +431,7 @@ c_2 =& \frac{1}{\vert R_2(a, t) \vert} \cdot \sum_{x_i \in R_2(a, t)} y_i
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -444,7 +444,7 @@ c_2 =& \frac{1}{\vert R_2(a, t) \vert} \cdot \sum_{x_i \in R_2(a, t)} y_i
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

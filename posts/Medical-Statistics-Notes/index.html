@@ -365,7 +365,7 @@ S_{\bar{X}} = \frac{S}{\sqrt{n}}</script><p>中心极限定理：</p>
 <script type="math/tex; mode=display">
 \sigma_p = \sqrt{\frac{\pi (1 - \pi)}{n}}</script><p>在实际中，由于总体率 $\pi$ 常常是未知的，用样本率 $p$ 来估计，因此样本率 $p$ 标准误的估计值为</p>
 <script type="math/tex; mode=display">
-S_p = \sqrt{\frac{p (1 - p)}{n}}</script><h3 id="5-2-总体均值的估计"><a href="#5-2-总体均值的估计" class="headerlink" title="5.2 总体均值的估计"></a>5.2 总体均值的估计</h3><h4 id="t-分布"><a href="#t-分布" class="headerlink" title="t 分布"></a>t 分布</h4><p>标准正态分布 $N(0, 1)$ 也被称为 z 分布，对样本均值 $\bar{X}$ 进行 z 变换得到 $\frac{\bar{X} - \mu}{\sigma<em>{\bar{X}}}$，服从 z 分布。但是，实际中 $\sigma</em>{\bar{X}}$ 常常未知，用 $S<em>{\bar{X}}$ 代替，得到的 $\frac{\bar{X} - \mu}{S</em>{\bar{X}}}$ 服从 t 分布。</p>
+S_p = \sqrt{\frac{p (1 - p)}{n}}</script><h3 id="5-2-总体均值的估计"><a href="#5-2-总体均值的估计" class="headerlink" title="5.2 总体均值的估计"></a>5.2 总体均值的估计</h3><h4 id="t-分布"><a href="#t-分布" class="headerlink" title="t 分布"></a>t 分布</h4><p>标准正态分布 $N(0, 1)$ 也被称为 z 分布，对样本均值 $\bar{X}$ 进行 z 变换得到 $\frac{\bar{X} - \mu}{\sigma_{\bar{X}}}$，服从 z 分布。但是，实际中 $\sigma_{\bar{X}}$ 常常未知，用 $S_{\bar{X}}$ 代替，得到的 $\frac{\bar{X} - \mu}{S_{\bar{X}}}$ 服从 t 分布。</p>
 <h4 id="点估计和区间估计"><a href="#点估计和区间估计" class="headerlink" title="点估计和区间估计"></a>点估计和区间估计</h4><h4 id="两总体均数之差的区间估计"><a href="#两总体均数之差的区间估计" class="headerlink" title="两总体均数之差的区间估计"></a>两总体均数之差的区间估计</h4><h3 id="5-3-总体率的估计"><a href="#5-3-总体率的估计" class="headerlink" title="5.3 总体率的估计"></a>5.3 总体率的估计</h3><h4 id="点估计和区间估计-1"><a href="#点估计和区间估计-1" class="headerlink" title="点估计和区间估计"></a>点估计和区间估计</h4><p>区间估计</p>
 <ul>
 <li>查表法：二项分布的计算结果。</li>
@@ -761,8 +761,8 @@ E[a_{ij}] = \left( \sum_l a_{il} \right) \cdot \frac{\sum_k a_{kj}}{\sum_{k, l} 
 <li>多个差值绝对值相等，取平均秩次</li>
 </ul>
 </li>
-<li>求秩和：分别求出正负秩次之和，将其绝对值记作 $T<em>+$ 和 $T</em>-$</li>
-<li>计算统计量 T，有 $T = \min(T<em>+, T</em>-)$；有效的秩次数记作 $n$</li>
+<li>求秩和：分别求出正负秩次之和，将其绝对值记作 $T_+$ 和 $T_-$</li>
+<li>计算统计量 T，有 $T = \min(T_+, T_-)$；有效的秩次数记作 $n$</li>
 <li>计算 p 值，做出推断<ul>
 <li>若 $5 &lt; n \leq 50$，查表</li>
 <li>若 $n &gt; 50$，正态近似法<script type="math/tex; mode=display">
@@ -942,7 +942,7 @@ OR_i = \exp(\beta_i)</script><p>所以，$\beta_i$ 代表 $x_i$ 增加一个单�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -955,7 +955,7 @@ OR_i = \exp(\beta_i)</script><p>所以，$\beta_i$ 代表 $x_i$ 增加一个单�
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

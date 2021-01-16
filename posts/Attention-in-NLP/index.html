@@ -288,7 +288,7 @@
       
         <p>This blog briefly reviews the attention mechanisms in NLP.<br><a id="more"></a></p>
 <h2 id="The-Encoder-Decoder-Framework"><a href="#The-Encoder-Decoder-Framework" class="headerlink" title="The Encoder-Decoder Framework"></a>The Encoder-Decoder Framework</h2><p><img src="/images/Encoder-Decoder.jpg" alt="Encoder-Decoder Framework"></p>
-<p>In the Encoder-Decoder framework, an encoder reads the source sentence, a sequence of vectors $x=\left( x<em>1, \cdots, x</em>{T_x} \right)$, into a fixed-length <em>context vector</em> $c$. </p>
+<p>In the Encoder-Decoder framework, an encoder reads the source sentence, a sequence of vectors $x=\left( x_1, \cdots, x_{T_x} \right)$, into a fixed-length <em>context vector</em> $c$. </p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 \bar{h}_s &= f \left( x_s, \bar{h}_{s-1} \right) \\
@@ -298,7 +298,7 @@ c &= q \left( \bar{h}_1, \cdots, \bar{h}_{T_x} \right)
 \begin{aligned}
 f &= \mathrm{LSTM} \\ 
 q \left( \bar{h}_1, \cdots, \bar{h}_{T_x} \right) &= \bar{h}_{T_x}
-\end{aligned}</script><p>The decoder is often trained to predict the next word $y<em>t$ given the context vector $c$ and all the previous predicted words $\left{ y_1, \cdots, y</em>{t-1} \right}$. In other words, the decoder defines a probability over the translation $y=\left( y<em>1, \cdots, y</em>{T_y} \right)$ by decomposing the joint probability into the ordered conditional probabilities. </p>
+\end{aligned}</script><p>The decoder is often trained to predict the next word $y_t$ given the context vector $c$ and all the previous predicted words $\left\{ y_1, \cdots, y_{t-1} \right\}$. In other words, the decoder defines a probability over the translation $y=\left( y_1, \cdots, y_{T_y} \right)$ by decomposing the joint probability into the ordered conditional probabilities. </p>
 <script type="math/tex; mode=display">
 p(y) = \prod_{t=1}^{T_y} p\left( y_t | y_1, \cdots, y_{t-1}, c \right)</script><p>With an RNN, each conditional probability is modeled as</p>
 <script type="math/tex; mode=display">
@@ -308,13 +308,13 @@ p\left( y_t | y_1, \cdots, y_{t-1}, c \right) = g\left( y_{t-1}, h_t, c \right)<
 <script type="math/tex; mode=display">
 p\left( y_t | y_1, \cdots, y_{t-1}, x \right) = g\left( y_{t-1}, h_t, c_t \right)</script><p>where $h_t$ is the decoder’s hidden state at time $t$, computed by</p>
 <script type="math/tex; mode=display">
-h_t = f\left( h_{t-1}, y_{t-1}, c_t \right)</script><p>Note that here the probability is conditioned on a <em>distinct context vector</em> $c<em>t$ for each target word $y_t$.<br>The context vector $c_t$ depends on a sequence of <em>annotations</em> $\left( \bar{h}_1, \cdots, \bar{h}</em>{T_x} \right)$ to which the encoder maps the source sentence. Each annotation $\bar{h}_s$ contains information about the whole source sequence with a strong focus on the parts surrounding the $s$-th word. For example, the annotations can be hidden states from a <em>bidirectional RNN</em>.<br>The context vector $c_t$ is computed as a weighted sum of these annotations: </p>
+h_t = f\left( h_{t-1}, y_{t-1}, c_t \right)</script><p>Note that here the probability is conditioned on a <em>distinct context vector</em> $c_t$ for each target word $y_t$.<br>The context vector $c_t$ depends on a sequence of <em>annotations</em> $\left( \bar{h}_1, \cdots, \bar{h}_{T_x} \right)$ to which the encoder maps the source sentence. Each annotation $\bar{h}_s$ contains information about the whole source sequence with a strong focus on the parts surrounding the $s$-th word. For example, the annotations can be hidden states from a <em>bidirectional RNN</em>.<br>The context vector $c_t$ is computed as a weighted sum of these annotations: </p>
 <script type="math/tex; mode=display">
 c_t = \sum_{s=1}^{T_x} \alpha_{st} \bar{h}_s</script><p>The weight $\alpha_{st}$ of each annotation $\bar{h}_s$ is computed by:</p>
 <script type="math/tex; mode=display">
 \alpha_{st} = \frac{\exp(e_{st})}{\sum_{s'=1}^{T_x} \exp(e_{s't})}</script><p>where</p>
 <script type="math/tex; mode=display">
-e_{st} = \mathrm{score} \left( \bar{h}_s, h_{t-1} \right)</script><p>is an <em>alignment model</em> which scores how well the source words around position $s$ and the target word at position $t$ match. The score is based on the decoder’s hidden state $h<em>{t-1}$ and the encoder’s annotation $\bar{h}_s$.<br>The probability $\alpha</em>{st}$, or its associated <em>energy</em> $e<em>{st}$, reflects the importance of the annotation $\bar{h}_s$ with respect to the previous hidden state $h</em>{t-1}$ in deciding the next state $h_t$ and generating $y_t$. Intuitively, this implements an <em>attention mechanism</em> in the decoder.<br>The implement of the alignment model is</p>
+e_{st} = \mathrm{score} \left( \bar{h}_s, h_{t-1} \right)</script><p>is an <em>alignment model</em> which scores how well the source words around position $s$ and the target word at position $t$ match. The score is based on the decoder’s hidden state $h_{t-1}$ and the encoder’s annotation $\bar{h}_s$.<br>The probability $\alpha_{st}$, or its associated <em>energy</em> $e_{st}$, reflects the importance of the annotation $\bar{h}_s$ with respect to the previous hidden state $h_{t-1}$ in deciding the next state $h_t$ and generating $y_t$. Intuitively, this implements an <em>attention mechanism</em> in the decoder.<br>The implement of the alignment model is</p>
 <script type="math/tex; mode=display">
 \mathrm{score} \left( \bar{h}_s, h_{t-1} \right) = v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_{t-1} \right] \right)</script><p>where $W_a$ and $v_a$ are trainable weights. </p>
 <h2 id="Global-and-Local-Attetions"><a href="#Global-and-Local-Attetions" class="headerlink" title="Global and Local Attetions"></a>Global and Local Attetions</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Luong, M.T., Pham, H. and Manning, C.D., 2015. Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025.</span><br></pre></td></tr></table></figure>
@@ -347,7 +347,7 @@ a_{st} = \mathrm{align} \left( \bar{h}_s, h_t \right) \cdot \exp \left( -\frac{(
 \mathrm{score} \left( \bar{h}_s, h_t \right) = \mathrm{cosine} \left( \bar{h}_s, h_t \right)</script><h2 id="An-Survey-on-Attention-in-NLP"><a href="#An-Survey-on-Attention-in-NLP" class="headerlink" title="An Survey on Attention in NLP"></a>An Survey on Attention in NLP</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hu, D. 2019. An introductory survey on attention mechanisms in NLP problems. In Proceedings of SAI Intelligent Systems Conference (pp. 432-448). Springer, Cham.</span><br></pre></td></tr></table></figure>
 <p>An alternative of alignment function based on MLP: </p>
 <script type="math/tex; mode=display">
-\mathrm{score} \left( \bar{h}_s, h_t \right) = \sigma \left( v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_t \right] + b_{a1} \right) + b_{a2} \right)</script><h3 id="Memory-Based-Attention"><a href="#Memory-Based-Attention" class="headerlink" title="Memory-Based Attention"></a>Memory-Based Attention</h3><h4 id="What-are-Qurey-and-Key-Value-Pairs"><a href="#What-are-Qurey-and-Key-Value-Pairs" class="headerlink" title="What are Qurey and Key-Value Pairs?"></a>What are Qurey and Key-Value Pairs?</h4><p>Given a list of key-value vector pairs $\left{ \left( k_i, v_i \right) \right}$ stored in <em>memory</em> and a query vector $q$, the attention computation follows three steps:</p>
+\mathrm{score} \left( \bar{h}_s, h_t \right) = \sigma \left( v_a^\top \tanh \left( W_a \left[ \bar{h}_s; h_t \right] + b_{a1} \right) + b_{a2} \right)</script><h3 id="Memory-Based-Attention"><a href="#Memory-Based-Attention" class="headerlink" title="Memory-Based Attention"></a>Memory-Based Attention</h3><h4 id="What-are-Qurey-and-Key-Value-Pairs"><a href="#What-are-Qurey-and-Key-Value-Pairs" class="headerlink" title="What are Qurey and Key-Value Pairs?"></a>What are Qurey and Key-Value Pairs?</h4><p>Given a list of key-value vector pairs $\left\{ \left( k_i, v_i \right) \right\}$ stored in <em>memory</em> and a query vector $q$, the attention computation follows three steps:</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 e_i &= \mathrm{score} (q, k_i), &\text{Address Memory} \\
@@ -367,7 +367,7 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
 </ul>
 <p>And the full <em>attentioned values</em> (context vectors) are computed by:</p>
 <script type="math/tex; mode=display">
-\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left( \frac{QK^\top}{\sqrt{d_k}} \right) V</script><h3 id="Multi-Head-Attention"><a href="#Multi-Head-Attention" class="headerlink" title="Multi-Head Attention"></a>Multi-Head Attention</h3><p>In the single-head scenario, the attention function is performed with $d<em>{model}$-dimensional queries, keys and values. (e.g., the queries, keys and values are all $d</em>{model}$-dimensional embeddings).<br>In the multi-head scenario:</p>
+\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left( \frac{QK^\top}{\sqrt{d_k}} \right) V</script><h3 id="Multi-Head-Attention"><a href="#Multi-Head-Attention" class="headerlink" title="Multi-Head Attention"></a>Multi-Head Attention</h3><p>In the single-head scenario, the attention function is performed with $d_{model}$-dimensional queries, keys and values. (e.g., the queries, keys and values are all $d_{model}$-dimensional embeddings).<br>In the multi-head scenario:</p>
 <ul>
 <li>Project the $d_{model}$-dimensional queries, keys and values to $d_k$, $d_k$ and $d_v$ dimensions, for $h$ times, resulting in $h$ versions of projected queries, keys and values. </li>
 <li>For each version, perform attention function on the projected queries, keys and values, yielding $h$ versions of $d_v$-dimensional attentioned values. </li>
@@ -378,7 +378,7 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
 \begin{aligned}
 \mathrm{MultiHead}(Q, K, V) &= \mathrm{Concat}(head_1, \dots, head_h) W^O \\
 \text{where } head_i &= \mathrm{Attention} \left( Q W_i^Q, K W_i^K, V W_i^V \right)
-\end{aligned}</script><p>where $W<em>i^Q \in \Bbb{R}^{d</em>{model} \times d<em>k}$, $W_i^K \in \Bbb{R}^{d</em>{model} \times d<em>k}$, $W_i^V \in \Bbb{R}^{d</em>{model} \times d<em>v}$ and $W^O \in \Bbb{R}^{hd_v \times d</em>{model}}$ are trainable parameter matrices. </p>
+\end{aligned}</script><p>where $W_i^Q \in \Bbb{R}^{d_{model} \times d_k}$, $W_i^K \in \Bbb{R}^{d_{model} \times d_k}$, $W_i^V \in \Bbb{R}^{d_{model} \times d_v}$ and $W^O \in \Bbb{R}^{hd_v \times d_{model}}$ are trainable parameter matrices. </p>
 <p>Multi-head attention allows the model to jointly attend to information from different <em>representation subspaces</em> at different positions. While with a single attention head, averaging inhibits this.</p>
 <h3 id="Application-of-Attention-in-Transformer"><a href="#Application-of-Attention-in-Transformer" class="headerlink" title="Application of Attention in Transformer"></a>Application of Attention in Transformer</h3><p>The Transformer uses multi-head attention in three different ways:</p>
 <ul>
@@ -542,7 +542,7 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -555,7 +555,7 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
