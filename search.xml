@@ -167,6 +167,51 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
       </tags>
   </entry>
   <entry>
+    <title>Attention is All You Need</title>
+    <url>/posts/Attention-is-All-You-Need/</url>
+    <content><![CDATA[<p>Notes on Attention is All You Need, i.e., the Transformer.<br><a id="more"></a></p>
+<h2 id="Encoder-Decoder-Stacks"><a href="#Encoder-Decoder-Stacks" class="headerlink" title="Encoder-Decoder Stacks"></a>Encoder-Decoder Stacks</h2><p><img src="/images/Transformer.jpg" alt="The Transformer"></p>
+<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>A stack of $N=6$ identical layers; each layer has two sub-layers:</p>
+<ul>
+<li>A multi-head self-attention layer</li>
+<li>A simple, position-wise fully-connected feed-forward network (FC-FFN)</li>
+</ul>
+<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>A stack of $N=6$ identical layers; each layer has three sub-layers:</p>
+<ul>
+<li>A multi-head self-attention layer<ul>
+<li>Mask out subsequent positions</li>
+</ul>
+</li>
+<li>A multi-head encoder-decoder attention layer</li>
+<li>A simple, position-wise fully connected feed-forward network (FC-FFN)</li>
+</ul>
+<h3 id="Residual-Connection-and-Layer-Norm"><a href="#Residual-Connection-and-Layer-Norm" class="headerlink" title="Residual Connection and Layer Norm"></a>Residual Connection and Layer Norm</h3><p>Empoly a <em>residual connection</em> around each of the sub-layers, followed by <em>layer normalization</em>. That is, the final output of each sub-layer is $\mathrm{LayerNorm} (x + \mathrm{SubLayer}(x))$, where $\mathrm{SubLayer}(x)$ is the output of a multi-head or FC-FFN layer. </p>
+<h2 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h2><p>Scaled dot-product attention, multi-head attention, self-attention.<br>See <a href="../Attention-in-NLP">Attention in NLP</a>.</p>
+<h2 id="Position-Wise-Fully-Connected-Feed-Forward-Network"><a href="#Position-Wise-Fully-Connected-Feed-Forward-Network" class="headerlink" title="Position-Wise Fully-Connected Feed-Forward Network"></a>Position-Wise Fully-Connected Feed-Forward Network</h2><p>Apply a FC-FFN to each position separately and identically: </p>
+<script type="math/tex; mode=display">
+\mathrm{FFN}(x) = \mathrm{ReLU}\left( x W_1 + b_1 \right) W_2 + b_2</script><p>where $x \in \Bbb{R}^{d_{model}}$ is the vector on a certain position, $W_1 \in \Bbb{R}^{d_{model} \times d_{ff}}$ and $W_2 \in \Bbb{R}^{d_{ff} \times d_{model}}$ are trainable parameter matrices. </p>
+<h2 id="Embeddings-and-Softmax"><a href="#Embeddings-and-Softmax" class="headerlink" title="Embeddings and Softmax"></a>Embeddings and Softmax</h2><p>Use learned embeddings to convert the source tokens and target tokens to vectors of dimension $d_{model}$.<br>Use learned transformation and softmax function to convert the decoder output to predicted next-token probabilities. </p>
+<h2 id="Positional-Encodings"><a href="#Positional-Encodings" class="headerlink" title="Positional Encodings"></a>Positional Encodings</h2><p>To make use of the order of sequence, add <em>positional encodings</em> to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimensions $d_{model}$ as the embeddings, so that they can be summed. </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathrm{PE}(pos, 2i) &= \sin \left( \frac{pos}{10000^{2i/d_{model}}} \right) \\
+\mathrm{PE}(pos, 2i+1) &= \cos \left( \frac{pos}{10000^{2i/d_{model}}} \right)
+\end{aligned}</script><p>where $pos$ is the position and $i$ is the dimension. That is, each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$.<br>This positional encoding would allow the model to learn to attend by <em>relative positions</em>, since for any fixed offset $k$, $\mathrm{PE}_{pos+k}$ can be represented as a linear function of $\mathrm{PE}_{pos}$. </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathrm{PE}(pos+k, 2i) &= \sin \left( \frac{pos+k}{10000^{2i/d_{model}}} \right) \\
+&= \sin \left( \frac{pos}{10000^{2i/d_{model}}} \right) \cos \left( \frac{k}{10000^{2i/d_{model}}} \right) + \cos \left( \frac{pos}{10000^{2i/d_{model}}} \right) \sin \left( \frac{k}{10000^{2i/d_{model}}} \right) \\
+&= \mathrm{PE}(pos, 2i) \cos \left( \frac{k}{10000^{2i/d_{model}}} \right) + \mathrm{PE}(pos, 2i+1) \sin \left( \frac{k}{10000^{2i/d_{model}}} \right)
+\end{aligned}</script>]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《线性代数的本质》笔记</title>
     <url>/posts/Essence-of-Linear-Algebra-notes/</url>
     <content><![CDATA[<p>3Blue1Brown 视频《线性代数的本质》（<a href="https://www.bilibili.com/video/av6731067" target="_blank" rel="noopener">bilibili</a>, <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" rel="noopener">YouTube</a>）的笔记。用于构建线性代数的几何直觉。</p>
@@ -336,84 +381,6 @@ c &= \sum_i \alpha_i v_i, &\text{Read Contents}
       </tags>
   </entry>
   <entry>
-    <title>西瓜书笔记：模型评估与选择（第 2 章）</title>
-    <url>/posts/ML-book-notes-2/</url>
-    <content><![CDATA[<p>过拟合，经验误差，评估方法，性能度量等。<br><a id="more"></a></p>
-<h2 id="经验误差与过拟合"><a href="#经验误差与过拟合" class="headerlink" title="经验误差与过拟合"></a>经验误差与过拟合</h2><ul>
-<li>经验误差</li>
-<li>过拟合</li>
-</ul>
-<h2 id="评估方法"><a href="#评估方法" class="headerlink" title="评估方法"></a>评估方法</h2><ul>
-<li>留出法</li>
-<li>Cross-Validation</li>
-<li>自助法（Bootstrapping）：平均 36.8% 的样本在采样集外，可用于包外估计（Out-of-Bag Estimate）。</li>
-</ul>
-<h2 id="性能度量"><a href="#性能度量" class="headerlink" title="性能度量"></a>性能度量</h2><ul>
-<li>回归任务：Mean Square Error</li>
-<li>分类任务：Accuracy</li>
-</ul>
-<h3 id="Precision-和-Recall"><a href="#Precision-和-Recall" class="headerlink" title="Precision 和 Recall"></a>Precision 和 Recall</h3><p>Precision 和 Recall 的定义</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-Precision =& \frac {N_{TruePos}} {N_{PredPos}} = \frac {N_{TruePos}} {N_{TruePos} + N_{FalsePos}} \\
-Recall =& \frac {N_{TruePos}} {N_{OriPos}} = \frac {N_{TruePos}} {N_{TruePos} + N_{FalseNeg}}
-\end{aligned}</script><p>F1-score 是 Precision 和 Recall 的调和平均数</p>
-<script type="math/tex; mode=display">
-F1 = \left( \frac {P^{-1} + R^{-1}} {2} \right)^{-1} = \frac {2}{1/P + 1/R}</script><h4 id="P-R-曲线"><a href="#P-R-曲线" class="headerlink" title="P-R 曲线"></a>P-R 曲线</h4><ul>
-<li>当判别为正例的标准最严格（仅有极少数最明显的被判别为正例），此时 $Recall \to 0$，$Precision \to 1$。</li>
-<li>当判别为正例的标准最宽松（所有样本均判别为正例），此时 $Recall \to 1$，$Precision \to N_{OriPos} / N$。<br><em>Precision 应该不会趋近于 0 吧？</em></li>
-</ul>
-<p><img src="/images/ML-book/2.3.png" alt="图2.3 P-R 曲线与平衡点示意图"></p>
-<h3 id="ROC-和-AUC"><a href="#ROC-和-AUC" class="headerlink" title="ROC 和 AUC"></a>ROC 和 AUC</h3><h4 id="ROC-曲线"><a href="#ROC-曲线" class="headerlink" title="ROC 曲线"></a>ROC 曲线</h4><p>ROC 全称受试者工作特征（Receiver Operating Characteristics），该曲线横轴为假正例率（False Positive Rate, FPR），纵轴为真正例率（True Positive Rate,TPR），定义为</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-{\it FPR} =& \frac {N_{FalsePos}} {N_{OriNeg}} \\
-{\it TPR} =& \frac {N_{TruePos}} {N_{OriPos}} = Recall
-\end{aligned}</script><ul>
-<li>当判别为正例的标准最严格（仅有极少数最明显的被判别为正例），此时 ${\it TPR} \to 0$，${\it FPR} \to 0$。</li>
-<li>当判别为正例的标准最宽松（所有样本均判别为正例），此时 ${\it TPR} \to 1$，${\it FPR} \to 1$。</li>
-</ul>
-<p><img src="/images/ML-book/2.4.png" alt="图2.4 ROC 曲线与 AUC 示意图"></p>
-<ul>
-<li>AUC （Area under ROC Curve）就是 ROC 曲线下的面积，可以作为模型性能指标。</li>
-<li>K-S 指标：${\it KS} = \max {\it TPR} - {\it FPR}$</li>
-</ul>
-<p>在风险管理中，假正例的成本远高于假反例，因此需要更关注提高 Precision （或者说降低 FPR），而 Recall （或者 TPR）的权重更小。</p>
-<h2 id="方差与偏差"><a href="#方差与偏差" class="headerlink" title="方差与偏差"></a>方差与偏差</h2><p>模型的 <strong>泛化误差</strong> 可以分解为 <strong>偏差</strong>、<strong>方差</strong>、<strong>噪声</strong> 之和。<br>以回归任务为例，对测试样本 ${\pmb x}$，令 $y_D$ 为 ${\pmb x}$ 在整个数据集中的标记，$y$ 为 ${\pmb x}$ 的真实标记，则 <strong>噪声</strong> 为</p>
-<script type="math/tex; mode=display">
-\varepsilon^2 = \mathbb{E}_D [(y_D-y)^2]</script><p>$f({\pmb x}; D)$ 为训练集 $D$ 上学得的模型 $f$ 在 ${\pmb x}$ 上的预测输出。在潜在的不同训练集 $D$ 上训练得到的学习算法的 <strong>期望预测</strong> 为</p>
-<script type="math/tex; mode=display">
-\bar{f}({\pmb x}) = \mathbb{E}_D [f({\pmb x}; D)]</script><p>因此，使用不同训练集产生的 <strong>方差</strong> 为</p>
-<script type="math/tex; mode=display">
-var({\pmb x}) = \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}))^2]</script><p><strong>期望预测</strong> 与真实标记的差别 <strong>偏差</strong> 为</p>
-<script type="math/tex; mode=display">
-bias^2({\pmb x}) = (\bar{f}({\pmb x}) - y)^2</script><p>对算法的 <strong>期望泛化误差</strong> 进行分解</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\mathbb{E}_D [(f({\pmb x}; D) - y_D)^2] =& \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}) + \bar{f}({\pmb x}) - y_D)^2] \\
-=& \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}))^2] + \mathbb{E}_D [(\bar{f}({\pmb x}) - y_D)^2] + \underbrace{ \mathbb{E}_D [ 2 (f({\pmb x}; D) - \bar{f}({\pmb x}))(\bar{f}({\pmb x}) - y_D) ]}_{=0, \, \text{because of independence}} \\
-=& var({\pmb x}) + \mathbb{E}_D [(\bar{f}({\pmb x}) - y + y - y_D)^2] \\
-=& var({\pmb x}) + (\bar{f}({\pmb x}) - y)^2 + \mathbb{E}_D [(y - y_D)^2] + \underbrace{ \mathbb{E}_D [ 2 (\bar{f}({\pmb x}) - y)(y - y_D) ]}_{=0, \, \text{because of independence}} \\
-=& var({\pmb x}) + bias^2({\pmb x}) + \varepsilon^2
-\end{aligned}</script><p>对方差与偏差的理解：</p>
-<ul>
-<li>过拟合：不同训练集 $D$ 产生的预测 $f({\pmb x}; D)$ 之间差异大，也就是 <strong>方差大</strong>。</li>
-<li>欠拟合：训练集未能使得模型 $f({\pmb x}; D)$ 显著变化，也就是 <strong>偏差大</strong>。</li>
-</ul>
-<h2 id="相关概念：第一类错误和第二类错误"><a href="#相关概念：第一类错误和第二类错误" class="headerlink" title="相关概念：第一类错误和第二类错误"></a>相关概念：第一类错误和第二类错误</h2><ul>
-<li>第一类错误是 <strong>拒真</strong> 错误，显著性 $\alpha$ 就是 <strong>拒真</strong> 的概率。</li>
-<li>第二类错误时 <strong>纳伪</strong> 错误。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>模型评估</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>《失落的学艺》笔记</title>
     <url>/posts/Lost-Tools-of-Learning-notes/</url>
     <content><![CDATA[<p>2020年初寒假，《失落的学艺》笔记<br><a id="more"></a></p>
@@ -543,42 +510,259 @@ bias^2({\pmb x}) = (\bar{f}({\pmb x}) - y)^2</script><p>对算法的 <strong>期
       </tags>
   </entry>
   <entry>
-    <title>Attention is All You Need</title>
-    <url>/posts/Attention-is-All-You-Need/</url>
-    <content><![CDATA[<p>Notes on Attention is All You Need, i.e., the Transformer.<br><a id="more"></a></p>
-<h2 id="Encoder-Decoder-Stacks"><a href="#Encoder-Decoder-Stacks" class="headerlink" title="Encoder-Decoder Stacks"></a>Encoder-Decoder Stacks</h2><p><img src="/images/Transformer.jpg" alt="The Transformer"></p>
-<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>A stack of $N=6$ identical layers; each layer has two sub-layers:</p>
-<ul>
-<li>A multi-head self-attention layer</li>
-<li>A simple, position-wise fully-connected feed-forward network (FC-FFN)</li>
+    <title>西瓜书笔记：模型评估与选择（第 2 章）</title>
+    <url>/posts/ML-book-notes-2/</url>
+    <content><![CDATA[<p>过拟合，经验误差，评估方法，性能度量等。<br><a id="more"></a></p>
+<h2 id="经验误差与过拟合"><a href="#经验误差与过拟合" class="headerlink" title="经验误差与过拟合"></a>经验误差与过拟合</h2><ul>
+<li>经验误差</li>
+<li>过拟合</li>
 </ul>
-<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>A stack of $N=6$ identical layers; each layer has three sub-layers:</p>
+<h2 id="评估方法"><a href="#评估方法" class="headerlink" title="评估方法"></a>评估方法</h2><ul>
+<li>留出法</li>
+<li>Cross-Validation</li>
+<li>自助法（Bootstrapping）：平均 36.8% 的样本在采样集外，可用于包外估计（Out-of-Bag Estimate）。</li>
+</ul>
+<h2 id="性能度量"><a href="#性能度量" class="headerlink" title="性能度量"></a>性能度量</h2><ul>
+<li>回归任务：Mean Square Error</li>
+<li>分类任务：Accuracy</li>
+</ul>
+<h3 id="Precision-和-Recall"><a href="#Precision-和-Recall" class="headerlink" title="Precision 和 Recall"></a>Precision 和 Recall</h3><p>Precision 和 Recall 的定义</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Precision =& \frac {N_{TruePos}} {N_{PredPos}} = \frac {N_{TruePos}} {N_{TruePos} + N_{FalsePos}} \\
+Recall =& \frac {N_{TruePos}} {N_{OriPos}} = \frac {N_{TruePos}} {N_{TruePos} + N_{FalseNeg}}
+\end{aligned}</script><p>F1-score 是 Precision 和 Recall 的调和平均数</p>
+<script type="math/tex; mode=display">
+F1 = \left( \frac {P^{-1} + R^{-1}} {2} \right)^{-1} = \frac {2}{1/P + 1/R}</script><h4 id="P-R-曲线"><a href="#P-R-曲线" class="headerlink" title="P-R 曲线"></a>P-R 曲线</h4><ul>
+<li>当判别为正例的标准最严格（仅有极少数最明显的被判别为正例），此时 $Recall \to 0$，$Precision \to 1$。</li>
+<li>当判别为正例的标准最宽松（所有样本均判别为正例），此时 $Recall \to 1$，$Precision \to N_{OriPos} / N$。<br><em>Precision 应该不会趋近于 0 吧？</em></li>
+</ul>
+<p><img src="/images/ML-book/2.3.png" alt="图2.3 P-R 曲线与平衡点示意图"></p>
+<h3 id="ROC-和-AUC"><a href="#ROC-和-AUC" class="headerlink" title="ROC 和 AUC"></a>ROC 和 AUC</h3><h4 id="ROC-曲线"><a href="#ROC-曲线" class="headerlink" title="ROC 曲线"></a>ROC 曲线</h4><p>ROC 全称受试者工作特征（Receiver Operating Characteristics），该曲线横轴为假正例率（False Positive Rate, FPR），纵轴为真正例率（True Positive Rate,TPR），定义为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+{\it FPR} =& \frac {N_{FalsePos}} {N_{OriNeg}} \\
+{\it TPR} =& \frac {N_{TruePos}} {N_{OriPos}} = Recall
+\end{aligned}</script><ul>
+<li>当判别为正例的标准最严格（仅有极少数最明显的被判别为正例），此时 ${\it TPR} \to 0$，${\it FPR} \to 0$。</li>
+<li>当判别为正例的标准最宽松（所有样本均判别为正例），此时 ${\it TPR} \to 1$，${\it FPR} \to 1$。</li>
+</ul>
+<p><img src="/images/ML-book/2.4.png" alt="图2.4 ROC 曲线与 AUC 示意图"></p>
 <ul>
-<li>A multi-head self-attention layer<ul>
-<li>Mask out subsequent positions</li>
+<li>AUC （Area under ROC Curve）就是 ROC 曲线下的面积，可以作为模型性能指标。</li>
+<li>K-S 指标：${\it KS} = \max {\it TPR} - {\it FPR}$</li>
+</ul>
+<p>在风险管理中，假正例的成本远高于假反例，因此需要更关注提高 Precision （或者说降低 FPR），而 Recall （或者 TPR）的权重更小。</p>
+<h2 id="方差与偏差"><a href="#方差与偏差" class="headerlink" title="方差与偏差"></a>方差与偏差</h2><p>模型的 <strong>泛化误差</strong> 可以分解为 <strong>偏差</strong>、<strong>方差</strong>、<strong>噪声</strong> 之和。<br>以回归任务为例，对测试样本 ${\pmb x}$，令 $y_D$ 为 ${\pmb x}$ 在整个数据集中的标记，$y$ 为 ${\pmb x}$ 的真实标记，则 <strong>噪声</strong> 为</p>
+<script type="math/tex; mode=display">
+\varepsilon^2 = \mathbb{E}_D [(y_D-y)^2]</script><p>$f({\pmb x}; D)$ 为训练集 $D$ 上学得的模型 $f$ 在 ${\pmb x}$ 上的预测输出。在潜在的不同训练集 $D$ 上训练得到的学习算法的 <strong>期望预测</strong> 为</p>
+<script type="math/tex; mode=display">
+\bar{f}({\pmb x}) = \mathbb{E}_D [f({\pmb x}; D)]</script><p>因此，使用不同训练集产生的 <strong>方差</strong> 为</p>
+<script type="math/tex; mode=display">
+var({\pmb x}) = \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}))^2]</script><p><strong>期望预测</strong> 与真实标记的差别 <strong>偏差</strong> 为</p>
+<script type="math/tex; mode=display">
+bias^2({\pmb x}) = (\bar{f}({\pmb x}) - y)^2</script><p>对算法的 <strong>期望泛化误差</strong> 进行分解</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbb{E}_D [(f({\pmb x}; D) - y_D)^2] =& \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}) + \bar{f}({\pmb x}) - y_D)^2] \\
+=& \mathbb{E}_D [(f({\pmb x}; D) - \bar{f}({\pmb x}))^2] + \mathbb{E}_D [(\bar{f}({\pmb x}) - y_D)^2] + \underbrace{ \mathbb{E}_D [ 2 (f({\pmb x}; D) - \bar{f}({\pmb x}))(\bar{f}({\pmb x}) - y_D) ]}_{=0, \, \text{because of independence}} \\
+=& var({\pmb x}) + \mathbb{E}_D [(\bar{f}({\pmb x}) - y + y - y_D)^2] \\
+=& var({\pmb x}) + (\bar{f}({\pmb x}) - y)^2 + \mathbb{E}_D [(y - y_D)^2] + \underbrace{ \mathbb{E}_D [ 2 (\bar{f}({\pmb x}) - y)(y - y_D) ]}_{=0, \, \text{because of independence}} \\
+=& var({\pmb x}) + bias^2({\pmb x}) + \varepsilon^2
+\end{aligned}</script><p>对方差与偏差的理解：</p>
+<ul>
+<li>过拟合：不同训练集 $D$ 产生的预测 $f({\pmb x}; D)$ 之间差异大，也就是 <strong>方差大</strong>。</li>
+<li>欠拟合：训练集未能使得模型 $f({\pmb x}; D)$ 显著变化，也就是 <strong>偏差大</strong>。</li>
+</ul>
+<h2 id="相关概念：第一类错误和第二类错误"><a href="#相关概念：第一类错误和第二类错误" class="headerlink" title="相关概念：第一类错误和第二类错误"></a>相关概念：第一类错误和第二类错误</h2><ul>
+<li>第一类错误是 <strong>拒真</strong> 错误，显著性 $\alpha$ 就是 <strong>拒真</strong> 的概率。</li>
+<li>第二类错误时 <strong>纳伪</strong> 错误。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>模型评估</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>西瓜书笔记：神经网络（第 5 章）</title>
+    <url>/posts/ML-book-notes-5/</url>
+    <content><![CDATA[<p>神经网络，反向传播等。<br><a id="more"></a></p>
+<h2 id="神经元模型"><a href="#神经元模型" class="headerlink" title="神经元模型"></a>神经元模型</h2><script type="math/tex; mode=display">
+\operatorname{logistic}(x) = \operatorname{sigmoid}(x) = \frac{1}{1+\exp(-x)}</script><p>单层感知机（Perception）模型，只能处理线性可分问题</p>
+<script type="math/tex; mode=display">
+y = f\left( \sum_{i=1}^{n} w_i x_i - \theta \right)</script><h2 id="多层网络"><a href="#多层网络" class="headerlink" title="多层网络"></a>多层网络</h2><p>多层前馈神经网络（Multi-Layer Feedforward Neural Networks）</p>
+<h3 id="反向传播算法（Back-Propagation）"><a href="#反向传播算法（Back-Propagation）" class="headerlink" title="反向传播算法（Back Propagation）"></a>反向传播算法（Back Propagation）</h3><h4 id="损失函数（Loss-Function）"><a href="#损失函数（Loss-Function）" class="headerlink" title="损失函数（Loss Function）"></a>损失函数（Loss Function）</h4><ul>
+<li>均方误差<script type="math/tex; mode=display">
+\mathcal{E}(y_i, \hat{y}_i) = \frac{1}{2} \cdot (y_i - \hat{y}_i)^2</script></li>
+<li>交叉熵（Cross Entropy）<script type="math/tex; mode=display">
+\begin{aligned}
+\mathcal{L}(y_i, \hat{y}_i) =& \begin{cases} \log(P(y_i=1 \mid \hat{y}_i)) = \log(\hat{y}_i), & {\mathrm{if}} \; y_i=1 \\
+\log(P(y_i=0 \mid \hat{y}_i)) = 1 - \log(\hat{y}_i), & {\mathrm{if}} \; y_i=0 \end{cases} \\
+=& y_i \cdot \log(\hat{y}_i) + (1 - y_i) \cdot \log(1 - \hat{y}_i)
+\end{aligned}</script></li>
+</ul>
+<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><p>对特定的一层神经元，其输出为</p>
+<script type="math/tex; mode=display">
+{\pmb y} = f({\pmb W}{\pmb x} + {\pmb b})</script><p>其中，${\pmb x}$ 为上一层的输出，${\pmb W}$ 和 ${\pmb b}$ 为上一层与当前层之间的权重矩阵和偏置向量，$f$ 为激活函数。已知 $\frac{\partial \mathcal{L}}{\partial {\pmb y}}$，那么</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial {\pmb W}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb W}} \\
+\frac{\partial \mathcal{L}}{\partial {\pmb b}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb b}} \\
+\frac{\partial \mathcal{L}}{\partial {\pmb x}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb x}}
+\end{aligned}</script><p>其中，$\frac{\partial \mathcal{L}}{\partial {\pmb W}}$ 和 $\frac{\partial \mathcal{L}}{\partial {\pmb b}}$ 可以用于更新 ${\pmb W}$ 和 ${\pmb b}$。以 $\eta$ 为学习速率，则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\Delta {\pmb W} =& -\eta \cdot \frac{\partial \mathcal{L}}{\partial {\pmb W}} \\
+\Delta {\pmb b} =& -\eta \cdot \frac{\partial \mathcal{L}}{\partial {\pmb b}}
+\end{aligned}</script><p>$\frac{\partial \mathcal{L}}{\partial {\pmb x}}$ 则用于进一步反向传播。</p>
+<h2 id="全局最小与局部最小"><a href="#全局最小与局部最小" class="headerlink" title="全局最小与局部最小"></a>全局最小与局部最小</h2><h3 id="防止过拟合的策略"><a href="#防止过拟合的策略" class="headerlink" title="防止过拟合的策略"></a>防止过拟合的策略</h3><ul>
+<li>Early Stopping</li>
+<li>正则化</li>
+</ul>
+<h3 id="防止局部最小的策略"><a href="#防止局部最小的策略" class="headerlink" title="防止局部最小的策略"></a>防止局部最小的策略</h3><ul>
+<li>多组不同参数初始化网络</li>
+<li>模拟退火（Simulated Annealing）：以一定概率接受比当前解更差的结果</li>
+<li>随即梯度下降（SGD）</li>
+</ul>
+<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><p>增加隐藏层的层数比增加隐藏层的神经元数目更有效。</p>
+<h3 id="防止梯度发散-消失策略"><a href="#防止梯度发散-消失策略" class="headerlink" title="防止梯度发散/消失策略"></a>防止梯度发散/消失策略</h3><ul>
+<li>Pre-Training + Fine-Tuning</li>
+<li>深度信念网络（Deep Belief Network, DBN），每层都是受限玻尔兹曼机（Restricted Boltzmann Machine, RBM）</li>
+</ul>
+<h3 id="节省训练开销"><a href="#节省训练开销" class="headerlink" title="节省训练开销"></a>节省训练开销</h3><ul>
+<li>权值共享，如 CNN</li>
+</ul>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>神经网络</tag>
+        <tag>反向传播</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>西瓜书笔记：线性模型（第 3 章）</title>
+    <url>/posts/ML-book-notes-3/</url>
+    <content><![CDATA[<p>线性回归，二值选择等。<br><a id="more"></a></p>
+<h2 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h2><p>线性模型的基本形式</p>
+<script type="math/tex; mode=display">
+f({\pmb x}) = {\pmb w}^{\mathrm T} {\pmb x} + b</script><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>估计方法是最小二乘，即最小化均方误差（MSE）</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+({\pmb w}^\star, b^\star) =& \underset{({\pmb w},b)}{\mathrm{argmin}} \sum_{i=1}^{m} (f({\pmb{x_i}}) - y_i)^2 \\
+=& \underset{({\pmb w},b)}{\mathrm{argmin}} \sum_{i=1}^{m} ({\pmb w}^{\mathrm T} {\pmb{x_i}} + b - y_i)^2
+\end{aligned}</script><p>令 $\hat{\pmb w} = ({\pmb w}; b)$，则有闭式解 </p>
+<script type="math/tex; mode=display">
+\hat{\pmb w}^\star = ({\pmb X}^{\mathrm T} {\pmb X})^{-1} {\pmb X}^{\mathrm T} {\pmb y}</script><p>引入正则</p>
+<ul>
+<li>Lasso</li>
+<li>Ridge</li>
+</ul>
+<h2 id="对数几率回归"><a href="#对数几率回归" class="headerlink" title="对数几率回归"></a>对数几率回归</h2><p>模型为</p>
+<script type="math/tex; mode=display">
+P(y=1 \mid {\pmb x}) = \begin{cases} \Phi({\pmb w}^{\mathrm T} {\pmb x}) = \int_{-\infty}^{w^{\mathrm T} x} \phi({\pmb x}) {\mathrm d}x, & \text{若使用正态分布累计函数，即 Probit 回归} \\ 
+\Lambda({\pmb w}^{\mathrm T} {\pmb x}) = \frac{\exp({\pmb w}^{\mathrm T} {\pmb x})}{1+\exp({\pmb w}^{\mathrm T} {\pmb x})} = \frac{1}{1+\exp(-{\pmb w}^{\mathrm T} {\pmb x})}, & \text{若使用逻辑分布累计函数，即 Logit 回归} \end{cases}</script><p>Logit 回归即对数几率回归</p>
+<script type="math/tex; mode=display">
+y = \frac{1}{1+\exp(-{\pmb w}^{\mathrm T} {\pmb x})} \implies \log(\frac{y}{1-y}) = {\pmb w}^{\mathrm T} {\pmb x}</script><p>使用 MLE 估计，对数似然函数为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathcal{L}({\pmb w}) =& \log \left[\prod_i P(y_i \mid {\pmb{x_i}}; {\pmb w}) \right] \\
+=& \sum_{y_i=1} \log \left[ P(y=1 \mid {\pmb{x_i}}; {\pmb w}) \right] + \sum_{y_i=0} \log \left[ P(y=0 \mid {\pmb{x_i}}; {\pmb w}) \right] \\
+=& \sum_{y_i=1} \log \left[ \frac{\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})}{1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})} \right] + \sum_{y_i=0} \log \left[ \frac{1}{1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})} \right] \\
+=& \sum_i y_i({\pmb w}^{\mathrm T} {\pmb{x_i}}) - \log(1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}}))
+\end{aligned}</script><h2 id="线性判别分析"><a href="#线性判别分析" class="headerlink" title="线性判别分析"></a>线性判别分析</h2><p>线性判别分析（Linear Discriminant Analysis, LDA）是将样本投影到直线（或低维空间）上，使得组内距离尽可能小、组间距离尽可能大。<br>线性判别分析也被用于监督降维。</p>
+<h2 id="多分类学习"><a href="#多分类学习" class="headerlink" title="多分类学习"></a>多分类学习</h2><p>二分类模型推广至多分类的方案：</p>
+<ul>
+<li>One vs. One</li>
+<li>One vs. Many</li>
+<li>Many vs. Many</li>
+</ul>
+<h2 id="类别不平衡问题"><a href="#类别不平衡问题" class="headerlink" title="类别不平衡问题"></a>类别不平衡问题</h2><h3 id="再缩放（Rescaling）"><a href="#再缩放（Rescaling）" class="headerlink" title="再缩放（Rescaling）"></a>再缩放（Rescaling）</h3><p>原本， $\frac{y}{1 - y} &gt; 1$ 时，预测为正例<br>现在，$\frac{y}{1 - y} &gt; \frac{m^+}{m^-}$ 时，预测为正例；其中 ${m^+}$ 与 ${m^-}$ 分别为正例与负例的数目。</p>
+<h3 id="重采样"><a href="#重采样" class="headerlink" title="重采样"></a>重采样</h3><ul>
+<li>欠采样/下采样：训练多个模型并集成</li>
+<li>过采样/上采样：对数目少的那一类样本进行插值</li>
+<li>阈值移动：将再缩放的公式嵌入决策过程</li>
+</ul>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>线性模型</tag>
+        <tag>分类模型</tag>
+        <tag>回归模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>西瓜书笔记：决策树（第 4 章）</title>
+    <url>/posts/ML-book-notes-4/</url>
+    <content><![CDATA[<p>决策树，信息熵等。<br><a id="more"></a></p>
+<h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><p>决策树的生成过程是一个 <strong>分治递归</strong> 算法</p>
+<ul>
+<li>递归：在当前结点找到 <strong>最优属性</strong> 进行划分/展开，划分得到的各部分生成子结点</li>
+<li>递归边界：<ul>
+<li>当前结点均为同一类别：将当前结点标记为该类别</li>
+<li>当前结点样本所有属性的取值均相同：将当前结点标记为样本数最多的类别</li>
+<li>当前结点样本为空：将当前结点标记为其父结点中样本数最多的类别</li>
 </ul>
 </li>
-<li>A multi-head encoder-decoder attention layer</li>
-<li>A simple, position-wise fully connected feed-forward network (FC-FFN)</li>
 </ul>
-<h3 id="Residual-Connection-and-Layer-Norm"><a href="#Residual-Connection-and-Layer-Norm" class="headerlink" title="Residual Connection and Layer Norm"></a>Residual Connection and Layer Norm</h3><p>Empoly a <em>residual connection</em> around each of the sub-layers, followed by <em>layer normalization</em>. That is, the final output of each sub-layer is $\mathrm{LayerNorm} (x + \mathrm{SubLayer}(x))$, where $\mathrm{SubLayer}(x)$ is the output of a multi-head or FC-FFN layer. </p>
-<h2 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h2><p>Scaled dot-product attention, multi-head attention, self-attention.<br>See <a href="../Attention-in-NLP">Attention in NLP</a>.</p>
-<h2 id="Position-Wise-Fully-Connected-Feed-Forward-Network"><a href="#Position-Wise-Fully-Connected-Feed-Forward-Network" class="headerlink" title="Position-Wise Fully-Connected Feed-Forward Network"></a>Position-Wise Fully-Connected Feed-Forward Network</h2><p>Apply a FC-FFN to each position separately and identically: </p>
+<h2 id="划分选择"><a href="#划分选择" class="headerlink" title="划分选择"></a>划分选择</h2><h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k$ （$k=1,2,…,\vert y \vert$），则 $D$ 的 <strong>信息熵</strong> 为</p>
 <script type="math/tex; mode=display">
-\mathrm{FFN}(x) = \mathrm{ReLU}\left( x W_1 + b_1 \right) W_2 + b_2</script><p>where $x \in \Bbb{R}^{d_{model}}$ is the vector on a certain position, $W_1 \in \Bbb{R}^{d_{model} \times d_{ff}}$ and $W_2 \in \Bbb{R}^{d_{ff} \times d_{model}}$ are trainable parameter matrices. </p>
-<h2 id="Embeddings-and-Softmax"><a href="#Embeddings-and-Softmax" class="headerlink" title="Embeddings and Softmax"></a>Embeddings and Softmax</h2><p>Use learned embeddings to convert the source tokens and target tokens to vectors of dimension $d_{model}$.<br>Use learned transformation and softmax function to convert the decoder output to predicted next-token probabilities. </p>
-<h2 id="Positional-Encodings"><a href="#Positional-Encodings" class="headerlink" title="Positional Encodings"></a>Positional Encodings</h2><p>To make use of the order of sequence, add <em>positional encodings</em> to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimensions $d_{model}$ as the embeddings, so that they can be summed. </p>
+Ent(D) = -\sum_{k=1}^{\vert y \vert} p_k \log_2 p_k</script><p>假设属性 $a$ 有 $V$ 个可能的取值 $\{a^1, a^2,…, a^V\}$，则给定属性 $a$ 后的 <strong>条件熵</strong> 为</p>
+<script type="math/tex; mode=display">
+Ent(D \mid a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Ent(D^v)</script><p>则，使用属性 $a$ 对样本集 $D$ 进行划分得到的 <strong>信息增益</strong> 为</p>
+<script type="math/tex; mode=display">
+Gain(D,a) = Ent(D) - Ent(D \mid a)</script><p>可以证明，<strong>信息增益</strong> 一定大于等于 0。</p>
+<h4 id="ID3-决策树学习算法"><a href="#ID3-决策树学习算法" class="headerlink" title="ID3 决策树学习算法"></a>ID3 决策树学习算法</h4><p><strong>最优属性</strong> 的选择使得 <strong>信息增益</strong> 最大化，即</p>
+<script type="math/tex; mode=display">
+a^\star = \underset{a \in A}{\mathrm{argmax}} \, Gain(D, a)</script><h4 id="C4-5-决策树学习算法"><a href="#C4-5-决策树学习算法" class="headerlink" title="C4.5 决策树学习算法"></a>C4.5 决策树学习算法</h4><p><strong>最优属性</strong> 的选择使得 <strong>信息增益率</strong> 最大化，其中 <strong>信息增益率</strong> 为 $\frac{Gain(D,a)}{Ent(a)}$，其中 $Ent(a)$ 是把属性 $a$ 当作数据集 $D$ 上的目标变量后计算的信息熵。</p>
+<h4 id="CART-决策树学习算法"><a href="#CART-决策树学习算法" class="headerlink" title="CART 决策树学习算法"></a>CART 决策树学习算法</h4><p>基尼系数</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\mathrm{PE}(pos, 2i) &= \sin \left( \frac{pos}{10000^{2i/d_{model}}} \right) \\
-\mathrm{PE}(pos, 2i+1) &= \cos \left( \frac{pos}{10000^{2i/d_{model}}} \right)
-\end{aligned}</script><p>where $pos$ is the position and $i$ is the dimension. That is, each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$.<br>This positional encoding would allow the model to learn to attend by <em>relative positions</em>, since for any fixed offset $k$, $\mathrm{PE}_{pos+k}$ can be represented as a linear function of $\mathrm{PE}_{pos}$. </p>
+Gini(D) = \sum_{k=1}^{\vert y \vert} \sum_{k' \neq k} p_k p'_k = 1 - \sum_{k=1}^{\vert y \vert} p_k^2 \\
+GiniIndex(D, a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Gini(D^v)
+\end{aligned}</script><h2 id="剪枝处理"><a href="#剪枝处理" class="headerlink" title="剪枝处理"></a>剪枝处理</h2><p>采用 <strong>留出法</strong> 预先保留一部分作为验证集，评估模型 <strong>泛化性能</strong></p>
+<ul>
+<li>预剪枝：展开每个结点时，评估泛化性能是否提升；若不提升则停止展开。因此，模型存在欠拟合风险。</li>
+<li>后剪枝：将树完全展开后，依次评估每个结点剪枝后泛化性能是否提升；若提升则进行剪枝。训练时间一般较长。</li>
+</ul>
+<h2 id="连续值处理：二分法"><a href="#连续值处理：二分法" class="headerlink" title="连续值处理：二分法"></a>连续值处理：二分法</h2><p>假设连续属性 $a$ 在数据集 $D$ 上出现的取值从小到大排序为 $\{a^1, a^2,…, a^n\}$，则存在 $n-1$ 个潜在划分点 $t_i = \frac{a^i+a^{i+1}}{2}, \, 1 \leq i \leq n-1$。<br>此时，可以将 $a$ 作为 $n-1$ 个离散属性 $(a, t_i)$ 考虑并计算信息增益 $Gain(D, a, t_i)$ ，则 $a$ 的信息增益为</p>
+<script type="math/tex; mode=display">
+Gain(D,a) = \max_{t_i} Gain(D, a, t_i)</script><p>即选出信息增益最大的那个划分点。</p>
+<h2 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h2><h3 id="如何选择最优属性？"><a href="#如何选择最优属性？" class="headerlink" title="如何选择最优属性？"></a>如何选择最优属性？</h3><p>假设在当前结点中样本 $x$ 的权重为 $w_x$。令 $\tilde{D}$ 代表 $D$ 中属性 $a$ 没有缺失的样本，则</p>
+<script type="math/tex; mode=display">
+Gain(D, a) = Gain(\tilde{D}, a) \times \frac{\sum_{x \in \tilde{D}}{w_x}}{\sum_{x \in D}{w_x}}</script><h3 id="如何进行样本划分？"><a href="#如何进行样本划分？" class="headerlink" title="如何进行样本划分？"></a>如何进行样本划分？</h3><p>若样本 $x$ 的属性 $a$ 缺失，则 <strong>分别同时</strong> 划入所有子结点，权重调整为</p>
+<script type="math/tex; mode=display">
+w_x \cdot \frac{\sum_{x \in \tilde{D}^v}{w_x}}{\sum_{x \in \tilde{D}}{w_x}}</script><h2 id="回归树"><a href="#回归树" class="headerlink" title="回归树"></a>回归树</h2><h3 id="CART-算法"><a href="#CART-算法" class="headerlink" title="CART 算法"></a>CART 算法</h3><p>对属性 $a$ 的切分点 $t$，求解</p>
+<script type="math/tex; mode=display">
+(a^\star, t^\star) = \underset{(a, t)}{\mathrm{argmin}} \left[ \min_{c_1} \sum_{x_i \in R_1(a, t)} (y_i-c_1)^2 + \min_{c_2} \sum_{x_i \in R_2(a, t)} (y_i-c_2)^2 \right]</script><p>其中，$R_1(a, t)$ 与 $R_2(a, t)$ 是 $(a, t)$ 划分得到的两个子集。显然，$c_1$ 和 $c_2$ 分别是这两个子集上 $y_i$ 的均值，即</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\mathrm{PE}(pos+k, 2i) &= \sin \left( \frac{pos+k}{10000^{2i/d_{model}}} \right) \\
-&= \sin \left( \frac{pos}{10000^{2i/d_{model}}} \right) \cos \left( \frac{k}{10000^{2i/d_{model}}} \right) + \cos \left( \frac{pos}{10000^{2i/d_{model}}} \right) \sin \left( \frac{k}{10000^{2i/d_{model}}} \right) \\
-&= \mathrm{PE}(pos, 2i) \cos \left( \frac{k}{10000^{2i/d_{model}}} \right) + \mathrm{PE}(pos, 2i+1) \sin \left( \frac{k}{10000^{2i/d_{model}}} \right)
+c_1 =& \frac{1}{\vert R_1(a, t) \vert} \cdot \sum_{x_i \in R_1(a, t)} y_i \\
+c_2 =& \frac{1}{\vert R_2(a, t) \vert} \cdot \sum_{x_i \in R_2(a, t)} y_i
 \end{aligned}</script>]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>决策树</tag>
+        <tag>信息熵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Brat 标注工具使用笔记</title>
+    <url>/posts/NLP-annotation-with-brat/</url>
+    <content><![CDATA[<p>这篇博客记录如何使用 Brat 标注工具。<br><a id="more"></a></p>
+]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
@@ -751,177 +935,6 @@ f({\pmb x}) = {\pmb w}^{\mathrm T} \phi({\pmb x}) + b</script><p>映射后特征
         <tag>核方法</tag>
         <tag>结构风险</tag>
         <tag>经验风险</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>西瓜书笔记：线性模型（第 3 章）</title>
-    <url>/posts/ML-book-notes-3/</url>
-    <content><![CDATA[<p>线性回归，二值选择等。<br><a id="more"></a></p>
-<h2 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h2><p>线性模型的基本形式</p>
-<script type="math/tex; mode=display">
-f({\pmb x}) = {\pmb w}^{\mathrm T} {\pmb x} + b</script><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>估计方法是最小二乘，即最小化均方误差（MSE）</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-({\pmb w}^\star, b^\star) =& \underset{({\pmb w},b)}{\mathrm{argmin}} \sum_{i=1}^{m} (f({\pmb{x_i}}) - y_i)^2 \\
-=& \underset{({\pmb w},b)}{\mathrm{argmin}} \sum_{i=1}^{m} ({\pmb w}^{\mathrm T} {\pmb{x_i}} + b - y_i)^2
-\end{aligned}</script><p>令 $\hat{\pmb w} = ({\pmb w}; b)$，则有闭式解 </p>
-<script type="math/tex; mode=display">
-\hat{\pmb w}^\star = ({\pmb X}^{\mathrm T} {\pmb X})^{-1} {\pmb X}^{\mathrm T} {\pmb y}</script><p>引入正则</p>
-<ul>
-<li>Lasso</li>
-<li>Ridge</li>
-</ul>
-<h2 id="对数几率回归"><a href="#对数几率回归" class="headerlink" title="对数几率回归"></a>对数几率回归</h2><p>模型为</p>
-<script type="math/tex; mode=display">
-P(y=1 \mid {\pmb x}) = \begin{cases} \Phi({\pmb w}^{\mathrm T} {\pmb x}) = \int_{-\infty}^{w^{\mathrm T} x} \phi({\pmb x}) {\mathrm d}x, & \text{若使用正态分布累计函数，即 Probit 回归} \\ 
-\Lambda({\pmb w}^{\mathrm T} {\pmb x}) = \frac{\exp({\pmb w}^{\mathrm T} {\pmb x})}{1+\exp({\pmb w}^{\mathrm T} {\pmb x})} = \frac{1}{1+\exp(-{\pmb w}^{\mathrm T} {\pmb x})}, & \text{若使用逻辑分布累计函数，即 Logit 回归} \end{cases}</script><p>Logit 回归即对数几率回归</p>
-<script type="math/tex; mode=display">
-y = \frac{1}{1+\exp(-{\pmb w}^{\mathrm T} {\pmb x})} \implies \log(\frac{y}{1-y}) = {\pmb w}^{\mathrm T} {\pmb x}</script><p>使用 MLE 估计，对数似然函数为</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\mathcal{L}({\pmb w}) =& \log \left[\prod_i P(y_i \mid {\pmb{x_i}}; {\pmb w}) \right] \\
-=& \sum_{y_i=1} \log \left[ P(y=1 \mid {\pmb{x_i}}; {\pmb w}) \right] + \sum_{y_i=0} \log \left[ P(y=0 \mid {\pmb{x_i}}; {\pmb w}) \right] \\
-=& \sum_{y_i=1} \log \left[ \frac{\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})}{1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})} \right] + \sum_{y_i=0} \log \left[ \frac{1}{1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}})} \right] \\
-=& \sum_i y_i({\pmb w}^{\mathrm T} {\pmb{x_i}}) - \log(1+\exp({\pmb w}^{\mathrm T} {\pmb{x_i}}))
-\end{aligned}</script><h2 id="线性判别分析"><a href="#线性判别分析" class="headerlink" title="线性判别分析"></a>线性判别分析</h2><p>线性判别分析（Linear Discriminant Analysis, LDA）是将样本投影到直线（或低维空间）上，使得组内距离尽可能小、组间距离尽可能大。<br>线性判别分析也被用于监督降维。</p>
-<h2 id="多分类学习"><a href="#多分类学习" class="headerlink" title="多分类学习"></a>多分类学习</h2><p>二分类模型推广至多分类的方案：</p>
-<ul>
-<li>One vs. One</li>
-<li>One vs. Many</li>
-<li>Many vs. Many</li>
-</ul>
-<h2 id="类别不平衡问题"><a href="#类别不平衡问题" class="headerlink" title="类别不平衡问题"></a>类别不平衡问题</h2><h3 id="再缩放（Rescaling）"><a href="#再缩放（Rescaling）" class="headerlink" title="再缩放（Rescaling）"></a>再缩放（Rescaling）</h3><p>原本， $\frac{y}{1 - y} &gt; 1$ 时，预测为正例<br>现在，$\frac{y}{1 - y} &gt; \frac{m^+}{m^-}$ 时，预测为正例；其中 ${m^+}$ 与 ${m^-}$ 分别为正例与负例的数目。</p>
-<h3 id="重采样"><a href="#重采样" class="headerlink" title="重采样"></a>重采样</h3><ul>
-<li>欠采样/下采样：训练多个模型并集成</li>
-<li>过采样/上采样：对数目少的那一类样本进行插值</li>
-<li>阈值移动：将再缩放的公式嵌入决策过程</li>
-</ul>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>线性模型</tag>
-        <tag>分类模型</tag>
-        <tag>回归模型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>西瓜书笔记：决策树（第 4 章）</title>
-    <url>/posts/ML-book-notes-4/</url>
-    <content><![CDATA[<p>决策树，信息熵等。<br><a id="more"></a></p>
-<h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><p>决策树的生成过程是一个 <strong>分治递归</strong> 算法</p>
-<ul>
-<li>递归：在当前结点找到 <strong>最优属性</strong> 进行划分/展开，划分得到的各部分生成子结点</li>
-<li>递归边界：<ul>
-<li>当前结点均为同一类别：将当前结点标记为该类别</li>
-<li>当前结点样本所有属性的取值均相同：将当前结点标记为样本数最多的类别</li>
-<li>当前结点样本为空：将当前结点标记为其父结点中样本数最多的类别</li>
-</ul>
-</li>
-</ul>
-<h2 id="划分选择"><a href="#划分选择" class="headerlink" title="划分选择"></a>划分选择</h2><h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k$ （$k=1,2,…,\vert y \vert$），则 $D$ 的 <strong>信息熵</strong> 为</p>
-<script type="math/tex; mode=display">
-Ent(D) = -\sum_{k=1}^{\vert y \vert} p_k \log_2 p_k</script><p>假设属性 $a$ 有 $V$ 个可能的取值 $\{a^1, a^2,…, a^V\}$，则给定属性 $a$ 后的 <strong>条件熵</strong> 为</p>
-<script type="math/tex; mode=display">
-Ent(D \mid a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Ent(D^v)</script><p>则，使用属性 $a$ 对样本集 $D$ 进行划分得到的 <strong>信息增益</strong> 为</p>
-<script type="math/tex; mode=display">
-Gain(D,a) = Ent(D) - Ent(D \mid a)</script><p>可以证明，<strong>信息增益</strong> 一定大于等于 0。</p>
-<h4 id="ID3-决策树学习算法"><a href="#ID3-决策树学习算法" class="headerlink" title="ID3 决策树学习算法"></a>ID3 决策树学习算法</h4><p><strong>最优属性</strong> 的选择使得 <strong>信息增益</strong> 最大化，即</p>
-<script type="math/tex; mode=display">
-a^\star = \underset{a \in A}{\mathrm{argmax}} \, Gain(D, a)</script><h4 id="C4-5-决策树学习算法"><a href="#C4-5-决策树学习算法" class="headerlink" title="C4.5 决策树学习算法"></a>C4.5 决策树学习算法</h4><p><strong>最优属性</strong> 的选择使得 <strong>信息增益率</strong> 最大化，其中 <strong>信息增益率</strong> 为 $\frac{Gain(D,a)}{Ent(a)}$，其中 $Ent(a)$ 是把属性 $a$ 当作数据集 $D$ 上的目标变量后计算的信息熵。</p>
-<h4 id="CART-决策树学习算法"><a href="#CART-决策树学习算法" class="headerlink" title="CART 决策树学习算法"></a>CART 决策树学习算法</h4><p>基尼系数</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-Gini(D) = \sum_{k=1}^{\vert y \vert} \sum_{k' \neq k} p_k p'_k = 1 - \sum_{k=1}^{\vert y \vert} p_k^2 \\
-GiniIndex(D, a) = \sum_{v=1}^V \frac{\vert D^v \vert}{\vert D \vert} Gini(D^v)
-\end{aligned}</script><h2 id="剪枝处理"><a href="#剪枝处理" class="headerlink" title="剪枝处理"></a>剪枝处理</h2><p>采用 <strong>留出法</strong> 预先保留一部分作为验证集，评估模型 <strong>泛化性能</strong></p>
-<ul>
-<li>预剪枝：展开每个结点时，评估泛化性能是否提升；若不提升则停止展开。因此，模型存在欠拟合风险。</li>
-<li>后剪枝：将树完全展开后，依次评估每个结点剪枝后泛化性能是否提升；若提升则进行剪枝。训练时间一般较长。</li>
-</ul>
-<h2 id="连续值处理：二分法"><a href="#连续值处理：二分法" class="headerlink" title="连续值处理：二分法"></a>连续值处理：二分法</h2><p>假设连续属性 $a$ 在数据集 $D$ 上出现的取值从小到大排序为 $\{a^1, a^2,…, a^n\}$，则存在 $n-1$ 个潜在划分点 $t_i = \frac{a^i+a^{i+1}}{2}, \, 1 \leq i \leq n-1$。<br>此时，可以将 $a$ 作为 $n-1$ 个离散属性 $(a, t_i)$ 考虑并计算信息增益 $Gain(D, a, t_i)$ ，则 $a$ 的信息增益为</p>
-<script type="math/tex; mode=display">
-Gain(D,a) = \max_{t_i} Gain(D, a, t_i)</script><p>即选出信息增益最大的那个划分点。</p>
-<h2 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h2><h3 id="如何选择最优属性？"><a href="#如何选择最优属性？" class="headerlink" title="如何选择最优属性？"></a>如何选择最优属性？</h3><p>假设在当前结点中样本 $x$ 的权重为 $w_x$。令 $\tilde{D}$ 代表 $D$ 中属性 $a$ 没有缺失的样本，则</p>
-<script type="math/tex; mode=display">
-Gain(D, a) = Gain(\tilde{D}, a) \times \frac{\sum_{x \in \tilde{D}}{w_x}}{\sum_{x \in D}{w_x}}</script><h3 id="如何进行样本划分？"><a href="#如何进行样本划分？" class="headerlink" title="如何进行样本划分？"></a>如何进行样本划分？</h3><p>若样本 $x$ 的属性 $a$ 缺失，则 <strong>分别同时</strong> 划入所有子结点，权重调整为</p>
-<script type="math/tex; mode=display">
-w_x \cdot \frac{\sum_{x \in \tilde{D}^v}{w_x}}{\sum_{x \in \tilde{D}}{w_x}}</script><h2 id="回归树"><a href="#回归树" class="headerlink" title="回归树"></a>回归树</h2><h3 id="CART-算法"><a href="#CART-算法" class="headerlink" title="CART 算法"></a>CART 算法</h3><p>对属性 $a$ 的切分点 $t$，求解</p>
-<script type="math/tex; mode=display">
-(a^\star, t^\star) = \underset{(a, t)}{\mathrm{argmin}} \left[ \min_{c_1} \sum_{x_i \in R_1(a, t)} (y_i-c_1)^2 + \min_{c_2} \sum_{x_i \in R_2(a, t)} (y_i-c_2)^2 \right]</script><p>其中，$R_1(a, t)$ 与 $R_2(a, t)$ 是 $(a, t)$ 划分得到的两个子集。显然，$c_1$ 和 $c_2$ 分别是这两个子集上 $y_i$ 的均值，即</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-c_1 =& \frac{1}{\vert R_1(a, t) \vert} \cdot \sum_{x_i \in R_1(a, t)} y_i \\
-c_2 =& \frac{1}{\vert R_2(a, t) \vert} \cdot \sum_{x_i \in R_2(a, t)} y_i
-\end{aligned}</script>]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>决策树</tag>
-        <tag>信息熵</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>西瓜书笔记：神经网络（第 5 章）</title>
-    <url>/posts/ML-book-notes-5/</url>
-    <content><![CDATA[<p>神经网络，反向传播等。<br><a id="more"></a></p>
-<h2 id="神经元模型"><a href="#神经元模型" class="headerlink" title="神经元模型"></a>神经元模型</h2><script type="math/tex; mode=display">
-\operatorname{logistic}(x) = \operatorname{sigmoid}(x) = \frac{1}{1+\exp(-x)}</script><p>单层感知机（Perception）模型，只能处理线性可分问题</p>
-<script type="math/tex; mode=display">
-y = f\left( \sum_{i=1}^{n} w_i x_i - \theta \right)</script><h2 id="多层网络"><a href="#多层网络" class="headerlink" title="多层网络"></a>多层网络</h2><p>多层前馈神经网络（Multi-Layer Feedforward Neural Networks）</p>
-<h3 id="反向传播算法（Back-Propagation）"><a href="#反向传播算法（Back-Propagation）" class="headerlink" title="反向传播算法（Back Propagation）"></a>反向传播算法（Back Propagation）</h3><h4 id="损失函数（Loss-Function）"><a href="#损失函数（Loss-Function）" class="headerlink" title="损失函数（Loss Function）"></a>损失函数（Loss Function）</h4><ul>
-<li>均方误差<script type="math/tex; mode=display">
-\mathcal{E}(y_i, \hat{y}_i) = \frac{1}{2} \cdot (y_i - \hat{y}_i)^2</script></li>
-<li>交叉熵（Cross Entropy）<script type="math/tex; mode=display">
-\begin{aligned}
-\mathcal{L}(y_i, \hat{y}_i) =& \begin{cases} \log(P(y_i=1 \mid \hat{y}_i)) = \log(\hat{y}_i), & {\mathrm{if}} \; y_i=1 \\
-\log(P(y_i=0 \mid \hat{y}_i)) = 1 - \log(\hat{y}_i), & {\mathrm{if}} \; y_i=0 \end{cases} \\
-=& y_i \cdot \log(\hat{y}_i) + (1 - y_i) \cdot \log(1 - \hat{y}_i)
-\end{aligned}</script></li>
-</ul>
-<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><p>对特定的一层神经元，其输出为</p>
-<script type="math/tex; mode=display">
-{\pmb y} = f({\pmb W}{\pmb x} + {\pmb b})</script><p>其中，${\pmb x}$ 为上一层的输出，${\pmb W}$ 和 ${\pmb b}$ 为上一层与当前层之间的权重矩阵和偏置向量，$f$ 为激活函数。已知 $\frac{\partial \mathcal{L}}{\partial {\pmb y}}$，那么</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\frac{\partial \mathcal{L}}{\partial {\pmb W}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb W}} \\
-\frac{\partial \mathcal{L}}{\partial {\pmb b}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb b}} \\
-\frac{\partial \mathcal{L}}{\partial {\pmb x}} =& \frac{\partial \mathcal{L}}{\partial {\pmb y}} \cdot \frac{\partial {\pmb y}}{\partial ({\pmb W}{\pmb x}+{\pmb b})} \cdot \frac{\partial ({\pmb W}{\pmb x}+{\pmb b})}{\partial {\pmb x}}
-\end{aligned}</script><p>其中，$\frac{\partial \mathcal{L}}{\partial {\pmb W}}$ 和 $\frac{\partial \mathcal{L}}{\partial {\pmb b}}$ 可以用于更新 ${\pmb W}$ 和 ${\pmb b}$。以 $\eta$ 为学习速率，则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\Delta {\pmb W} =& -\eta \cdot \frac{\partial \mathcal{L}}{\partial {\pmb W}} \\
-\Delta {\pmb b} =& -\eta \cdot \frac{\partial \mathcal{L}}{\partial {\pmb b}}
-\end{aligned}</script><p>$\frac{\partial \mathcal{L}}{\partial {\pmb x}}$ 则用于进一步反向传播。</p>
-<h2 id="全局最小与局部最小"><a href="#全局最小与局部最小" class="headerlink" title="全局最小与局部最小"></a>全局最小与局部最小</h2><h3 id="防止过拟合的策略"><a href="#防止过拟合的策略" class="headerlink" title="防止过拟合的策略"></a>防止过拟合的策略</h3><ul>
-<li>Early Stopping</li>
-<li>正则化</li>
-</ul>
-<h3 id="防止局部最小的策略"><a href="#防止局部最小的策略" class="headerlink" title="防止局部最小的策略"></a>防止局部最小的策略</h3><ul>
-<li>多组不同参数初始化网络</li>
-<li>模拟退火（Simulated Annealing）：以一定概率接受比当前解更差的结果</li>
-<li>随即梯度下降（SGD）</li>
-</ul>
-<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><p>增加隐藏层的层数比增加隐藏层的神经元数目更有效。</p>
-<h3 id="防止梯度发散-消失策略"><a href="#防止梯度发散-消失策略" class="headerlink" title="防止梯度发散/消失策略"></a>防止梯度发散/消失策略</h3><ul>
-<li>Pre-Training + Fine-Tuning</li>
-<li>深度信念网络（Deep Belief Network, DBN），每层都是受限玻尔兹曼机（Restricted Boltzmann Machine, RBM）</li>
-</ul>
-<h3 id="节省训练开销"><a href="#节省训练开销" class="headerlink" title="节省训练开销"></a>节省训练开销</h3><ul>
-<li>权值共享，如 CNN</li>
-</ul>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>神经网络</tag>
-        <tag>反向传播</tag>
       </tags>
   </entry>
   <entry>
@@ -1495,19 +1508,6 @@ OR_i = \exp(\beta_i)</script><p>所以，$\beta_i$ 代表 $x_i$ 增加一个单�
       </tags>
   </entry>
   <entry>
-    <title>Brat 标注工具使用笔记</title>
-    <url>/posts/NLP-annotation-with-brat/</url>
-    <content><![CDATA[<p>这篇博客记录如何使用 Brat 标注工具。<br><a id="more"></a></p>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>《宗教情感》读后感</title>
     <url>/posts/Religious-Affections-comments/</url>
     <content><![CDATA[<p>2020年初寒假，《宗教情感》读后感<br><a id="more"></a></p>
@@ -1599,6 +1599,17 @@ OR_i = \exp(\beta_i)</script><p>所以，$\beta_i$ 代表 $x_i$ 增加一个单�
         <tag>基督教</tag>
         <tag>《宗教情感》</tag>
         <tag>清教徒</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WSL 使用笔记</title>
+    <url>/posts/WSL-usage-notes/</url>
+    <content><![CDATA[<p>这篇博客记录如何使用 WSL 在 Windows 上本地运行 Linux 服务。<br><a id="more"></a></p>
+<p><a href="https://www.jianshu.com/p/3e627ff45ccb" target="_blank" rel="noopener">Windows 安装和配置 WSL</a><br><a href="https://blog.csdn.net/weixin_39394526/article/details/87935449" target="_blank" rel="noopener">ubuntu18.04配置国内apt-get源</a><br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华大学开源软件镜像站 - Ubuntu 镜像使用帮助</a></p>
+]]></content>
+      <tags>
+        <tag>WSL</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1787,14 +1798,91 @@ L_3(\mathcal{C}) = L_2(\mathcal{C}) = \lambda \cdot L_1(\mathcal{C})</script><h4
       </tags>
   </entry>
   <entry>
-    <title>WSL 使用笔记</title>
-    <url>/posts/WSL-usage-notes/</url>
-    <content><![CDATA[<p>这篇博客记录如何使用 WSL 在 Windows 上本地运行 Linux 服务。<br><a id="more"></a></p>
-<p><a href="https://www.jianshu.com/p/3e627ff45ccb" target="_blank" rel="noopener">Windows 安装和配置 WSL</a><br><a href="https://blog.csdn.net/weixin_39394526/article/details/87935449" target="_blank" rel="noopener">ubuntu18.04配置国内apt-get源</a><br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华大学开源软件镜像站 - Ubuntu 镜像使用帮助</a></p>
+    <title>LeetCode 笔记</title>
+    <url>/posts/leetcode-notes/</url>
+    <content><![CDATA[<p>这是我 2019 年秋招过程中刷 LeetCode 做的笔记。<br><a id="more"></a></p>
+<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><p>适用于这样一种情形：需要确定一个<strong>范围</strong>作为解，使得<strong>目标函数</strong>取值最大。<br>用左右两端两个<strong>指针</strong>代表该范围，则：<br>如果在任意时刻，一定可以有至少一端，只要调整这一段就会使得目标函数取值变小；且如果只调整这一端的话，目标函数永远不会超过当前时刻的目标函数取值。那么，如果存在优于当前情况的解，迟早要调整另一端。所以，调整另一端一定不会错过最优解。</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>快速排序<br>归并排序</p>
+<h2 id="递归和回溯"><a href="#递归和回溯" class="headerlink" title="递归和回溯"></a>递归和回溯</h2><p>遍历二叉树</p>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h2 id="举行重叠"><a href="#举行重叠" class="headerlink" title="举行重叠"></a>举行重叠</h2><p>判断角点</p>
+<h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><p><a href="https://leetcode-cn.com/problems/course-schedule/" target="_blank" rel="noopener">LeetCode-207. 课程表</a><br>参考：<a href="https://www.jianshu.com/p/3347f54a3187" target="_blank" rel="noopener">https://www.jianshu.com/p/3347f54a3187</a></p>
+<p>如果一个有向图为有向无环图（Directed Acyclic Graph, DAG），就能得到对应该图的拓扑排序，满足这样的条件：对于图中任意两个节点 u 和 v，若从 u 到 v 存在一条边，则拓扑排序中 u 一定排在 v 前面。</p>
+<p>对于一个有向图，找到其一个拓扑排序的算法：</p>
+<ol>
+<li>初始化一个数组 <code>in_degree</code> 用于保存每个结点的入度；</li>
+<li>对图中每一个结点的子结点，使其入度加 1；</li>
+<li>选取入度为 0 的结点加入输出（拓扑排序）；若无法找到入度为 0 的结点，则说明原有向图存在环，不存在对应的拓扑排序；</li>
+<li>对输出结点，遍历其子结点，每个子结点的入度减 1；</li>
+<li>重复步骤 3-4，直至遍历完所有结点。</li>
+</ol>
+<h2 id="其他-Tips"><a href="#其他-Tips" class="headerlink" title="其他 Tips"></a>其他 Tips</h2><ul>
+<li>对数组进行操作时，试试排序后能否简化思路。</li>
+<li>当考虑用 Hashmap 来判别对象的唯一性时，尝试采用其他 Coding 方案，比如当 Hashmap 的 Keys 在一个固定范围内时（如小写字母），就可以采用固定长度的数组来实现 Coding。</li>
+</ul>
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
       <tags>
-        <tag>WSL</tag>
-        <tag>Linux</tag>
+        <tag>LeetCode</tag>
+        <tag>Python</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo 搭建博客并部署到 Github</title>
+    <url>/posts/blog-with-hexo-github/</url>
+    <content><![CDATA[<p>一份使用 Hexo 搭建博客并部署到 Github 的简要指南。<br>网上不少博客使用的 NexT 主题还是 v5.1.x 的版本（<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">官网</a>，<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Github</a>），但事实上这个版本已经不再维护。最新版本已经更新到 v7.6.0 （<a href="https://pisces.theme-next.org/" target="_blank" rel="noopener">官网</a>，<a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">Github</a>）。</p>
+<p>我在使用 v5.1.x 版本时就遇到了 Bug，菜单栏和侧边栏的链接解析一直是错误的，网上教程很多是删除主题配置文件对应位置的空格，但这仅能修复菜单栏的问题，侧边栏的问题无法修复。最好的方案是把 NexT 更新到最新版本。<br>这里有一份 NexT 官网给的指南：<a href="https://github.com/theme-next/hexo-theme-next/blob/master/docs/UPDATE-FROM-5.1.X.md" target="_blank" rel="noopener">Update from NexT v5.1.x</a><br><a id="more"></a></p>
+<h2 id="下载安装和环境配置"><a href="#下载安装和环境配置" class="headerlink" title="下载安装和环境配置"></a>下载安装和环境配置</h2><p>参考 <a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">Hexo 文档</a></p>
+<h3 id="安装-Git-和-Node-js"><a href="#安装-Git-和-Node-js" class="headerlink" title="安装 Git 和 Node.js"></a>安装 Git 和 Node.js</h3><ul>
+<li>安装 <a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a></li>
+<li>安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></li>
+</ul>
+<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><p>使用 <code>npm</code> 命令安装<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure><br>安装完毕后，使用 <code>npx hexo &lt;command&gt;</code> 执行 Hexo 命令。</p>
+<h3 id="新建博客的本地目录"><a href="#新建博客的本地目录" class="headerlink" title="新建博客的本地目录"></a>新建博客的本地目录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo init &lt;blog-folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;blog-folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<h3 id="安装并启用-NexT-主题"><a href="#安装并启用-NexT-主题" class="headerlink" title="安装并启用 NexT 主题"></a>安装并启用 NexT 主题</h3><p>进入博客的本地目录后<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure><br>注意，不要使用这个不再维护的项目地址：<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></p>
+<p>然后，在站点配置文件（博客本地目录下的 <code>_config.yml</code>）中修改<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-VS-Code-作为-Markdown-编辑器"><a href="#使用-VS-Code-作为-Markdown-编辑器" class="headerlink" title="使用 VS Code 作为 Markdown 编辑器"></a>使用 VS Code 作为 Markdown 编辑器</h2><p>安装 <code>Markdown Preview Enhanced</code> 插件即可。</p>
+<h2 id="Hexo-的基本使用"><a href="#Hexo-的基本使用" class="headerlink" title="Hexo 的基本使用"></a>Hexo 的基本使用</h2><h3 id="新建页面"><a href="#新建页面" class="headerlink" title="新建页面"></a>新建页面</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="根据-Markdown-文件生成静态-html-文件"><a href="#根据-Markdown-文件生成静态-html-文件" class="headerlink" title="根据 Markdown 文件生成静态 html 文件"></a>根据 Markdown 文件生成静态 html 文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>一般，在部署前需要重新生成静态页面，即需要运行<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo clean</span><br><span class="line">$ npx hexo generate</span><br><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure></p>
+<h2 id="部署到-Github"><a href="#部署到-Github" class="headerlink" title="部署到 Github"></a>部署到 Github</h2><p>参考这篇博客：<a href="https://www.jianshu.com/p/f9b213097c42" target="_blank" rel="noopener">使用Github搭建Hexo技术博客托管在GitHub Pages上</a></p>
+<h3 id="创建-Github-Pages-并-SHH-授权"><a href="#创建-Github-Pages-并-SHH-授权" class="headerlink" title="创建 Github Pages 并 SHH 授权"></a>创建 Github Pages 并 SHH 授权</h3><p>在 Github 上创建以 <code>&lt;username&gt;.github.io</code> 为名的 Repo。<br>创建 SHH 密钥，在 Git Bash 中输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"&lt;email-address&gt;"</span></span><br></pre></td></tr></table></figure><br>然后，查看目录 <code>C:/Users/&lt;username&gt;/.ssh</code> 下是否有两个文件：私钥文件 <code>id_rsa</code> 和公钥文件 <code>id_rsa.pub</code>。<br>打开 <code>id_rsa.pub</code> 并复制其内容，访问 <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a> 新建密钥后粘贴 <code>id_rsa.pub</code> 中的内容。</p>
+<h3 id="安装部署相关的-Hexo-插件"><a href="#安装部署相关的-Hexo-插件" class="headerlink" title="安装部署相关的 Hexo 插件"></a>安装部署相关的 Hexo 插件</h3><p>在本地博客目录下<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install hexo -server --save</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure><br>然后，编辑站点配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:&lt;username&gt;&#x2F;&lt;username&gt;.github.io.git,master</span><br><span class="line">    coding: git@git.coding.net:&lt;username&gt;&#x2F;&lt;username&gt;.git,master</span><br></pre></td></tr></table></figure><br>注意：密钥文件在原来的目录 <code>C:/Users/&lt;username&gt;/.ssh</code> 下时，系统会自动识别。</p>
+<h3 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h3><p>在检查本地站点无误后，运行<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure></p>
+<h2 id="站点配置"><a href="#站点配置" class="headerlink" title="站点配置"></a>站点配置</h2><h3 id="添加菜单"><a href="#添加菜单" class="headerlink" title="添加菜单"></a>添加菜单</h3><h4 id="创建-About-菜单"><a href="#创建-About-菜单" class="headerlink" title="创建 About 菜单"></a>创建 About 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page about</span><br></pre></td></tr></table></figure>
+<p>生成 <code>source/about</code> 目录，修改其中 <code>index.md</code> 文件内容即可。</p>
+<h4 id="创建-Categories-菜单"><a href="#创建-Categories-菜单" class="headerlink" title="创建 Categories 菜单"></a>创建 Categories 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page categories</span><br></pre></td></tr></table></figure>
+<p>生成 <code>source/categories</code> 目录，修改其中 <code>index.md</code> 文件标题：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 分类</span><br><span class="line">date: xxxx-xx-xx xx:xx:xx</span><br><span class="line">type: &quot;categories&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建-Tags-菜单"><a href="#创建-Tags-菜单" class="headerlink" title="创建 Tags 菜单"></a>创建 Tags 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page tags</span><br></pre></td></tr></table></figure>
+<p>生成 <code>source/tags</code> 目录，修改其中 <code>index.md</code> 文件标题：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 标签</span><br><span class="line">date: xxxx-xx-xx xx:xx:xx</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="启用菜单"><a href="#启用菜单" class="headerlink" title="启用菜单"></a>启用菜单</h4><p>在主题配置文件（<code>themes/next</code> 下的 <code>_config.yml</code>）启用<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F; || home</span><br><span class="line">  about: &#x2F;about&#x2F; || user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || archive</span><br></pre></td></tr></table></figure></p>
+<h3 id="添加站内搜索功能"><a href="#添加站内搜索功能" class="headerlink" title="添加站内搜索功能"></a>添加站内搜索功能</h3><p>首先，在本地博客目录下安装搜索插件包<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-generator-search --save</span><br><span class="line">$ npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure></p>
+<p>然后，打开站点配置文件，增加以下内容<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure></p>
+<p>最后，打开主题配置文件，启用搜索功能<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true</span><br></pre></td></tr></table></figure></p>
+<h3 id="添加动态背景"><a href="#添加动态背景" class="headerlink" title="添加动态背景"></a>添加动态背景</h3><p>以 <code>canvas-nest</code> 为例，在本地博客目录下进入 <code>themes/next</code> 目录后安装至其下的 <code>source/lib</code> 目录<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> themes/next</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/theme-next/theme-next-canvas-nest <span class="built_in">source</span>/lib/canvas-nest</span><br></pre></td></tr></table></figure></p>
+<p>然后，修改主题配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Canvas-nest</span><br><span class="line"># Dependencies: https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;theme-next-canvas-nest</span><br><span class="line"># For more information: https:&#x2F;&#x2F;github.com&#x2F;hustcc&#x2F;canvas-nest.js</span><br><span class="line">canvas_nest:</span><br><span class="line">  enable: true</span><br><span class="line">  onmobile: true # Display on mobile or not</span><br><span class="line">  color: &quot;0,0,0&quot; # RGB values, use &#96;,&#96; to separate</span><br><span class="line">  opacity: 0.5 # The opacity of line: 0~1</span><br><span class="line">  zIndex: -1 # z-index property of the background</span><br><span class="line">  count: 99 # The number of lines</span><br></pre></td></tr></table></figure></p>
+<h3 id="添加评论系统"><a href="#添加评论系统" class="headerlink" title="添加评论系统"></a>添加评论系统</h3><p>参考 NexT 官网的说明：<a href="https://pisces.theme-next.org/docs/third-party-services/comments.html" target="_blank" rel="noopener">Comment Systems</a><br>以 Valine 为例，先去 <a href="https://www.leancloud.cn/" target="_blank" rel="noopener">LeanCloud</a> 注册帐号并创建项目，获得 <code>App ID</code> 和 <code>App Key</code>，然后修改主题配置文件 <code>valine</code> 下的内容。</p>
+<h3 id="启用-Latex-公式渲染"><a href="#启用-Latex-公式渲染" class="headerlink" title="启用 Latex 公式渲染"></a>启用 Latex 公式渲染</h3><p>参考 NexT 官网的说明：<a href="https://pisces.theme-next.org/docs/third-party-services/math-equations.html" target="_blank" rel="noopener">Math Equations</a><br>首先，在本地博客目录下卸载原来的 <code>hexo-renderer-marked</code> 渲染工具，然后安装新的 <code>hexo-renderer-kramed</code> 渲染工具<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked</span><br><span class="line">$ npm install hexo-renderer-kramed</span><br></pre></td></tr></table></figure></p>
+<p>然后，修改主题配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Math Formulas Render Support</span><br><span class="line">math:</span><br><span class="line">  # Default (true) will load mathjax &#x2F; katex script on demand.</span><br><span class="line">  # That is it only render those page which has &#96;mathjax: true&#96; in Front-matter.</span><br><span class="line">  # If you set it to false, it will load mathjax &#x2F; katex srcipt EVERY PAGE.</span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.</span><br><span class="line">  mathjax:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https:&#x2F;&#x2F;mhchem.github.io&#x2F;MathJax-mhchem&#x2F;</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.</span><br><span class="line">  katex:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https:&#x2F;&#x2F;github.com&#x2F;KaTeX&#x2F;KaTeX&#x2F;tree&#x2F;master&#x2F;contrib&#x2F;copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure></p>
+<p>这里的 <code>per_page</code> 设置为 <code>true</code> 时，需要在（需要公式渲染的）页面标题处设置 <code>mathjax: true</code> 才会开启公式渲染，如<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: A Post with Math Equations</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<h4 id="行内公式渲染问题"><a href="#行内公式渲染问题" class="headerlink" title="行内公式渲染问题"></a>行内公式渲染问题</h4><p>在行内公式中，下划线（<code>_</code>）会被解析成 Markdown 语法中斜体字体的开始标记，这种时候可以使用 <code>\_</code>。更好的处理方案是，到博客根目录下，找到 <code>node_modules/kramed/lib/rules/inline.js</code>，把第 11 行的 <code>escape</code> 变量的值做相应的修改：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; escape: &#x2F;^\\([\\&#96;*&#123;&#125;\[\]()#$+\-.!_&gt;])&#x2F;,</span><br><span class="line">escape: &#x2F;^\\([&#96;*\[\]()#$+\-.!_&gt;])&#x2F;,</span><br></pre></td></tr></table></figure><br>再把第 20 行的 <code>em</code> 变量的值也做相应的修改：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; em: &#x2F;^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br><span class="line">em: &#x2F;^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br></pre></td></tr></table></figure><br>然后重新渲染所有页面即可。</p>
+<h2 id="博客项目迁移"><a href="#博客项目迁移" class="headerlink" title="博客项目迁移"></a>博客项目迁移</h2><p>参考这篇博客：<a href="https://blog.csdn.net/eternity1118_/article/details/71194395?ref=myread" target="_blank" rel="noopener">hexo：更换电脑，如何继续写博客</a></p>
+<h3 id="安装-Git-和-Node-js-1"><a href="#安装-Git-和-Node-js-1" class="headerlink" title="安装 Git 和 Node.js"></a>安装 Git 和 Node.js</h3><h3 id="安装-Hexo-1"><a href="#安装-Hexo-1" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><h3 id="拷贝以下几个文件和目录"><a href="#拷贝以下几个文件和目录" class="headerlink" title="拷贝以下几个文件和目录"></a>拷贝以下几个文件和目录</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">package.json</span><br><span class="line">scaffolds&#x2F;</span><br><span class="line">source&#x2F;</span><br><span class="line">themes&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h3><p>进入博客的本地目录后<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ npm install hexo-generator-feed --save</span><br><span class="line">$ npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>网站</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -3031,89 +3119,29 @@ L_3(\mathcal{C}) = L_2(\mathcal{C}) = \lambda \cdot L_1(\mathcal{C})</script><h4
       </tags>
   </entry>
   <entry>
-    <title>使用 Hexo 搭建博客并部署到 Github</title>
-    <url>/posts/blog-with-hexo-github/</url>
-    <content><![CDATA[<p>一份使用 Hexo 搭建博客并部署到 Github 的简要指南。<br>网上不少博客使用的 NexT 主题还是 v5.1.x 的版本（<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">官网</a>，<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Github</a>），但事实上这个版本已经不再维护。最新版本已经更新到 v7.6.0 （<a href="https://pisces.theme-next.org/" target="_blank" rel="noopener">官网</a>，<a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">Github</a>）。</p>
-<p>我在使用 v5.1.x 版本时就遇到了 Bug，菜单栏和侧边栏的链接解析一直是错误的，网上教程很多是删除主题配置文件对应位置的空格，但这仅能修复菜单栏的问题，侧边栏的问题无法修复。最好的方案是把 NexT 更新到最新版本。<br>这里有一份 NexT 官网给的指南：<a href="https://github.com/theme-next/hexo-theme-next/blob/master/docs/UPDATE-FROM-5.1.X.md" target="_blank" rel="noopener">Update from NexT v5.1.x</a><br><a id="more"></a></p>
-<h2 id="下载安装和环境配置"><a href="#下载安装和环境配置" class="headerlink" title="下载安装和环境配置"></a>下载安装和环境配置</h2><p>参考 <a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">Hexo 文档</a></p>
-<h3 id="安装-Git-和-Node-js"><a href="#安装-Git-和-Node-js" class="headerlink" title="安装 Git 和 Node.js"></a>安装 Git 和 Node.js</h3><ul>
-<li>安装 <a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a></li>
-<li>安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></li>
-</ul>
-<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><p>使用 <code>npm</code> 命令安装<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure><br>安装完毕后，使用 <code>npx hexo &lt;command&gt;</code> 执行 Hexo 命令。</p>
-<h3 id="新建博客的本地目录"><a href="#新建博客的本地目录" class="headerlink" title="新建博客的本地目录"></a>新建博客的本地目录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo init &lt;blog-folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;blog-folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<h3 id="安装并启用-NexT-主题"><a href="#安装并启用-NexT-主题" class="headerlink" title="安装并启用 NexT 主题"></a>安装并启用 NexT 主题</h3><p>进入博客的本地目录后<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure><br>注意，不要使用这个不再维护的项目地址：<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></p>
-<p>然后，在站点配置文件（博客本地目录下的 <code>_config.yml</code>）中修改<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure></p>
-<h2 id="使用-VS-Code-作为-Markdown-编辑器"><a href="#使用-VS-Code-作为-Markdown-编辑器" class="headerlink" title="使用 VS Code 作为 Markdown 编辑器"></a>使用 VS Code 作为 Markdown 编辑器</h2><p>安装 <code>Markdown Preview Enhanced</code> 插件即可。</p>
-<h2 id="Hexo-的基本使用"><a href="#Hexo-的基本使用" class="headerlink" title="Hexo 的基本使用"></a>Hexo 的基本使用</h2><h3 id="新建页面"><a href="#新建页面" class="headerlink" title="新建页面"></a>新建页面</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="根据-Markdown-文件生成静态-html-文件"><a href="#根据-Markdown-文件生成静态-html-文件" class="headerlink" title="根据 Markdown 文件生成静态 html 文件"></a>根据 Markdown 文件生成静态 html 文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<p>一般，在部署前需要重新生成静态页面，即需要运行<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo clean</span><br><span class="line">$ npx hexo generate</span><br><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure></p>
-<h2 id="部署到-Github"><a href="#部署到-Github" class="headerlink" title="部署到 Github"></a>部署到 Github</h2><p>参考这篇博客：<a href="https://www.jianshu.com/p/f9b213097c42" target="_blank" rel="noopener">使用Github搭建Hexo技术博客托管在GitHub Pages上</a></p>
-<h3 id="创建-Github-Pages-并-SHH-授权"><a href="#创建-Github-Pages-并-SHH-授权" class="headerlink" title="创建 Github Pages 并 SHH 授权"></a>创建 Github Pages 并 SHH 授权</h3><p>在 Github 上创建以 <code>&lt;username&gt;.github.io</code> 为名的 Repo。<br>创建 SHH 密钥，在 Git Bash 中输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"&lt;email-address&gt;"</span></span><br></pre></td></tr></table></figure><br>然后，查看目录 <code>C:/Users/&lt;username&gt;/.ssh</code> 下是否有两个文件：私钥文件 <code>id_rsa</code> 和公钥文件 <code>id_rsa.pub</code>。<br>打开 <code>id_rsa.pub</code> 并复制其内容，访问 <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a> 新建密钥后粘贴 <code>id_rsa.pub</code> 中的内容。</p>
-<h3 id="安装部署相关的-Hexo-插件"><a href="#安装部署相关的-Hexo-插件" class="headerlink" title="安装部署相关的 Hexo 插件"></a>安装部署相关的 Hexo 插件</h3><p>在本地博客目录下<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install hexo -server --save</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure><br>然后，编辑站点配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:&lt;username&gt;&#x2F;&lt;username&gt;.github.io.git,master</span><br><span class="line">    coding: git@git.coding.net:&lt;username&gt;&#x2F;&lt;username&gt;.git,master</span><br></pre></td></tr></table></figure><br>注意：密钥文件在原来的目录 <code>C:/Users/&lt;username&gt;/.ssh</code> 下时，系统会自动识别。</p>
-<h3 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h3><p>在检查本地站点无误后，运行<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo deploy</span><br></pre></td></tr></table></figure></p>
-<h2 id="站点配置"><a href="#站点配置" class="headerlink" title="站点配置"></a>站点配置</h2><h3 id="添加菜单"><a href="#添加菜单" class="headerlink" title="添加菜单"></a>添加菜单</h3><h4 id="创建-About-菜单"><a href="#创建-About-菜单" class="headerlink" title="创建 About 菜单"></a>创建 About 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page about</span><br></pre></td></tr></table></figure>
-<p>生成 <code>source/about</code> 目录，修改其中 <code>index.md</code> 文件内容即可。</p>
-<h4 id="创建-Categories-菜单"><a href="#创建-Categories-菜单" class="headerlink" title="创建 Categories 菜单"></a>创建 Categories 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page categories</span><br></pre></td></tr></table></figure>
-<p>生成 <code>source/categories</code> 目录，修改其中 <code>index.md</code> 文件标题：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 分类</span><br><span class="line">date: xxxx-xx-xx xx:xx:xx</span><br><span class="line">type: &quot;categories&quot;</span><br></pre></td></tr></table></figure></p>
-<h4 id="创建-Tags-菜单"><a href="#创建-Tags-菜单" class="headerlink" title="创建 Tags 菜单"></a>创建 Tags 菜单</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npx hexo new page tags</span><br></pre></td></tr></table></figure>
-<p>生成 <code>source/tags</code> 目录，修改其中 <code>index.md</code> 文件标题：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 标签</span><br><span class="line">date: xxxx-xx-xx xx:xx:xx</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure></p>
-<h4 id="启用菜单"><a href="#启用菜单" class="headerlink" title="启用菜单"></a>启用菜单</h4><p>在主题配置文件（<code>themes/next</code> 下的 <code>_config.yml</code>）启用<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F; || home</span><br><span class="line">  about: &#x2F;about&#x2F; || user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || archive</span><br></pre></td></tr></table></figure></p>
-<h3 id="添加站内搜索功能"><a href="#添加站内搜索功能" class="headerlink" title="添加站内搜索功能"></a>添加站内搜索功能</h3><p>首先，在本地博客目录下安装搜索插件包<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-generator-search --save</span><br><span class="line">$ npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure></p>
-<p>然后，打开站点配置文件，增加以下内容<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure></p>
-<p>最后，打开主题配置文件，启用搜索功能<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true</span><br></pre></td></tr></table></figure></p>
-<h3 id="添加动态背景"><a href="#添加动态背景" class="headerlink" title="添加动态背景"></a>添加动态背景</h3><p>以 <code>canvas-nest</code> 为例，在本地博客目录下进入 <code>themes/next</code> 目录后安装至其下的 <code>source/lib</code> 目录<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> themes/next</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/theme-next/theme-next-canvas-nest <span class="built_in">source</span>/lib/canvas-nest</span><br></pre></td></tr></table></figure></p>
-<p>然后，修改主题配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Canvas-nest</span><br><span class="line"># Dependencies: https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;theme-next-canvas-nest</span><br><span class="line"># For more information: https:&#x2F;&#x2F;github.com&#x2F;hustcc&#x2F;canvas-nest.js</span><br><span class="line">canvas_nest:</span><br><span class="line">  enable: true</span><br><span class="line">  onmobile: true # Display on mobile or not</span><br><span class="line">  color: &quot;0,0,0&quot; # RGB values, use &#96;,&#96; to separate</span><br><span class="line">  opacity: 0.5 # The opacity of line: 0~1</span><br><span class="line">  zIndex: -1 # z-index property of the background</span><br><span class="line">  count: 99 # The number of lines</span><br></pre></td></tr></table></figure></p>
-<h3 id="添加评论系统"><a href="#添加评论系统" class="headerlink" title="添加评论系统"></a>添加评论系统</h3><p>参考 NexT 官网的说明：<a href="https://pisces.theme-next.org/docs/third-party-services/comments.html" target="_blank" rel="noopener">Comment Systems</a><br>以 Valine 为例，先去 <a href="https://www.leancloud.cn/" target="_blank" rel="noopener">LeanCloud</a> 注册帐号并创建项目，获得 <code>App ID</code> 和 <code>App Key</code>，然后修改主题配置文件 <code>valine</code> 下的内容。</p>
-<h3 id="启用-Latex-公式渲染"><a href="#启用-Latex-公式渲染" class="headerlink" title="启用 Latex 公式渲染"></a>启用 Latex 公式渲染</h3><p>参考 NexT 官网的说明：<a href="https://pisces.theme-next.org/docs/third-party-services/math-equations.html" target="_blank" rel="noopener">Math Equations</a><br>首先，在本地博客目录下卸载原来的 <code>hexo-renderer-marked</code> 渲染工具，然后安装新的 <code>hexo-renderer-kramed</code> 渲染工具<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked</span><br><span class="line">$ npm install hexo-renderer-kramed</span><br></pre></td></tr></table></figure></p>
-<p>然后，修改主题配置文件<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Math Formulas Render Support</span><br><span class="line">math:</span><br><span class="line">  # Default (true) will load mathjax &#x2F; katex script on demand.</span><br><span class="line">  # That is it only render those page which has &#96;mathjax: true&#96; in Front-matter.</span><br><span class="line">  # If you set it to false, it will load mathjax &#x2F; katex srcipt EVERY PAGE.</span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.</span><br><span class="line">  mathjax:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https:&#x2F;&#x2F;mhchem.github.io&#x2F;MathJax-mhchem&#x2F;</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.</span><br><span class="line">  katex:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https:&#x2F;&#x2F;github.com&#x2F;KaTeX&#x2F;KaTeX&#x2F;tree&#x2F;master&#x2F;contrib&#x2F;copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure></p>
-<p>这里的 <code>per_page</code> 设置为 <code>true</code> 时，需要在（需要公式渲染的）页面标题处设置 <code>mathjax: true</code> 才会开启公式渲染，如<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: A Post with Math Equations</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
-<h4 id="行内公式渲染问题"><a href="#行内公式渲染问题" class="headerlink" title="行内公式渲染问题"></a>行内公式渲染问题</h4><p>在行内公式中，下划线（<code>_</code>）会被解析成 Markdown 语法中斜体字体的开始标记，这种时候可以使用 <code>\_</code>。更好的处理方案是，到博客根目录下，找到 <code>node_modules/kramed/lib/rules/inline.js</code>，把第 11 行的 <code>escape</code> 变量的值做相应的修改：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; escape: &#x2F;^\\([\\&#96;*&#123;&#125;\[\]()#$+\-.!_&gt;])&#x2F;,</span><br><span class="line">escape: &#x2F;^\\([&#96;*\[\]()#$+\-.!_&gt;])&#x2F;,</span><br></pre></td></tr></table></figure><br>再把第 20 行的 <code>em</code> 变量的值也做相应的修改：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; em: &#x2F;^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br><span class="line">em: &#x2F;^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br></pre></td></tr></table></figure><br>然后重新渲染所有页面即可。</p>
-<h2 id="博客项目迁移"><a href="#博客项目迁移" class="headerlink" title="博客项目迁移"></a>博客项目迁移</h2><p>参考这篇博客：<a href="https://blog.csdn.net/eternity1118_/article/details/71194395?ref=myread" target="_blank" rel="noopener">hexo：更换电脑，如何继续写博客</a></p>
-<h3 id="安装-Git-和-Node-js-1"><a href="#安装-Git-和-Node-js-1" class="headerlink" title="安装 Git 和 Node.js"></a>安装 Git 和 Node.js</h3><h3 id="安装-Hexo-1"><a href="#安装-Hexo-1" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><h3 id="拷贝以下几个文件和目录"><a href="#拷贝以下几个文件和目录" class="headerlink" title="拷贝以下几个文件和目录"></a>拷贝以下几个文件和目录</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">package.json</span><br><span class="line">scaffolds&#x2F;</span><br><span class="line">source&#x2F;</span><br><span class="line">themes&#x2F;</span><br></pre></td></tr></table></figure>
-<h3 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h3><p>进入博客的本地目录后<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ npm install hexo-generator-feed --save</span><br><span class="line">$ npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure></p>
+    <title>Python 和 C++ 字符串比较</title>
+    <url>/posts/python-cpp-string-functions/</url>
+    <content><![CDATA[<p>从本科大三学了 Python 之后，基本就一直在用 Python，除了部分课程作业用 Java 完成项目以及研一暑假时学了一小段时间的 R。<br>尤其是研二初学会了 Python 的 numpy 和 pandas 库之后，基本也没有再遇到过性能问题。因为我写代码主要是为了科研数据处理，多数情况都可以把问题向量化。<br>2019 年秋招开始后，也用着 Python 刷了 LeetCode 的前 70 多道题，遇到一些无法向量化的问题，这时候 Python 的性能劣势就体现出来了。其中，最主要的一点是，Python 的封装实在太高级了，在使用时用户对很多内建函数的复杂度都没有概念。所以，花了一周多时间复习完 C++ 语法后，我开始用 C++ 刷 LeetCode。<br>这篇博文是比较 Python 和 C++ 在字符串处理中的不同。<br><a id="more"></a></p>
+<h2 id="定义字符串"><a href="#定义字符串" class="headerlink" title="定义字符串"></a>定义字符串</h2><h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>不区分字符与字符串，单引号与双引号可以替换使用<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">char0 = <span class="string">"A"</span></span><br><span class="line">str0 = <span class="string">"Hello World!"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><p>区分字符与字符串，字符用单引号，字符串用双引号<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> c0 = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">char</span> str0[] = <span class="string">"Hello World!"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> str1 = <span class="string">"Hello World!"</span>;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str2</span><span class="params">(str0)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str3</span><span class="params">(<span class="number">5</span>, c0)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h2><h3 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h3><p>字符串可以用切片截取；字符串是 <strong>Immutable</strong>，不可修改的<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0[<span class="number">1</span>])      <span class="comment"># 输出 "e"</span></span><br><span class="line">print(str0[<span class="number">1</span>:<span class="number">4</span>])    <span class="comment"># 输出 "ell"</span></span><br><span class="line"></span><br><span class="line">str0[<span class="number">1</span>] = <span class="string">"A"</span>       <span class="comment"># 会报错</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="C-1"><a href="#C-1" class="headerlink" title="C++"></a>C++</h3><p>字符串可以用下标访问或修改对应位置字符<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> str1 = <span class="string">"Hello World!"</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1[<span class="number">3</span>] &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 输出字符 'l'</span></span><br><span class="line">str1[<span class="number">3</span>] = <span class="string">'U'</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;       <span class="comment">// 输出字符串 "HelUo World!"</span></span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>string</code> 类自带的函数 <code>substr</code> 来截取字符；具体地，<code>substr(pos, n)</code> 返回 <code>pos</code> 开始的 <code>n</code> 个字符组成的字符串<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.substr(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 输出 "Uo Wo"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="连接字符串"><a href="#连接字符串" class="headerlink" title="连接字符串"></a>连接字符串</h2><h3 id="Python-2"><a href="#Python-2" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0 + str0)     <span class="comment"># 输出 "Hello World!Hello World!"</span></span><br></pre></td></tr></table></figure>
+<h3 id="C-2"><a href="#C-2" class="headerlink" title="C++"></a>C++</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 + str2 &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 输出 "HelUo World!Hello World!"</span></span><br><span class="line">str1 += str2;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;            <span class="comment">// 输出 "HelUo World!Hello World!"</span></span><br><span class="line">str1.append(str2);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;            <span class="comment">// 输出 "HelUo World!Hello World!Hello World!"</span></span><br></pre></td></tr></table></figure>
+<h2 id="字符串长度"><a href="#字符串长度" class="headerlink" title="字符串长度"></a>字符串长度</h2><h3 id="Python-3"><a href="#Python-3" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(len(str0))     <span class="comment"># 输出 12</span></span><br></pre></td></tr></table></figure>
+<h3 id="C-3"><a href="#C-3" class="headerlink" title="C++"></a>C++</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">size</span>() &lt;&lt; <span class="string">" "</span> &lt;&lt; str1.length() &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">// 输出 36 36</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.empty() &lt;&lt; <span class="built_in">endl</span>;                         <span class="comment">// 输出 false</span></span><br></pre></td></tr></table></figure>
+<h2 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h2><h3 id="Python-4"><a href="#Python-4" class="headerlink" title="Python"></a>Python</h3><p>使用 <code>str</code> 类的 <code>find</code> 和 <code>index</code> 函数进行查找；其中，<code>find</code> 在查找失败时返回 -1，而 <code>index</code> 查找失败时报错<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(<span class="string">"A"</span> <span class="keyword">in</span> str0)         <span class="comment"># 输出 False</span></span><br><span class="line">print(str0.find(<span class="string">"W"</span>))      <span class="comment"># 输出 6</span></span><br><span class="line">print(str0.find(<span class="string">"A"</span>))      <span class="comment"># 输出 -1</span></span><br><span class="line"></span><br><span class="line">print(str0.index(<span class="string">"W"</span>))     <span class="comment"># 输出 6</span></span><br><span class="line">print(str0.index(<span class="string">"A"</span>))     <span class="comment"># 报错</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="C-4"><a href="#C-4" class="headerlink" title="C++"></a>C++</h3><p>使用 <code>string</code> 类的 查找成功时返回所在位置，失败返回 <code>string::npos</code> 的值<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">'o'</span>) &lt;&lt; <span class="built_in">endl</span>;       <span class="comment">// 输出 4</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">"llo"</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 输出 14</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">'A'</span>) &lt;&lt; <span class="string">" "</span> &lt;&lt; str1.npos &lt;&lt; <span class="built_in">endl</span>;   <span class="comment">// 输出 18446744073709551615 18446744073709551615</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="字符串替换、插入"><a href="#字符串替换、插入" class="headerlink" title="字符串替换、插入"></a>字符串替换、插入</h2><h3 id="Python-5"><a href="#Python-5" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.replace(<span class="string">"l"</span>, <span class="string">"L"</span>))     <span class="comment"># 输出 "HeLLo WorLd!"</span></span><br></pre></td></tr></table></figure>
+<h3 id="C-5"><a href="#C-5" class="headerlink" title="C++"></a>C++</h3><p>从下标为 2 的位置开始，删除 4 个字符，并替换为 “ZEW”<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">str1.replace(<span class="number">2</span>, <span class="number">4</span>, <span class="string">"ZEW"</span>);</span><br></pre></td></tr></table></figure><br>把 “SYUONI” 插入，并使得其开始位置下标为 2<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">str1.insert(<span class="number">2</span>, <span class="string">"SYUONI"</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="统计子串出现次数"><a href="#统计子串出现次数" class="headerlink" title="统计子串出现次数"></a>统计子串出现次数</h2><h3 id="Python-6"><a href="#Python-6" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.count(<span class="string">"l"</span>))     <span class="comment"># 输出 3</span></span><br></pre></td></tr></table></figure>
+<h2 id="补齐长度"><a href="#补齐长度" class="headerlink" title="补齐长度"></a>补齐长度</h2><h3 id="Python-7"><a href="#Python-7" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.ljust(<span class="number">20</span>, <span class="string">"-"</span>))   <span class="comment"># 输出 "Hello World!--------"</span></span><br><span class="line">print(str0.rjust(<span class="number">20</span>, <span class="string">"-"</span>))   <span class="comment"># 输出 "--------Hello World!"</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>网站</category>
+        <category>语言</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 笔记</title>
-    <url>/posts/leetcode-notes/</url>
-    <content><![CDATA[<p>这是我 2019 年秋招过程中刷 LeetCode 做的笔记。<br><a id="more"></a></p>
-<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><p>适用于这样一种情形：需要确定一个<strong>范围</strong>作为解，使得<strong>目标函数</strong>取值最大。<br>用左右两端两个<strong>指针</strong>代表该范围，则：<br>如果在任意时刻，一定可以有至少一端，只要调整这一段就会使得目标函数取值变小；且如果只调整这一端的话，目标函数永远不会超过当前时刻的目标函数取值。那么，如果存在优于当前情况的解，迟早要调整另一端。所以，调整另一端一定不会错过最优解。</p>
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>快速排序<br>归并排序</p>
-<h2 id="递归和回溯"><a href="#递归和回溯" class="headerlink" title="递归和回溯"></a>递归和回溯</h2><p>遍历二叉树</p>
-<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h2 id="举行重叠"><a href="#举行重叠" class="headerlink" title="举行重叠"></a>举行重叠</h2><p>判断角点</p>
-<h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><p><a href="https://leetcode-cn.com/problems/course-schedule/" target="_blank" rel="noopener">LeetCode-207. 课程表</a><br>参考：<a href="https://www.jianshu.com/p/3347f54a3187" target="_blank" rel="noopener">https://www.jianshu.com/p/3347f54a3187</a></p>
-<p>如果一个有向图为有向无环图（Directed Acyclic Graph, DAG），就能得到对应该图的拓扑排序，满足这样的条件：对于图中任意两个节点 u 和 v，若从 u 到 v 存在一条边，则拓扑排序中 u 一定排在 v 前面。</p>
-<p>对于一个有向图，找到其一个拓扑排序的算法：</p>
-<ol>
-<li>初始化一个数组 <code>in_degree</code> 用于保存每个结点的入度；</li>
-<li>对图中每一个结点的子结点，使其入度加 1；</li>
-<li>选取入度为 0 的结点加入输出（拓扑排序）；若无法找到入度为 0 的结点，则说明原有向图存在环，不存在对应的拓扑排序；</li>
-<li>对输出结点，遍历其子结点，每个子结点的入度减 1；</li>
-<li>重复步骤 3-4，直至遍历完所有结点。</li>
-</ol>
-<h2 id="其他-Tips"><a href="#其他-Tips" class="headerlink" title="其他 Tips"></a>其他 Tips</h2><ul>
-<li>对数组进行操作时，试试排序后能否简化思路。</li>
-<li>当考虑用 Hashmap 来判别对象的唯一性时，尝试采用其他 Coding 方案，比如当 Hashmap 的 Keys 在一个固定范围内时（如小写字母），就可以采用固定长度的数组来实现 Coding。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
         <tag>Python</tag>
         <tag>C++</tag>
       </tags>
@@ -3154,34 +3182,6 @@ L_3(\mathcal{C}) = L_2(\mathcal{C}) = \lambda \cdot L_1(\mathcal{C})</script><h4
       <tags>
         <tag>linux</tag>
         <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 和 C++ 字符串比较</title>
-    <url>/posts/python-cpp-string-functions/</url>
-    <content><![CDATA[<p>从本科大三学了 Python 之后，基本就一直在用 Python，除了部分课程作业用 Java 完成项目以及研一暑假时学了一小段时间的 R。<br>尤其是研二初学会了 Python 的 numpy 和 pandas 库之后，基本也没有再遇到过性能问题。因为我写代码主要是为了科研数据处理，多数情况都可以把问题向量化。<br>2019 年秋招开始后，也用着 Python 刷了 LeetCode 的前 70 多道题，遇到一些无法向量化的问题，这时候 Python 的性能劣势就体现出来了。其中，最主要的一点是，Python 的封装实在太高级了，在使用时用户对很多内建函数的复杂度都没有概念。所以，花了一周多时间复习完 C++ 语法后，我开始用 C++ 刷 LeetCode。<br>这篇博文是比较 Python 和 C++ 在字符串处理中的不同。<br><a id="more"></a></p>
-<h2 id="定义字符串"><a href="#定义字符串" class="headerlink" title="定义字符串"></a>定义字符串</h2><h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>不区分字符与字符串，单引号与双引号可以替换使用<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">char0 = <span class="string">"A"</span></span><br><span class="line">str0 = <span class="string">"Hello World!"</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><p>区分字符与字符串，字符用单引号，字符串用双引号<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> c0 = <span class="string">'A'</span>;</span><br><span class="line"><span class="keyword">char</span> str0[] = <span class="string">"Hello World!"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> str1 = <span class="string">"Hello World!"</span>;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str2</span><span class="params">(str0)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str3</span><span class="params">(<span class="number">5</span>, c0)</span></span>;</span><br></pre></td></tr></table></figure></p>
-<h2 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h2><h3 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h3><p>字符串可以用切片截取；字符串是 <strong>Immutable</strong>，不可修改的<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0[<span class="number">1</span>])      <span class="comment"># 输出 "e"</span></span><br><span class="line">print(str0[<span class="number">1</span>:<span class="number">4</span>])    <span class="comment"># 输出 "ell"</span></span><br><span class="line"></span><br><span class="line">str0[<span class="number">1</span>] = <span class="string">"A"</span>       <span class="comment"># 会报错</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="C-1"><a href="#C-1" class="headerlink" title="C++"></a>C++</h3><p>字符串可以用下标访问或修改对应位置字符<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> str1 = <span class="string">"Hello World!"</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1[<span class="number">3</span>] &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 输出字符 'l'</span></span><br><span class="line">str1[<span class="number">3</span>] = <span class="string">'U'</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;       <span class="comment">// 输出字符串 "HelUo World!"</span></span><br></pre></td></tr></table></figure></p>
-<p>使用 <code>string</code> 类自带的函数 <code>substr</code> 来截取字符；具体地，<code>substr(pos, n)</code> 返回 <code>pos</code> 开始的 <code>n</code> 个字符组成的字符串<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.substr(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; <span class="built_in">endl</span>;    <span class="comment">// 输出 "Uo Wo"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="连接字符串"><a href="#连接字符串" class="headerlink" title="连接字符串"></a>连接字符串</h2><h3 id="Python-2"><a href="#Python-2" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0 + str0)     <span class="comment"># 输出 "Hello World!Hello World!"</span></span><br></pre></td></tr></table></figure>
-<h3 id="C-2"><a href="#C-2" class="headerlink" title="C++"></a>C++</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 + str2 &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 输出 "HelUo World!Hello World!"</span></span><br><span class="line">str1 += str2;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;            <span class="comment">// 输出 "HelUo World!Hello World!"</span></span><br><span class="line">str1.append(str2);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1 &lt;&lt; <span class="built_in">endl</span>;            <span class="comment">// 输出 "HelUo World!Hello World!Hello World!"</span></span><br></pre></td></tr></table></figure>
-<h2 id="字符串长度"><a href="#字符串长度" class="headerlink" title="字符串长度"></a>字符串长度</h2><h3 id="Python-3"><a href="#Python-3" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(len(str0))     <span class="comment"># 输出 12</span></span><br></pre></td></tr></table></figure>
-<h3 id="C-3"><a href="#C-3" class="headerlink" title="C++"></a>C++</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">size</span>() &lt;&lt; <span class="string">" "</span> &lt;&lt; str1.length() &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">// 输出 36 36</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.empty() &lt;&lt; <span class="built_in">endl</span>;                         <span class="comment">// 输出 false</span></span><br></pre></td></tr></table></figure>
-<h2 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h2><h3 id="Python-4"><a href="#Python-4" class="headerlink" title="Python"></a>Python</h3><p>使用 <code>str</code> 类的 <code>find</code> 和 <code>index</code> 函数进行查找；其中，<code>find</code> 在查找失败时返回 -1，而 <code>index</code> 查找失败时报错<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(<span class="string">"A"</span> <span class="keyword">in</span> str0)         <span class="comment"># 输出 False</span></span><br><span class="line">print(str0.find(<span class="string">"W"</span>))      <span class="comment"># 输出 6</span></span><br><span class="line">print(str0.find(<span class="string">"A"</span>))      <span class="comment"># 输出 -1</span></span><br><span class="line"></span><br><span class="line">print(str0.index(<span class="string">"W"</span>))     <span class="comment"># 输出 6</span></span><br><span class="line">print(str0.index(<span class="string">"A"</span>))     <span class="comment"># 报错</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="C-4"><a href="#C-4" class="headerlink" title="C++"></a>C++</h3><p>使用 <code>string</code> 类的 查找成功时返回所在位置，失败返回 <code>string::npos</code> 的值<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">'o'</span>) &lt;&lt; <span class="built_in">endl</span>;       <span class="comment">// 输出 4</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">"llo"</span>) &lt;&lt; <span class="built_in">endl</span>;     <span class="comment">// 输出 14</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; str1.<span class="built_in">find</span>(<span class="string">'A'</span>) &lt;&lt; <span class="string">" "</span> &lt;&lt; str1.npos &lt;&lt; <span class="built_in">endl</span>;   <span class="comment">// 输出 18446744073709551615 18446744073709551615</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="字符串替换、插入"><a href="#字符串替换、插入" class="headerlink" title="字符串替换、插入"></a>字符串替换、插入</h2><h3 id="Python-5"><a href="#Python-5" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.replace(<span class="string">"l"</span>, <span class="string">"L"</span>))     <span class="comment"># 输出 "HeLLo WorLd!"</span></span><br></pre></td></tr></table></figure>
-<h3 id="C-5"><a href="#C-5" class="headerlink" title="C++"></a>C++</h3><p>从下标为 2 的位置开始，删除 4 个字符，并替换为 “ZEW”<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">str1.replace(<span class="number">2</span>, <span class="number">4</span>, <span class="string">"ZEW"</span>);</span><br></pre></td></tr></table></figure><br>把 “SYUONI” 插入，并使得其开始位置下标为 2<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">str1.insert(<span class="number">2</span>, <span class="string">"SYUONI"</span>);</span><br></pre></td></tr></table></figure></p>
-<h2 id="统计子串出现次数"><a href="#统计子串出现次数" class="headerlink" title="统计子串出现次数"></a>统计子串出现次数</h2><h3 id="Python-6"><a href="#Python-6" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.count(<span class="string">"l"</span>))     <span class="comment"># 输出 3</span></span><br></pre></td></tr></table></figure>
-<h2 id="补齐长度"><a href="#补齐长度" class="headerlink" title="补齐长度"></a>补齐长度</h2><h3 id="Python-7"><a href="#Python-7" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str0 = <span class="string">"Hello World!"</span></span><br><span class="line">print(str0.ljust(<span class="number">20</span>, <span class="string">"-"</span>))   <span class="comment"># 输出 "Hello World!--------"</span></span><br><span class="line">print(str0.rjust(<span class="number">20</span>, <span class="string">"-"</span>))   <span class="comment"># 输出 "--------Hello World!"</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>语言</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
