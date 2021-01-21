@@ -54,7 +54,7 @@
 <meta property="og:description" content="这篇博客记录如何使用 WSL 在 Windows 上本地运行 Linux 服务。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-14T07:24:58.000Z">
-<meta property="article:modified_time" content="2021-01-14T07:34:23.570Z">
+<meta property="article:modified_time" content="2021-01-21T06:21:33.551Z">
 <meta property="article:author" content="syuoni">
 <meta property="article:tag" content="WSL">
 <meta property="article:tag" content="Linux">
@@ -235,10 +235,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-14 15:24:58 / 修改时间：15:34:23" itemprop="dateCreated datePublished" datetime="2021-01-14T15:24:58+08:00">2021-01-14</time>
+              <time title="创建时间：2021-01-14 15:24:58" itemprop="dateCreated datePublished" datetime="2021-01-14T15:24:58+08:00">2021-01-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-21 14:21:33" itemprop="dateModified" datetime="2021-01-21T14:21:33+08:00">2021-01-21</time>
+              </span>
 
           
   
@@ -266,7 +272,11 @@
 
       
         <p>这篇博客记录如何使用 WSL 在 Windows 上本地运行 Linux 服务。<br><a id="more"></a></p>
-<p><a href="https://www.jianshu.com/p/3e627ff45ccb" target="_blank" rel="noopener">Windows 安装和配置 WSL</a><br><a href="https://blog.csdn.net/weixin_39394526/article/details/87935449" target="_blank" rel="noopener">ubuntu18.04配置国内apt-get源</a><br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华大学开源软件镜像站 - Ubuntu 镜像使用帮助</a></p>
+<h2 id="安装-WSL"><a href="#安装-WSL" class="headerlink" title="安装 WSL"></a>安装 WSL</h2><p>参考 <a href="https://www.jianshu.com/p/3e627ff45ccb" target="_blank" rel="noopener">Windows 安装和配置 WSL</a></p>
+<h3 id="启用-适用于Linux的Windows子系统"><a href="#启用-适用于Linux的Windows子系统" class="headerlink" title="启用 适用于Linux的Windows子系统"></a>启用 <code>适用于Linux的Windows子系统</code></h3><p>首先在 Win10 搜索栏中搜索并打开 <code>启用或关闭Windows功能</code>，勾选 <code>适用于Linux的Windows子系统</code> 项。<br>只有开启这项设置才能正常安装 WSL。</p>
+<h3 id="安装-WSL-1"><a href="#安装-WSL-1" class="headerlink" title="安装 WSL"></a>安装 WSL</h3><p>在微软应用商店搜索 Linux，可以看到一系列 Linux 发行版，根据自己需要选择适合自己的发行版（如 Ubuntu 18.04 LTS），下载。<br>下载完成后启动，等待安装完成，输入账户和密码，便得到一个 Linux 环境。</p>
+<h3 id="WSL-文件位置"><a href="#WSL-文件位置" class="headerlink" title="WSL 文件位置"></a>WSL 文件位置</h3><p><code>C:\Users\&lt;user-name&gt;\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs</code></p>
+<h3 id="使用国内-Ubuntu-镜像"><a href="#使用国内-Ubuntu-镜像" class="headerlink" title="使用国内 Ubuntu 镜像"></a>使用国内 Ubuntu 镜像</h3><p>参考 <a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华大学开源软件镜像站 - Ubuntu 镜像使用帮助</a>。</p>
 
     </div>
 
@@ -353,6 +363,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-WSL"><span class="nav-number">1.</span> <span class="nav-text">安装 WSL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用-适用于Linux的Windows子系统"><span class="nav-number">1.1.</span> <span class="nav-text">启用 适用于Linux的Windows子系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-WSL-1"><span class="nav-number">1.2.</span> <span class="nav-text">安装 WSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WSL-文件位置"><span class="nav-number">1.3.</span> <span class="nav-text">WSL 文件位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用国内-Ubuntu-镜像"><span class="nav-number">1.4.</span> <span class="nav-text">使用国内 Ubuntu 镜像</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
