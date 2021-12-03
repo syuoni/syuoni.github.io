@@ -54,7 +54,7 @@
 <meta property="og:description" content="Linux 常用 bash 命令。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-04T10:10:32.000Z">
-<meta property="article:modified_time" content="2021-04-14T01:20:39.576Z">
+<meta property="article:modified_time" content="2021-12-03T04:15:09.619Z">
 <meta property="article:author" content="syuoni">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="bash">
@@ -243,7 +243,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-14 09:20:39" itemprop="dateModified" datetime="2021-04-14T09:20:39+08:00">2021-04-14</time>
+                <time title="修改时间：2021-12-03 12:15:09" itemprop="dateModified" datetime="2021-12-03T12:15:09+08:00">2021-12-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,8 +287,17 @@
 <p>在 <code>root</code> 权限下修改文件夹权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chmod 777 &lt;dir-name&gt;</span><br></pre></td></tr></table></figure></p>
 <p>复制和移动文件</p>
 <ul>
-<li>单个文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp &lt;src-file-name&gt; &lt;trg-dir-name&gt;</span><br><span class="line">$ mv &lt;src-file-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure></li>
-<li>文件夹<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r &lt;src-dir-name&gt; &lt;trg-dir-name&gt;</span><br><span class="line">$ mv -r &lt;src-dir-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure>
+<li><p>本地复制和移动单个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp &lt;src-file-name&gt; &lt;trg-dir-name&gt;</span><br><span class="line">$ mv &lt;src-file-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地复制和移动文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp -r &lt;src-dir-name&gt; &lt;trg-dir-name&gt;</span><br><span class="line">$ mv -r &lt;src-dir-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程复制文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scp &lt;user-name&gt;@&lt;ip&gt;:&lt;src-file-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程复制文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scp -r &lt;user-name&gt;@&lt;ip&gt;:&lt;src-dir-name&gt; &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>解压 <code>tar.gz</code> 文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf &lt;file-name&gt;.tar.gz -C &lt;trg-dir-name&gt;</span><br></pre></td></tr></table></figure></p>
@@ -302,13 +311,19 @@
 <p>虚拟命令行会话</p>
 <ul>
 <li>新建会话<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen -S &lt;session-name&gt;</span><br></pre></td></tr></table></figure></li>
-<li>暂时离开会话（Detach）：Ctrl + A + D</li>
+<li>暂时离开会话（Detach）：<code>Ctrl</code> + <code>A</code> + <code>D</code></li>
 <li>显示当前所有存在的会话<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen -ls</span><br></pre></td></tr></table></figure></li>
 <li>重新连接会话（Attach）<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen -r &lt;session-name&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>杀死进程<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> &lt;process-id&gt;</span><br></pre></td></tr></table></figure></p>
 <p>查看和改变进程被 OOM killer 杀死的优先度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cat /proc/&lt;process-id&gt;/oom_score</span><br><span class="line">$ sudo <span class="built_in">echo</span> -1000 &gt; /proc/&lt;process-id&gt;/oom_score_adj</span><br></pre></td></tr></table></figure></p>
+<p>软链接</p>
+<ul>
+<li>创建软链接：一个名为 <code>real</code> 的文件（夹）链接会出现在 <code>/path/to/link</code> 路径下，可以通过 <code>/path/to/link/real</code> 访问<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ln -s /path/to/real /path/to/link</span><br></pre></td></tr></table></figure></li>
+<li>删除软链接：只会删除链接，不会影响原 <code>/path/to/real</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm /path/to/link/real</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <p>使用代理</p>
 <ul>
 <li><p>服务器代理</p>
